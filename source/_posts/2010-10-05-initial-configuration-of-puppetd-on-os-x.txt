@@ -1,0 +1,53 @@
+---
+title:      Initial Configuration of Puppetd on OS X
+created_at: 2010-10-05 12:00:00 +00:00
+filter:
+  - erb
+  - textile
+layout:     post
+---
+Configuring puppetd on OS X
+
+Create the User and Group accounts;
+
+<pre>
+sudo dscl . -create /Groups/puppet
+sudo dscl . -create /Groups/puppet PrimaryGroupID 300
+
+sudo dscl . -create /Users/puppet
+sudo dscl . -create /Users/puppet PrimaryGroupID 300
+sudo dscl . -create /Users/puppet UniqueID 300
+sudo dscl . -create /Users/puppet UserShell /usr/bin/false
+</pre>
+
+Create the folders
+
+<pre>
+sudo mkdir /etc/puppet
+sudo mkdir -p /var/puppet/log
+sudo chown -R puppet:puppet /var/puppet
+sudo chown -R puppet:puppet /etc/puppet
+</pre>
+
+Create the config file.
+
+<pre>
+sudo puppetd --genconfig > /etc/puppet/puppet.conf
+</pre>
+
+Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP's).
+
+If you run into issues with your certificates;
+
+h4. Client
+
+<pre>
+rm -rf /etc/puppet/ssl
+</pre>
+
+h4. Server
+
+<pre>
+puppetca --clean CERT_ID
+</pre>
+
