@@ -52,7 +52,7 @@
 </div>
 <ul>
   <li><a href="/?s=nav">Home</a></li>
-  <li><a href="/about/?s=nav">About</a></li>
+  <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
 </ul>
 </div></nav>
@@ -110,28 +110,6 @@ end
 </pre>
 
 I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
 </div>
 
 
@@ -209,6 +187,72 @@ End Function
 
   </article>
 
+
+
+  <article>
+    <header>
+  <h1><a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a></h1>
+  <p>
+    
+      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
+    
+    
+      <time datetime="Tue Oct 05 00:00:00 -0700 2010" pubdate>October 5<span>th</span>, 2010</time>
+    
+    
+  </p>
+</header>
+
+<div class="entry">Configuring puppetd on OS X
+
+Create the User and Group accounts;
+
+<pre>
+sudo dscl . -create /Groups/puppet
+sudo dscl . -create /Groups/puppet PrimaryGroupID 300
+
+sudo dscl . -create /Users/puppet
+sudo dscl . -create /Users/puppet PrimaryGroupID 300
+sudo dscl . -create /Users/puppet UniqueID 300
+sudo dscl . -create /Users/puppet UserShell /usr/bin/false
+</pre>
+
+Create the folders
+
+<pre>
+sudo mkdir /etc/puppet
+sudo mkdir -p /var/puppet/log
+sudo chown -R puppet:puppet /var/puppet
+sudo chown -R puppet:puppet /etc/puppet
+</pre>
+
+Create the config file.
+
+<pre>
+sudo puppetd --genconfig > /etc/puppet/puppet.conf
+</pre>
+
+Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&#8217;s).
+
+If you run into issues with your certificates;
+
+h4. Client
+
+<pre>
+rm -rf /etc/puppet/ssl
+</pre>
+
+h4. Server
+
+<pre>
+puppetca --clean CERT_ID
+</pre>
+
+</div>
+
+
+  </article>
+
 <p><a href="/archive/?s=frontpage">More Articles</a></p>
 </div>
       
@@ -227,11 +271,6 @@ End Function
       <li class="post">
         <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
         <time>May 28, 2011</time>
-      </li>
-    
-      <li class="post">
-        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
-        <time>February 10, 2011</time>
       </li>
     
       <li class="post">
@@ -274,6 +313,11 @@ End Function
         <time>November 03, 2009</time>
       </li>
     
+      <li class="post">
+        <a href="/2009/06/17/tripping-over-rubies-while-camping/">Tripping over Rubies while Camping</a>
+        <time>June 17, 2009</time>
+      </li>
+    
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
   </section>
@@ -302,7 +346,7 @@ End Function
   </div>
   <footer><div><p>
 	<a href="/?s=footer">Home</a> |
-	<a href="/about/?s=footer">About</a> |
+	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>

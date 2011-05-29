@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T15:57:30-07:00</updated>
+  <updated>2011-05-29T16:53:29-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -54,15 +54,6 @@ end
 &lt;/pre&gt;
 
 I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it's implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</content>
-  </entry>
-  
-  <entry>
-    <title>Thinking Gated checkins are the Solution?</title>
-    <link href="http://junctionbox.ca/2011/02/10/gated-checkins/"/>
-    <updated>2011-02-10T00:00:00-08:00</updated>
-    <id>http://junctionbox.ca/2011/02/10/gated-checkins</id>
-    <content type="html">Here's the scenario:  You're committed to running mainline, you're development team is distributed with many components. 
 </content>
   </entry>
   
