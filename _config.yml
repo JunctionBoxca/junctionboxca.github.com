@@ -1,11 +1,11 @@
 source: source
 destination: public
 markdown: rdiscount
-pygments: false
+pygments: true
 permalink: pretty
 
 url: http://junctionbox.ca
-title: JunctionBox.ca - Nathan Fisher
+title: JunctionBox.ca
 author: Nathan Fisher
 email: nfisher+jbx@junctionbox.ca #Add your email (optional) for the atom feed
 simple_search: http://google.com/search
@@ -15,12 +15,6 @@ recent_posts: 10
 twitter_user: junctionboxca
 tweet_count: 3
 show_replies: false
-
-delicious_user:
-delicious_count: 3
-
-pinboard_user: designenthusiast
-pinboard_count: 3
 
 disqus_short_name: junctionboxca
 

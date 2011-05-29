@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Octopress
+title: Home
 ---
 {% for page in site.posts limit:3 %}
 {% assign content = page.content %}
@@ -9,4 +9,4 @@ title: Octopress
     {% include article.html %}
   </article>
 {% endfor %}
-
+<p><a href="/archive/?s=frontpage">More Articles</a></p>
