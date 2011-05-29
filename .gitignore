@@ -10,3 +10,5 @@ vendor/ruby
 vendor/ruby
 *.gem
 *.swp
+
+public

@@ -5,7 +5,7 @@ filter:
   - erb
   - textile
 layout:     post
-hidden:     true
+published:  false
 ---
 
 Here's the scenario:  You're committed to running mainline, you're development team is distributed with many components. 
