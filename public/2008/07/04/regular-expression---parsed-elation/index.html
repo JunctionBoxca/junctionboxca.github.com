@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Regular Expression & Parsed Elation - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,38 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2008/07/04/regular-expression---parsed-elation/">Regular Expression & Parsed Elation</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Fri Jul 04 00:00:00 -0700 2008" pubdate>July 4<span>th</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
-
-So what exactly does this look like?
-
-Let&#8217;s start with a simple function that outputs your name:
-
-<pre>
-def name
-	@first_name
-end
-</pre>
-
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
-
-<pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
-
-def name_flag_name2
-	# TBD
-end
-</pre>
-
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
-
-<pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
-</pre>
-
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
-
-<pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
-
-Dim http, WshShell, file_stream
-
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
-</pre>
+<div class="entry">Here&#8217;s a little app I wrote during a project to test ActionScript 3&#8217;s regular expressions.\n<object type="application/x-shockwave-flash" data="/images/as3regex.swf" width="760" height="422">
+<param name="movie" value="/images/as3regex.swf" />
+</object>
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

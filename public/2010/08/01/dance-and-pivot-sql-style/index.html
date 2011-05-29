@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Dance and Pivot SQL Style - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,70 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Sun Aug 01 00:00:00 -0700 2010" pubdate>August 1<span>st</span>, 2010</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+<div class="entry">Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:
 
-So what exactly does this look like?
+| id | created_at | page |
+| Integer | DateTime | Varchar(255) |
 
-Let&#8217;s start with a simple function that outputs your name:
+I wanted to create a table like the following:
 
-<pre>
-def name
-	@first_name
-end
-</pre>
-
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
+| page | monday | tuesday | wednesday | thursday | friday | saturday | sunday |
+| index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
+| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |\nMy first though was just do a simple GROUP BY and pivot the table through code.
 
 <pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
-
-def name_flag_name2
-	# TBD
-end
+SELECT page, DATE(created_at), COUNT(*) AS hits 
+FROM page_views
+GROUP BY DATE(created_at), page ORDER BY page;
 </pre>
 
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
+I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure SQL and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &#8220;functions and operators&#8221;:http://dev.mysql.com/doc/refman/5.1/en/functions.html.  After a small meal and some strange query results I ran into a presentation created by &#8220;Giuseppe Maxia&#8221;:http://datacharmer.org/ aka the &#8220;Data Charmer&#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:
 
 <pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
+SELECT page_name AS name,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS tues,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS wed,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS thurs,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS fri,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sat,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sun,
+COUNT(CASE WHEN DATE(created_at) 
+  IN ('?','?','?','?','?','?','?')
+  THEN id ELSE null END) AS total
+FROM page_views GROUP BY name
 </pre>
 
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
-
-<pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
-
-Dim http, WshShell, file_stream
-
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
-</pre>
+What are your thoughts? Any similar implementations how did you handle it?
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

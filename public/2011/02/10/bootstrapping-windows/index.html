@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Bootstrapping Windows - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,89 +58,8 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
-
-So what exactly does this look like?
-
-Let&#8217;s start with a simple function that outputs your name:
-
-<pre>
-def name
-	@first_name
-end
-</pre>
-
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
-
-<pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
-
-def name_flag_name2
-	# TBD
-end
-</pre>
-
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
-
-<pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
-</pre>
-
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
+      <div id="articles"><article>
+  <header>
   <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
   <p>
     
@@ -207,9 +126,17 @@ End Function
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2011/02/10/bootstrapping-windows/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

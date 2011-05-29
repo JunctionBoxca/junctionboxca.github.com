@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Tripping over Rubies while Camping - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,53 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2009/06/17/tripping-over-rubies-while-camping/">Tripping over Rubies while Camping</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Wed Jun 17 00:00:00 -0700 2009" pubdate>June 17<span>th</span>, 2009</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+<div class="entry">Today was another day like any other, but then I stopped and said hey &#8220;GO team!!&#8221;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster&#8230; the labour wasn&#8217;t in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. &#8220;Camping is a micro framework&#8221;:http://redhanded.hobix.com/bits/campingAMicroframework.html that was the perfect fit for the task. Maybe PHP was more appropriate for the problem domain.  However, much like the previous sentence it wasn&#8217;t how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It&#8217;s painful to watch, but given my current server environment it is a necessary evil. Understand I&#8217;m well familiar with the configure install shuffle (./configure && make && sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.
 
-So what exactly does this look like?
+The first thing I did was &#8220;gem update &#8211;system&#8221;.  Version 0.9.4, the default for Centos 5, sucks on small VPS&#8217;s (mostly because it&#8217;ll crash from resource constraints).  I&#8217;ve been keeping up to date on Ruby so that&#8217;s no worry, you may have to do the same.
 
-Let&#8217;s start with a simple function that outputs your name:
+So I can pull gems down to my hearts content, or can I?  First up was RedCloth&#8230; long story short the gem uses Ragel and Centos 5 only provides version 5.x as an RPM. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;
 
-<pre>
-def name
-	@first_name
-end
-</pre>
+@gem install camping  # nuff said, installs 1.5 with ease@
 
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
+Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route&#8230; interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine&#8230; and then it hit I tried to login. Hmm curious the login doesn&#8217;t work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB&#8230; that&#8217;s curious no entries or tables.  So on with the search for my apps apparent lack of state.
 
-<pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
+h3. Active Campers lose weight when they&#8217;ve got state!
 
-def name_flag_name2
-	# TBD
-end
-</pre>
-
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
-
-<pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
-</pre>
-
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
+So ActiveRecord 2.1.0 doesn&#8217;t play nicely with camping&#8217;s session model out of the box. Found in a thread that you need to turn off partial updates;
 
 
-  </article>
+@AppName::Models::Base.partial_updates = false@
 
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
-
-<pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
-
-Dim http, WshShell, file_stream
-
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
-</pre>
+Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&#8217;m quite happy to have found a lovely new tool!
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

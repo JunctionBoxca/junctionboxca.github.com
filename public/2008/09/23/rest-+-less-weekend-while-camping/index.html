@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>REST + less weekend while Camping - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,77 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2008/09/23/rest-%2B-less-weekend-while-camping/">REST + less weekend while Camping</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Tue Sep 23 00:00:00 -0700 2008" pubdate>September 23<span>rd</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+<div class="entry">In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;
 
-So what exactly does this look like?
+* REST
+* RestStop
+* Actionscript 3 URLStream
 
-Let&#8217;s start with a simple function that outputs your name:
+I started out with RestStop&#8217;s blog.rb as a starting point, and modified it as an event recorder.  It worked like a charm out of the box.  From there I wrote a quick Flash interface to POST data to each controllers create method.  BOOM, Ka-POW, Problems&#8230; I was getting a little unexpected funk from the way Flash was handling HTTP status codes. IOErrorEvent&#8217;s were being fired, babies cried, etc. So far my observations have shown that URLStream & URLLoader classes do a funky dance when they receive 3xx series status.  At a later date I would like to investigate further to see if the 3xx status is the cause of the IOErrorEvent. Ultimately the classes only report the final http status and none of the intermediary status changes.\nI decided to look around a little on Google into what I thought to be a fairly standardized protocol.  Turns out REST is less of a protocol and more of a methodology.  Regardless of what you call it I&#8217;d still like to work from a common community shared standard, at least when it comes to HTTP status codes.  In that search I found the table below buried in the article &#8220;How to Create a REST Protocol&#8221;:http://www.xml.com/pub/a/2004/12/01/restful-web.html. It was great my first resource that seemed to clearly define some constraints in what otherwise looked like the Wild West of RESTful web services.
 
-<pre>
-def name
-	@first_name
-end
-</pre>
+| *Resource* | *Method* | *Representation* | *Status Codes* |
+| Employee | GET | Employee Format | 200, 301, 410 |
+| Employee | PUT | Employee Format | 200, 301, 400, 410 |
+| Employee | DELETE | N/A | 200, 204 |
+| All Employees | GET | Employee List Format | 200, 301 |
+| All Employees | POST | Employee Format | 201, 400 |
 
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
 
-<pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
-
-def name_flag_name2
-	# TBD
-end
-</pre>
-
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
+I pulled up the descriptions for each of the status codes, and made a short comment in my Camping app.
 
 <pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
+<code>
+# Event GET			200,301,410
+# Event PUT			200,301,400,410
+# Event DELETE	200,204
+# Events GET		200,301
+# Events POST		201,400
+#
+# 200 - OK
+# 201 - Created
+# 204 - No Content
+# 301 - Moved Permanently
+# 400 - Bad Request
+# 410 - Gone
+</code>
 </pre>
 
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
+Now I want to take the previous table a little bit further to map out each of the states.
 
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
-
-<pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
-
-Dim http, WshShell, file_stream
-
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
-</pre>
+| *Resource* | *Method* | *Status* | *Action* | *Details* |
+| Event | GET | 200 - OK | READ => Show Event | Event found, READ Event. |
+| . | * | 301 - Moved Permanently | READ FAILED => ?? | Event no longer available, renamed or moved. |
+| . | * | 410 - Gone | READ FAILED => ?? | Event no longer available/never existed. |
+| . | PUT | 200 - OK | UPDATE => Show Event w/ Updates | Event updated, SHOW updated event |
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2008/09/23/rest-%2B-less-weekend-while-camping/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

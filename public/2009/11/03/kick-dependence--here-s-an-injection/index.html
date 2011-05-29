@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Kick dependence, here's an injection - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,155 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Tue Nov 03 00:00:00 -0800 2009" pubdate>November 3<span>rd</span>, 2009</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+<div class="entry">Recently I have been mulling the benefits of Dependency Injection in relationship to PHP.  I still question it&#8217;s need, but I felt like an experiment for the fun of it.
 
-So what exactly does this look like?
-
-Let&#8217;s start with a simple function that outputs your name:
+First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  &#8220;this&#8221;:http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc shamelessly &#8220;php&#8217;ized&#8221; ruby code.
 
 <pre>
-def name
-	@first_name
-end
-</pre>
+function create_app() {
+ $container = new DI_Container( );
+ $container->register( 'logfilename', 'logfile.log' );
+ $container->register( 'db_user', 'nfisher' );
+ $container->register( 'db_pass', 'secret' );
+ $container->register( 'dbi_string', 'db:host:and:stuff' );
 
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
+ $container->register( 'authenticator', function($c) {
+  return new Authenticator( $c->database, $c->logger, $c->error_handler );
+} );
 
-<pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
+ $container->register('error_handler', function($c) {
+  $errh = new ErrorHandler( );
+  $errh->logger = $c->logger;
+  return $errh;
+} );
 
-def name_flag_name2
-	# TBD
-end
-</pre>
+ $container->register('logger', function($c) {
+  return new Logger( $c->logfilename );
+} );
 
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
+ $container->register('database', function($c) {
+  return new DB( $c->dbi_string, $c->db_user, $c->db_pass );
+} );
 
-<pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
-</pre>
+ $container->register('quotes', function($c) {
+  return new StockQuotes( $c->error_handler, $c->logger );
+} );
 
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
+ $container->register('webapp', function($c) { 
+  $app = new WebApp( $c->quotes, $c->authenticator, $c->database );
+  $app->logger = $c->logger;
+  $app->set_error_handler( $c->error_handler );
+  return $app;
+} );
+}
+</pre>\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.
 
+h3. String Constants Aren&#8217;t Unknown Objects
 
-  </article>
+The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).
 
+h3. Absence of Anonymous Functions
 
+Unfortunately my production environment is php 5.2, anonymous functions&#8230;5.3 so its a simple problem of what&#8217;s more important&#8230; existing well tested env won out on that one.
 
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
+So I created a simple function binder with the following interface;
 
 <pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
+interface Applyable {
+ public function each( $o );
+}
 
-Dim http, WshShell, file_stream
+class FunctionBinder implements Applyable {
+  private $_f_name;
 
-Set WshShell = WScript.CreateObject("WScript.Shell")
+  public function __construct( $f_name ) {
+    $this->_f_name;
+  }
 
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
+  /** each: Calls the stored function by name and passes the DI container as a reference. 
+   */
+  public function each( $c ) {
+    return call_user_func( $this->_f_name, $c );
+  }
+}
 </pre>
+
+The anonymous function became named;
+
+<pre>
+function create_logger( $c ) {
+  return new Logger( $c->logfilename );
+}
+</pre>
+
+And the register became;
+
+
+@$container->register(&#8216;logger&#8217;, new FunctionBinder(&#8216;create_logger&#8217;) );@
+
+
+h3. Code check in aisle 3&#8230; code check
+
+Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler&#8230;okay it&#8217;ll work, but it ain&#8217;t gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.
+
+h3. Testing 1.. 2
+
+The next thought that occurred to me was why not include the dependencies with the registration process?
+
+
+@$container->register( &#8216;logger&#8217;, new FunctionBinder(&#8216;create_logger&#8217;), &#8216;logfilename&#8217; );@
+
+
+It seemed simple, but I didn&#8217;t like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.
+
+h3. Put on trial and Execute
+
+While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!
+
+<pre>
+function create_logger( $c ) {
+ return $c->build( Logger, $c->logfilename );
+}
+</pre>
+
+How does that change things?  Well it allows for a 2 phase process;
+
+Phase 1: Evaluate dependencies.
+Phase 2: Instantiate objects.
+
+During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.
+Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it&#8217;s time.
+
+I have a direction, stay tuned for the final product!
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>

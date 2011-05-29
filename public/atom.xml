@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T14:41:22-07:00</updated>
+  <updated>2011-05-29T15:07:12-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -13,5 +13,1387 @@
     
   </author>
 
+  
+  <entry>
+    <title>Branching by Abstraction 101</title>
+    <link href="http://junctionbox.ca/2011/05/28/branching-by-abstraction-101/"/>
+    <updated>2011-05-28T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2011/05/28/branching-by-abstraction-101</id>
+    <content type="html">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+
+So what exactly does this look like?
+
+Let's start with a simple function that outputs your name:
+
+&lt;pre&gt;
+def name
+	@first_name
+end
+&lt;/pre&gt;
+
+Now we want to change the function but it's going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I'm not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
+
+&lt;pre&gt;
+def name
+	return name_flag_name2 if @enable_name2
+	@name
+end
+
+def name_flag_name2
+	# TBD
+end
+&lt;/pre&gt;
+
+That's a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you'll need something that handles a little more logic:
+
+&lt;pre&gt;
+def name
+	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
+	@name
+end
+&lt;/pre&gt;
+
+I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it's implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
+</content>
+  </entry>
+  
+  <entry>
+    <title>Thinking Gated checkins are the Solution?</title>
+    <link href="http://junctionbox.ca/2011/02/10/gated-checkins/"/>
+    <updated>2011-02-10T00:00:00-08:00</updated>
+    <id>http://junctionbox.ca/2011/02/10/gated-checkins</id>
+    <content type="html">Here's the scenario:  You're committed to running mainline, you're development team is distributed with many components. 
+</content>
+  </entry>
+  
+  <entry>
+    <title>Bootstrapping Windows</title>
+    <link href="http://junctionbox.ca/2011/02/10/bootstrapping-windows/"/>
+    <updated>2011-02-10T00:00:00-08:00</updated>
+    <id>http://junctionbox.ca/2011/02/10/bootstrapping-windows</id>
+    <content type="html">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It's a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
+
+Here's the general code cobbled together;
+
+&lt;pre&gt;
+Const BINARY = 1
+Const SAVE_CREATE_OVERWRITE = 2
+Const SAVE_CREATE_NOT_EXIST = 1
+Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
+Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
+temp = WScript.CreateObject(&quot;Scripting.FileSystemObject&quot;).GetSpecialFolder(2).Path &amp; &quot;\&quot;
+
+Dim http, WshShell, file_stream
+
+Set WshShell = WScript.CreateObject(&quot;WScript.Shell&quot;)
+
+
+
+download_file &quot;http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457&quot;, &quot;jre.exe&quot;
+WshShell.Run temp &amp; &quot;jre.exe /s /v &quot;&quot;/qn ADDLOCAL=ALL IEXPLORER=1&quot;&quot;&quot;, 1, TRUE
+' JRE
+
+
+' Download a file to the temp folder and specified filename.
+'
+'
+Function download_file(src, dest)
+	' TODO: Add better error handling for http and file handles.
+
+	Set http = CreateObject(&quot;MSXML2.ServerXMLHTTP&quot;)
+
+	If IsNull(http) Then
+		WScript.Echo &quot;Microsoft.XmlHttp creation failed&quot;
+	End If
+
+	http.open &quot;GET&quot;, src, FALSE
+	http.send
+
+	Set file_stream = CreateObject(&quot;Adodb.Stream&quot;)
+
+	file_stream.type = BINARY
+	file_stream.open
+	file_stream.write http.responseBody
+	file_stream.saveToFile temp &amp; dest, SAVE_CREATE_OVERWRITE 
+	file_stream.close
+
+	Set file_stream = nothing
+	Set http = nothing
+End Function
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Initial Configuration of Puppetd on OS X</title>
+    <link href="http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x/"/>
+    <updated>2010-10-05T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x</id>
+    <content type="html">Configuring puppetd on OS X
+
+Create the User and Group accounts;
+
+&lt;pre&gt;
+sudo dscl . -create /Groups/puppet
+sudo dscl . -create /Groups/puppet PrimaryGroupID 300
+
+sudo dscl . -create /Users/puppet
+sudo dscl . -create /Users/puppet PrimaryGroupID 300
+sudo dscl . -create /Users/puppet UniqueID 300
+sudo dscl . -create /Users/puppet UserShell /usr/bin/false
+&lt;/pre&gt;
+
+Create the folders
+
+&lt;pre&gt;
+sudo mkdir /etc/puppet
+sudo mkdir -p /var/puppet/log
+sudo chown -R puppet:puppet /var/puppet
+sudo chown -R puppet:puppet /etc/puppet
+&lt;/pre&gt;
+
+Create the config file.
+
+&lt;pre&gt;
+sudo puppetd --genconfig &gt; /etc/puppet/puppet.conf
+&lt;/pre&gt;
+
+Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP's).
+
+If you run into issues with your certificates;
+
+h4. Client
+
+&lt;pre&gt;
+rm -rf /etc/puppet/ssl
+&lt;/pre&gt;
+
+h4. Server
+
+&lt;pre&gt;
+puppetca --clean CERT_ID
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Dance and Pivot SQL Style</title>
+    <link href="http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style/"/>
+    <updated>2010-08-01T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style</id>
+    <content type="html">Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:
+
+| id | created_at | page |
+| Integer | DateTime | Varchar(255) |
+
+I wanted to create a table like the following:
+
+| page | monday | tuesday | wednesday | thursday | friday | saturday | sunday |
+| index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
+| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |\nMy first though was just do a simple GROUP BY and pivot the table through code.
+
+&lt;pre&gt;
+SELECT page, DATE(created_at), COUNT(*) AS hits 
+FROM page_views
+GROUP BY DATE(created_at), page ORDER BY page;
+&lt;/pre&gt;
+
+I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure SQL and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &quot;functions and operators&quot;:http://dev.mysql.com/doc/refman/5.1/en/functions.html.  After a small meal and some strange query results I ran into a presentation created by &quot;Giuseppe Maxia&quot;:http://datacharmer.org/ aka the &quot;Data Charmer&quot;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:
+
+&lt;pre&gt;
+SELECT page_name AS name,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS tues,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS wed,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS thurs,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS fri,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sat,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sun,
+COUNT(CASE WHEN DATE(created_at) 
+  IN ('?','?','?','?','?','?','?')
+  THEN id ELSE null END) AS total
+FROM page_views GROUP BY name
+&lt;/pre&gt;
+
+What are your thoughts? Any similar implementations how did you handle it?
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Simplified TDD with Sinatra autotest</title>
+    <link href="http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest/"/>
+    <updated>2010-04-17T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest</id>
+    <content type="html">General overview of what we're building;
+
+* Simple autotest compatible directory structure.
+* Sinatra application.
+* Sinatra unit test.
+
+File setup:
+
+&lt;pre&gt;
+
+export project=MyApp
+mkdir -p $project/{lib,test}
+cd $project
+cat &lt;&lt;EOT &gt; test/test_app.rb
+$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+
+require 'app'
+require 'test/unit'
+
+class AppTest &lt; Test::Unit::TestCase
+  def test_fail
+    flunk 'Write your App tests!'
+  end
+end
+EOT
+
+autotest
+
+&lt;/pre&gt;
+
+p. This should output something akin to the following, if you don't get that then somethings amiss that you'll need to investigate further.
+
+&lt;pre&gt;/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- app (LoadError)
+	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+	from ./test/test_app.rb:4
+	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+	from -e:2
+	from -e:2:in `each'
+	from -e:2&lt;/pre&gt;
+
+p. Next create a new file named 'lib/app.rb'.
+
+p. @touch lib/app.rb@
+
+p. Once saved your test should kick to life with one failure:
+
+&lt;pre&gt;
+
+1) Failure:
+test_fail(AppTest) [./test/test_app.rb:8]:
+Write your App tests!.
+
+&lt;/pre&gt;\nHugely simplified test suite, but it gets you going and doesn't contain reams of mystical cruft to debug.
+
+Next up is introducing rack's test suite, modify your test_app.rb to look like the following;
+
+&lt;pre&gt;
+
+$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+
+require 'app'
+require 'test/unit'
+require 'rack/test'
+
+set :environment, :test
+
+class AppTest &lt; Test::Unit::TestCase
+  include Rack::Test::Methods
+
+  def app
+    App
+  end
+  
+  def test_fail
+    flunk 'Write your App tests!'
+  end
+end
+
+&lt;/pre&gt;
+
+Back to a test that doesn't run? Good!
+
+Let's get it back to a running test with the following change to 'lib/app.rb':
+
+&lt;pre&gt;
+%w{rubygems sinatra}.each {|l| require l }
+&lt;/pre&gt;
+
+Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:
+
+&lt;pre&gt;
+
+def test_root_is_accessible
+  get '/'
+  assert last_response.ok?
+end
+
+&lt;/pre&gt;
+
+Your autotest should switch to the error output below:
+
+&lt;pre&gt;
+
+1) Error:
+test_root_is_accessible(AppTest):
+NameError: uninitialized constant AppTest::App
+./test/test_app.rb:13:in `app'
+
+&lt;/pre&gt;
+
+That's an indicator we're missing our application class.  Dealing with one problem at a time lets implement the skeleton class in 'lib/app.rb' as outlined below.
+
+&lt;pre&gt;
+class App &lt; Sinatra::Base
+end
+&lt;/pre&gt;
+
+You should get a failing test case with the output below, which indicates the route is not found.
+
+&lt;pre&gt;
+1) Failure:
+test_root_is_accessible(AppTest) [./test/test_app.rb:18]:
+&lt;false&gt; is not true.
+&lt;/pre&gt;
+
+Next up lets add the route in 'lib/app.rb'.
+
+&lt;pre&gt;
+
+get '/' do
+end
+
+&lt;/pre&gt;
+
+And there we go our first of hopefully many tests is now passing, congratulations!
+
+For the source see;
+
+&quot;git://github.com/nfisher/Sinatra-Skeleton.git&quot;:git://github.com/nfisher/Sinatra-Skeleton.git
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Dom A Regato, My Tests Are Auto</title>
+    <link href="http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto/"/>
+    <updated>2010-03-24T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto</id>
+    <content type="html">So in my ever increasing commitment to TDD, I've started seeking an efficient way to run tests.  Call me what you will but, I find running tests breaks my tempo.  So how do I keep aware of my testing state, but stay with my head in the code.  Some out there might call for NetBeans, I've used it and loved it, but I'm drawn to vim like a moth to the proverbial flame.
+
+Mix 1 vertical pinch of *NERDTree*, 1 horizontal slice of *bufexplorer*, a gram of *FuzzyFinder*, *rails.vim*, and some custom bindings and what do you get?  A pimped out ride in vim for rails development.  Sure it may look like a Honda with those over-sized spoilers, but its just the way I like it!  Long story short, NetBeans is a great package, but I just can't stay away from vim long.  Alas I digress, the goal is to maximize my productivity while staying committed to the Tao of TDD.\nSo under the hood I've got MacVim runnin', lean, mean and full-screen but, how do I maximize my productivity?  The first thing that came to mind was FAM, at first I was considering rolling my own tool... mmm maybe we'll just consult with the interwebz a little before we take it that far.  Came across autotest, interesting, but it uses polling....or does it?  Enter autotest-fsevent, just what the doctor ordered for keepin' those idle cycles, idle.  Add a sprinkle of autotest-growl (highly recommend &quot;Music Video&quot; as your default growl style) and autotest-rails-pure and you've got a nice setup for TDD.
+
+So a quick rundown of my setup.
+
+* MacVim
+** Rails.vim
+** NERDTree.vim
+** bufexplor.vim
+** FuzzyFinder.vim
+** keyboard mapping love
+* gems
+** autotest
+** autotest-fsevent
+** autotest-growl
+** autotest-rails-pure
+** test-unit
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Fresh Book It</title>
+    <link href="http://junctionbox.ca/2010/02/23/fresh-book-it/"/>
+    <updated>2010-02-23T00:00:00-08:00</updated>
+    <id>http://junctionbox.ca/2010/02/23/fresh-book-it</id>
+    <content type="html">A few years ago I signed up for a &quot;Freshbooks&quot;:http://www.freshbooks.com/ account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.
+
+We're now close to 100 people, and over 200 projects.  Freshbooks project selection just isn't cutting it anymore, but I was sure there was a solution, namely a project selector with type ahead search.
+
+One late night at work, waiting for a *large* db dump to load, I decided to do a little hacking.  I cracked open the page source to see what JS framework was used.  JQuery was available and I was elated!  Firebug was up next.  I was pretty certain I could pull the data I wanted from the Project selection box.  I got the id from the inspector, fired up the console and started poking around.
+
+I came up with some code that worked in the console and turned it into a one-liner for a bookmarklet... and presto...fizzo.  No dice, no workie... just rendered [Object object].
+
+Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;
+
+@(function(){})()@\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.
+
+Now I know when you look at the code you'll scream &quot;GLOBALS ARE BAD&quot;, but its a bookmarklet and I was just having fun with javascript.
+
+Turns out my solution was to wrap the variable initialization in void().
+
+@void(project_list = null)@
+
+Hold the applause, but here's the final code (for now :).
+
+&lt;pre&gt;
+javascript:
+void(project_list = null);
+void(project_select = null);
+
+function init( ) {
+        project_list = $('#projectid option');
+        project_select = $('#projectid');
+        search_box = '&lt;input type=&quot;text&quot; onkeyup=&quot;projectSearch(this);&quot; style=&quot;width:200px&quot; id=&quot;search_entry&quot;/&gt;&lt;div id=&quot;search_results&quot; style=&quot;position:absolute;width:22em;overflow:auto;max-height:12em;&quot;&gt;&lt;/div&gt;';
+        project_select.css('visibility','hidden');
+        project_select.after(search_box);
+}
+
+function projectSearch($target) {
+        var re = new RegExp('.*' + $target.value + '.*$','i');
+        var search_results = $('#search_results');
+        var links = '';
+        search_results.empty();
+        project_list.each( function($index, $element) {
+            if( $element.text.match(re) &amp;&amp; parseInt($element.value) &gt; 0 ) {links += projectLink( $element.value, $element.text );}
+          });
+        search_results.prepend(links);
+}
+
+function updateSelection( $id, $label ) {
+        project_select.val($id);
+        project_select.change();
+        $('#search_entry').val($label);
+        $('#search_results').empty();
+}
+
+function projectLink( $id, $label ) {
+        return '&lt;a href=&quot;#&quot; style=&quot;display:block;clear:both;background-color:#ccc;border-bottom:1px solid #999;padding:4px 2px;&quot; onclick=&quot;updateSelection(\''+ $id + '\',\'' + $label +'\');return false;&quot;&gt;' + $label + '&lt;/a&gt;';
+}
+
+init();
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Approaching bliss; TDD+PHP+MVC</title>
+    <link href="http://junctionbox.ca/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/"/>
+    <updated>2009-12-12T00:00:00-08:00</updated>
+    <id>http://junctionbox.ca/2009/12/12/approaching-bliss--tdd+php+mvc</id>
+    <content type="html">Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn't seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding TDD and CodeIgnitor on the interweb. In my search I ran across the article &quot;Setting up the perfect CodeIgniter &amp; TDD Environment&quot;:http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/.  I downloaded the code and massaged it a little to suit my needs.  I'm not fully content with the implementation of BaseTestPath, but I'm sure a round of TDD (which I should've started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn't been thoroughly tested, so use at your own peril. Specifically I haven't verified the views section, but upon initial inspection unit tests work.  I'm thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.
+
+&lt;pre&gt;
+&lt;?php
+/*
+SimpleTest + CodeIgniter
+
+test.php
+
+the test runner - loads all needed files, integrates with CodeIgniter and runs the tests 
+
+Written by Jamie Rumbelow
+http://jamierumbelow.net/
+
+Modifications by Nathan Fisher
+http://junctionbox.ca/
+
+Notes on Directory structure; where ./ is the root of a fresh CI project.
+
+./test.php
+./system/test # symlink or similar to root of SimpleTest folder
+./system/application/tests
+./system/application/tests/models
+./system/application/tests/views
+./system/application/tests/controllers
+
+Changes:
+
+	* Added console writer for test suite.
+	* Moved all of the file scanning into classes.
+	* Fixed a bug where vim swp files are treated as test classes.
+	* Fixed a bug where view files can never exclusively be processed.
+
+Todo:
+
+	* Unit Tests - how ironic :(
+	* Fix potential problem if test folders do not exist.
+
+License:
+
+Free to use however you please... if it causes harm in anyway the authors are not liable.
+
+
+*/
+ 
+//Configure and load files
+define('ROOT', dirname(__FILE__) . '/');
+define('APP_ROOT', ROOT . 'system/application/');
+ 
+require_once ROOT . 'system/test/unit_tester.php';
+require_once ROOT . 'system/test/web_tester.php';
+require_once ROOT . 'system/test/reporter.php';
+
+class CodeIgniterUnitTestCase extends UnitTestCase {
+	protected $ci;
+	 
+	public function __construct() {
+		parent::UnitTestCase();
+		$this-&gt;ci =&amp; get_instance();
+	}
+}
+ 
+class CodeIgniterWebTestCase extends WebTestCase {
+	protected $ci;
+ 
+	public function __construct() {
+		parent::WebTestCase();
+		$this-&gt;ci =&amp; get_instance();
+	}
+}
+
+function add_full_path( &amp;$v, $k, $o ) {
+	$o-&gt;addImplementationPath($o-&gt;getImplementationPath($v));
+	$v = $o-&gt;getTestPath() . '/' . $v;
+}
+
+function filter_hidden( $v ) {
+	if( preg_match('/^\./', $v) ) {
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+/**
+ * BaseTestPath:
+ *
+ */
+abstract class BaseTestPath {
+	abstract function getTestPath();
+	abstract function getImplementationPath($test);
+
+	var $is_fullpath = FALSE;
+	var $filenames = null;
+	var $impl_filenames = array();
+
+	function getFilenames() {
+		if( $this-&gt;filenames === null ) {
+			$this-&gt;filenames = @scandir($this-&gt;getTestPath());
+			$this-&gt;filenames = array_filter( $this-&gt;filenames, 'filter_hidden' );
+		}
+		return $this-&gt;filenames;
+	}
+
+	function addToTestSuite( &amp;$test ) {
+		$this-&gt;loadImplementations();
+		foreach( $this-&gt;getFilenamesWithFullPath() as $test_file ) {
+			$test-&gt;addFile( $test_file );
+		}
+	}
+
+	function loadImplementations() {
+		$this-&gt;getFilenamesWithFullPath();
+		foreach( $this-&gt;impl_filenames as $impl ) {
+			if( file_exists($impl) ) {
+				require_once($impl);
+			}
+		}
+	}
+
+	function getFilenamesWithFullPath() {
+		if( $this-&gt;is_fullpath == FALSE ) {
+			$this-&gt;getFilenames();
+			array_walk( $this-&gt;filenames, 'add_full_path', $this );
+			$this-&gt;is_fullpath = TRUE;
+		}
+
+		return $this-&gt;filenames;
+	}
+
+	function addImplementationPath( $impl_path ) {
+		array_push($this-&gt;impl_filenames, $impl_path);
+	}
+}
+
+
+/**
+ * ControllerTestPath:
+ *
+ */
+class ControllerTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/controllers';
+	}
+
+	function getImplementationPath( $test_filename ) {
+		$controller = preg_replace( '#.*?([a-zA-Z0-9_\-]+)_controller_test.php$#', '$1.php', $test_filename );
+		return APP_ROOT . 'controller/' . $controller;
+	}
+}
+
+
+/**
+ * ModelTestPath:
+ *
+ */
+class ModelTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/models';
+	}
+
+	function getImplementationPath($test_filename) {
+		$model = preg_replace('#.*?([a-zA-Z0-9_\-]+_model)_test.php$#', '$1.php', $test_filename);
+		return APP_ROOT . 'models/' . $model;
+	}
+}
+
+
+/**
+ * ViewTestPath:
+ *
+ */
+class ViewTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/views';
+	}
+
+	function getImplementationPath( $test_filename ) {
+		$view = preg_replace('#.*?([a-zA-Z0-9_\-]+)_view_test.php$#', '$1.php', $test_filename);
+		$view = implode( '/', explode('_',$view) );
+		return APP_ROOT . 'views/' . $view;
+	}
+}
+
+
+//Capture CodeIgniter output, discard and load system into $CI variable
+ob_start();
+include(ROOT . 'index.php');
+$CI =&amp; get_instance();
+ob_end_clean();
+ 
+//Setup the test suite
+$test_suite =&amp; new TestSuite();
+$test_suite-&gt;_label = 'CodeIgniter Application Test Suite';
+
+$controller_tests = new ControllerTestPath();
+$model_tests = new ModelTestPath();
+$view_tests = new ViewTestPath();
+$tests = array();
+
+if( isset($_GET['controllers']) ) {
+	array_push( $tests, $controller_tests );
+}
+
+if( isset($_GET['models']) ) {
+	array_push( $tests, $model_tests );
+}
+
+if( isset($_GET['views']) ) {
+	array_push( $tests, $view_tests );
+}
+
+if( sizeof($tests) == 0 ) {
+	$tests = array( $model_tests, $view_tests, $controller_tests );
+}
+
+foreach( $tests as $test ) {
+	$test-&gt;addToTestSuite( &amp;$test_suite );
+}
+
+//Run tests!
+if (TextReporter::inCli()) {
+	exit ($test_suite-&gt;run(new TextReporter()) ? 0 : 1);
+}
+$test_suite-&gt;run(new HtmlReporter());
+
+/* End of file test.php */
+/* Location: ./test.php */
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Kick dependence, here's an injection</title>
+    <link href="http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection/"/>
+    <updated>2009-11-03T00:00:00-08:00</updated>
+    <id>http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection</id>
+    <content type="html">Recently I have been mulling the benefits of Dependency Injection in relationship to PHP.  I still question it's need, but I felt like an experiment for the fun of it.
+
+First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  &quot;this&quot;:http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc shamelessly &quot;php'ized&quot; ruby code.
+
+&lt;pre&gt;
+function create_app() {
+ $container = new DI_Container( );
+ $container-&gt;register( 'logfilename', 'logfile.log' );
+ $container-&gt;register( 'db_user', 'nfisher' );
+ $container-&gt;register( 'db_pass', 'secret' );
+ $container-&gt;register( 'dbi_string', 'db:host:and:stuff' );
+
+ $container-&gt;register( 'authenticator', function($c) {
+  return new Authenticator( $c-&gt;database, $c-&gt;logger, $c-&gt;error_handler );
+} );
+
+ $container-&gt;register('error_handler', function($c) {
+  $errh = new ErrorHandler( );
+  $errh-&gt;logger = $c-&gt;logger;
+  return $errh;
+} );
+
+ $container-&gt;register('logger', function($c) {
+  return new Logger( $c-&gt;logfilename );
+} );
+
+ $container-&gt;register('database', function($c) {
+  return new DB( $c-&gt;dbi_string, $c-&gt;db_user, $c-&gt;db_pass );
+} );
+
+ $container-&gt;register('quotes', function($c) {
+  return new StockQuotes( $c-&gt;error_handler, $c-&gt;logger );
+} );
+
+ $container-&gt;register('webapp', function($c) { 
+  $app = new WebApp( $c-&gt;quotes, $c-&gt;authenticator, $c-&gt;database );
+  $app-&gt;logger = $c-&gt;logger;
+  $app-&gt;set_error_handler( $c-&gt;error_handler );
+  return $app;
+} );
+}
+&lt;/pre&gt;\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.
+
+h3. String Constants Aren't Unknown Objects
+
+The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).
+
+h3. Absence of Anonymous Functions
+
+Unfortunately my production environment is php 5.2, anonymous functions...5.3 so its a simple problem of what's more important... existing well tested env won out on that one.
+
+So I created a simple function binder with the following interface;
+
+&lt;pre&gt;
+interface Applyable {
+ public function each( $o );
+}
+
+class FunctionBinder implements Applyable {
+  private $_f_name;
+
+  public function __construct( $f_name ) {
+    $this-&gt;_f_name;
+  }
+
+  /** each: Calls the stored function by name and passes the DI container as a reference. 
+   */
+  public function each( $c ) {
+    return call_user_func( $this-&gt;_f_name, $c );
+  }
+}
+&lt;/pre&gt;
+
+The anonymous function became named;
+
+&lt;pre&gt;
+function create_logger( $c ) {
+  return new Logger( $c-&gt;logfilename );
+}
+&lt;/pre&gt;
+
+And the register became;
+
+
+@$container-&gt;register('logger', new FunctionBinder('create_logger') );@
+
+
+h3. Code check in aisle 3... code check
+
+Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler...okay it'll work, but it ain't gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.
+
+h3. Testing 1.. 2
+
+The next thought that occurred to me was why not include the dependencies with the registration process?
+
+
+@$container-&gt;register( 'logger', new FunctionBinder('create_logger'), 'logfilename' );@
+
+
+It seemed simple, but I didn't like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.
+
+h3. Put on trial and Execute
+
+While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!
+
+&lt;pre&gt;
+function create_logger( $c ) {
+ return $c-&gt;build( Logger, $c-&gt;logfilename );
+}
+&lt;/pre&gt;
+
+How does that change things?  Well it allows for a 2 phase process;
+
+Phase 1: Evaluate dependencies.
+Phase 2: Instantiate objects.
+
+During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.
+Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it's time.
+
+I have a direction, stay tuned for the final product!
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Tripping over Rubies while Camping</title>
+    <link href="http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping/"/>
+    <updated>2009-06-17T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping</id>
+    <content type="html">Today was another day like any other, but then I stopped and said hey &quot;GO team!!&quot;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster... the labour wasn't in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. &quot;Camping is a micro framework&quot;:http://redhanded.hobix.com/bits/campingAMicroframework.html that was the perfect fit for the task. Maybe PHP was more appropriate for the problem domain.  However, much like the previous sentence it wasn't how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It's painful to watch, but given my current server environment it is a necessary evil. Understand I'm well familiar with the configure install shuffle (./configure &amp;&amp; make &amp;&amp; sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.
+
+The first thing I did was &quot;gem update --system&quot;.  Version 0.9.4, the default for Centos 5, sucks on small VPS's (mostly because it'll crash from resource constraints).  I've been keeping up to date on Ruby so that's no worry, you may have to do the same.
+
+So I can pull gems down to my hearts content, or can I?  First up was RedCloth... long story short the gem uses Ragel and Centos 5 only provides version 5.x as an RPM. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;
+
+@gem install camping  # nuff said, installs 1.5 with ease@
+
+Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route... interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine... and then it hit I tried to login. Hmm curious the login doesn't work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB... that's curious no entries or tables.  So on with the search for my apps apparent lack of state.
+
+h3. Active Campers lose weight when they've got state!
+
+So ActiveRecord 2.1.0 doesn't play nicely with camping's session model out of the box. Found in a thread that you need to turn off partial updates;
+
+
+@AppName::Models::Base.partial_updates = false@
+
+Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog... on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I'm quite happy to have found a lovely new tool!
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>REST + less weekend while Camping</title>
+    <link href="http://junctionbox.ca/2008/09/23/rest-%2B-less-weekend-while-camping/"/>
+    <updated>2008-09-23T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/09/23/rest-+-less-weekend-while-camping</id>
+    <content type="html">In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;
+
+* REST
+* RestStop
+* Actionscript 3 URLStream
+
+I started out with RestStop's blog.rb as a starting point, and modified it as an event recorder.  It worked like a charm out of the box.  From there I wrote a quick Flash interface to POST data to each controllers create method.  BOOM, Ka-POW, Problems... I was getting a little unexpected funk from the way Flash was handling HTTP status codes. IOErrorEvent's were being fired, babies cried, etc. So far my observations have shown that URLStream &amp; URLLoader classes do a funky dance when they receive 3xx series status.  At a later date I would like to investigate further to see if the 3xx status is the cause of the IOErrorEvent. Ultimately the classes only report the final http status and none of the intermediary status changes.\nI decided to look around a little on Google into what I thought to be a fairly standardized protocol.  Turns out REST is less of a protocol and more of a methodology.  Regardless of what you call it I'd still like to work from a common community shared standard, at least when it comes to HTTP status codes.  In that search I found the table below buried in the article &quot;How to Create a REST Protocol&quot;:http://www.xml.com/pub/a/2004/12/01/restful-web.html. It was great my first resource that seemed to clearly define some constraints in what otherwise looked like the Wild West of RESTful web services.
+
+| *Resource* | *Method* | *Representation* | *Status Codes* |
+| Employee | GET | Employee Format | 200, 301, 410 |
+| Employee | PUT | Employee Format | 200, 301, 400, 410 |
+| Employee | DELETE | N/A | 200, 204 |
+| All Employees | GET | Employee List Format | 200, 301 |
+| All Employees | POST | Employee Format | 201, 400 |
+
+
+I pulled up the descriptions for each of the status codes, and made a short comment in my Camping app.
+
+&lt;pre&gt;
+&lt;code&gt;
+# Event GET			200,301,410
+# Event PUT			200,301,400,410
+# Event DELETE	200,204
+# Events GET		200,301
+# Events POST		201,400
+#
+# 200 - OK
+# 201 - Created
+# 204 - No Content
+# 301 - Moved Permanently
+# 400 - Bad Request
+# 410 - Gone
+&lt;/code&gt;
+&lt;/pre&gt;
+
+Now I want to take the previous table a little bit further to map out each of the states.
+
+| *Resource* | *Method* | *Status* | *Action* | *Details* |
+| Event | GET | 200 - OK | READ =&gt; Show Event | Event found, READ Event. |
+| . | * | 301 - Moved Permanently | READ FAILED =&gt; ?? | Event no longer available, renamed or moved. |
+| . | * | 410 - Gone | READ FAILED =&gt; ?? | Event no longer available/never existed. |
+| . | PUT | 200 - OK | UPDATE =&gt; Show Event w/ Updates | Event updated, SHOW updated event |
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Sprout an AsWing</title>
+    <link href="http://junctionbox.ca/2008/09/19/sprout-an-aswing/"/>
+    <updated>2008-09-19T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/09/19/sprout-an-aswing</id>
+    <content type="html">Looking to throw together a quick app in Flash to test Sprouts I decided on working with AsWing.  Here's some of the process I followed to get the environment up and going.
+
+Install the sprouts gem;
+
+@# sudo gem install sprouts@
+
+Download the latest aswing package;
+
+&quot;AsWing on Google Code&quot;:http://code.google.com/p/aswing/downloads/list
+
+Create a new project;
+
+@# sprout -n as3 TickTock@
+
+Copy AsWing.swc into TickTock/lib.
+
+Modify the debug task in TickTock/rakefile.rb as illustrated:
+
+&lt;pre&gt;
+desc 'Compile and debug the application'
+debug :debug do |t|
+	t.input = 'src/TickTock.as'
+	t.library_path &lt;&lt; &quot;lib/AsWing.swc&quot;
+end
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Ruby be nimble, Ruby be SWF...</title>
+    <link href="http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---/"/>
+    <updated>2008-09-04T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---</id>
+    <content type="html">This is a quick post with notes on the &quot;SWF format&quot;:http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf.  Well so far it's only one really, and it is in reference to compression.
+
+From page 13, 3rd paragraph in the documentation;
+
+p(quote). &quot;The FileLength field is the total length of the SWF file, including the header. If this is an
+uncompressed SWF file (FWS signature), the FileLength field should exactly match the file
+size. If this is a compressed SWF file (CWS signature), the FileLength field indicates the total
+length of the file after decompression, and thus generally does not match the file size. Having
+the uncompressed size available can make the decompression process more efficient.&quot;
+\nSeems pretty clear and straight forward, but it doesn't really reference where the compression starts.  I initially assumed, that it starts at the end of the SWF header.  The end of the header seemed like a logical boundary to me. What I quickly found with &quot;0xED&quot;:http://www.suavetech.com/0xed/0xed.html is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?
+
+h3. Toes to the edge, and wait for the gun.
+
+Okay so we know that the compression starts *after* the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;
+
+@require 'zlib'@
+
+And requires the compressed contents in a string buffer like so;
+
+&lt;pre&gt;
+def read_remaining_bytes
+	pos = @file.tell
+	@file.seek( 0, IO::SEEK_END )
+	end_pos = @file.tell
+	@file.pos = pos
+	@file.read( end_pos - pos )
+end
+&lt;/pre&gt;
+
+Note: @file is a file handle using File.new( filename, 'r' ), it is assumed the position in the file is the first byte immediately after the SWF length attribute.  See SwfReader in &quot;Ruby-Swfer&quot;:http://junctionbox.ca/projects/ruby-swfer/ for further details.
+
+h3. Inflate those water wings and kick!
+
+Okay we have our compressed content now lets inflate it!
+
+&lt;pre&gt;
+def decompress( compressed_contents )
+	zstream = Zlib::Inflate.new
+	decompressed_contents = zstream.inflate( compressed_contents )
+	zstream.finish
+	zstream.close
+	decompressed_contents
+end
+&lt;/pre&gt;
+
+And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Watch for Flying Bitmaps</title>
+    <link href="http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps/"/>
+    <updated>2008-08-26T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps</id>
+    <content type="html">Zee goal for today is to use ActionScript 3's BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;
+
+* client-side image croppers.
+* runtime cropping of linked and external photos for panel backgrounds.
+
+What I will illustrate here is just a simple sliding door effect.  As seen in the SWF below. The items of greatest interest today include;
+
+* flash.display.Bitmap
+* flash.display.BitmapData
+* flash.geom.Point
+* flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.
+
+h3. Halves Too #Include
+
+* JPG or PNG that we want to slice up.
+* Flash compiler (Flex SDK/Flash 9/etc).
+
+h3. Blueprints, get your blueprints here!!
+
+We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of *TestPhoto*. Done? Good now that we've made some room and set the table lets eat!
+
+h3. What size slice of pizza would you like with your BitmapData?
+
+For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.
+
+@var percentage:int = currentFrame / totalFrames;@
+
+
+h3. I'm full what next?
+
+Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.
+
+&lt;pre&gt;
+var slice_width:int = percentage * bitmap_width; 
+var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
+
+// left edge is stationary
+var crop_region:Rectangle = new Rectangle( 0, 0, slide_width, source_bitmap.height );
+var destination_point:Point = new Point( 0, 0 );
+
+// here's where the magic happens
+slice_data.copyPixels( source_bitmap, crop_region, destination_point );
+var slice_bitmap:Bitmap = new Bitmap( slice_data );
+
+addChild( slice_bitmap );
+&lt;/pre&gt;
+
+h3. Would you like a mint sir?
+
+Okay at some point you're going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As &quot;Mr. Saul&quot;:http://www.johnralstonsaul.com/SUM_Unconscious.html might argue, downsizing often has a detrimental effect. While I agree, I'm not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.
+
+@if( numChildren &gt; 1 ) removeChildAt( 0 );@
+
+h3. Cheque please!
+
+Lets wrap this all up in a class for take-out.
+
+&lt;pre&gt;
+/**
+ * Written by: Nathan Fisher
+ * License: Do with this what you want just don't blame me if it blows up. 
+ * 
+ * For the simple test use this as your root document class.
+ */
+package {
+ // photo linkage class name
+ import SourceBitmap;
+
+ import flash.display.Bitmap;
+ import flash.display.BitmapData;
+ import flash.display.MovieClip;
+ import flash.display.Sprite;
+
+ import flash.events.Event;
+
+ import flash.geom.Point;
+ import flash.geom.Rectangle;
+
+ public class SlidingDoor extends MovieClip {
+  public static const PHOTO_WIDTH:int = 720;
+  public static const PHOTO_HEIGHT:int = 478;
+  public static const DESTINATION_POINT:Point = new Point( 0, 0 );
+
+  private var source_data:BitmapData;
+  private var slice_container:Sprite;
+  private var bitmap_width:int;
+
+
+  /** SlidingDoor: Constructs a sliding door effect using the specified BitmapData.
+   *
+   */
+  public function SlidingDoor( theSourceData:BitmapData = null )
+  {
+   if( theSourceData == null ) theSourceData = new TestPhoto( PHOTO_WIDTH, PHOTO_HEIGHT );
+   source_data = theSourceData;
+   bitmap_width = theSourceData.width;
+
+   slice_container = new Sprite( );
+   addChild( slice_container );
+   addEventListener( Event.ENTER_FRAME, frameListener );
+  }
+
+
+  /** frameListener: Each passing frame represents a percentage of the photo to reveal.
+   *
+   */
+  public function frameListener( e:Event ):void
+  {
+   var slice_width:int = percentage * bitmap_width; 
+   var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
+
+   // left edge is stationary
+   var crop_region:Rectangle = new Rectangle( 0, 0, slide_width, source_bitmap.height );
+   var destination_point:Point = new Point( 0, 0 );
+
+   // here's where the magic happens
+   slice_data.copyPixels( source_bitmap, crop_region, destination_point );
+   var slice_bitmap:Bitmap = new Bitmap( slice_data );
+
+   // what good is art if no one see's it? Add to the slice_container so it is visible.
+   slice_container.addChild( slice_bitmap );
+   // remove previous slices if applicable.
+   if( slice_container.numChildren &gt; 1 ) slice_container.removeChildAt( 0 );
+  }
+ }
+}
+&lt;/pre&gt;
+
+In the example above I assumed the bitmap slice is the only element in it's parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.
+
+h3. Flash to 2 minutes later in the lavatory... OUTPUT!
+
+&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/phototest.swf&quot; width=&quot;550&quot; height=&quot;400&quot;&gt;
+&lt;param name=&quot;movie&quot; value=&quot;/images/phototest.swf&quot; /&gt;
+&lt;/object&gt;
+
+h3. Notes &amp; Other Weirdness
+
+The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.
+
+The included photo was provided by &quot;Tessier Pools&quot;:http://www.tessierpools.com/ and is a &quot;Skip Phillips&quot;:http://www.questarpools.com/ design.
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Beware the Garbage Man's Scope</title>
+    <link href="http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope/"/>
+    <updated>2008-07-25T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope</id>
+    <content type="html">Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I'll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don't assume anything and clean up after yourself. Unless you're trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;
+\n@new Tween( pages, &quot;rotation&quot;, Elastic.easeOut, src, dest, duration, true );@
+
+You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &quot;Why create a member variable? I don't care what happens to it after its done its deed.&quot;
+
+Unfortunately I didn't realize how wrong it was until seemingly at random its expected effect would get tossed like &quot;Marla's bridesmaid dress&quot;:http://www.foxmovies.com/fightclub/.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of _unnecessary_ dancing around to debug why something so foolish wasn't working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &quot;watchdog&quot; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.
+
+I published the site only to shortly after find my salvation in the comments on Adobe's Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn't take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.
+
+h3. Conclusion
+
+In the future kids don't play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.
+
+&lt;pre&gt;
+private var _rotation_tween:Tween;
+public function rotatePage( dest ):void {
+ _rotation_tween = new Tween( pages, &quot;rotation&quot;, Elastic.easeOut, src, dest, duration, true );
+}
+&lt;/pre&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Regular Expression & Parsed Elation</title>
+    <link href="http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation/"/>
+    <updated>2008-07-04T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation</id>
+    <content type="html">Here's a little app I wrote during a project to test ActionScript 3's regular expressions.\n&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/as3regex.swf&quot; width=&quot;760&quot; height=&quot;422&quot;&gt;
+&lt;param name=&quot;movie&quot; value=&quot;/images/as3regex.swf&quot; /&gt;
+&lt;/object&gt;
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Subversive Lyrics with Subversion</title>
+    <link href="http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion/"/>
+    <updated>2008-06-26T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion</id>
+    <content type="html">The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I'm not liable.  Also if you don't know what subversion is this article is not a good place to start.\nh3. Ingredients
+
+* Wildcard DNS
+* Apache 2.2
+* Subversion 1.4.x (SVN)
+* Your favourite scripting language
+* Back-ups, back-ups, back-ups!!!!!
+* Couple of hours
+
+Okay so how is all of this going to look? Well lets say you have a client named Example and their website is located at example.com.  The goal is to achieve a test site located at http://example.com.projects.myhost.ca/, it's a doozy to type, but it'll create consistency. Besides the amount of time spent typing will be more than offset by the time it saves you once configured properly.
+
+h3. Initial Imports Insulate Against Insolence
+
+Okay so lets say you've used svnadmin and created a webdav accessible repository at http://myhost.ca/svn/example.com/, how should the initial import look?
+
+* branches
+* tags
+* trunk
+** site
+** src
+
+As you'll note it's a pretty vanilla setup for subversion.  So moving forward we'll assume that trunk/site contains the latest and greatest of your clients website and trunk src is a dumping ground for your Illustrator, Photoshop, Actionscript and FLA's, etc.
+
+h3. We Hosts Da Vhosts
+
+So what's next? Lets get ready to rumble cuz we're going to create our vhost configuration. Pick your poison, but you can either append the following setup to your httpd.conf or add a new file named vhosts.conf in your conf.d folder.
+
+&lt;pre&gt;
+LogFormat &quot;%V %h %l %u %t \&quot;%r\&quot; %s %b&quot; vcommon
+
+&lt;Directory /var/www/vhosts/project&gt;
+# adjust override as you see fit
+AllowOverride All
+&lt;/Directory&gt;
+
+&lt;virtualhost *:80&gt;
+ServerName *.projects.myhost.ca
+
+VirtualDocumentRoot /var/www/vhosts/projects/%-4+
+
+ErrorLog logs/projects.myhost.ca-error_log
+CustomLog logs/projects.myhost.ca-access_log vcommon
+&lt;/virtualhost&gt;
+&lt;/pre&gt;
+
+h3. Sweet Script O'Mine
+
+Where do we go now... GNR flashback... I think not! So we've got a repository and vhost now what? You've got 2 options here;
+write a script that updates an existing checkout.
+write a script that creates a checkout if it does not exist or updates if it does.
+Option 1 is what I've gone with as I've placed the checkout in a script for the creation of my repository. The benefit to Option 2 is that it ensures you're checkout environment will have the right permissions for svn updates.
+
+My script looks a little like the following;
+
+&lt;pre&gt;
+#!/usr/bin/ruby -w
+#
+# update.rb: Takes a repository URI as a single argument and uses the 
+#    last directory in the URI as part of the update path.
+#
+
+if ARGV.length != 1
+ puts &quot;You must specify a repository!&quot;
+end
+
+# this folder must be owned by your webservers uid if you go with option 2
+PROJECTS_PATH='/var/www/vhosts/projects/'
+
+begin
+ site_name = ARGV[0].split( /\// );
+ site_name = site_name[site_name.length - 1]
+ 
+ `svn update #{PROJECTS_PATH + site_name}`
+rescue
+ # pick a error notification method log it, email it wuteva you want
+end
+&lt;/pre&gt;
+
+Now add this to the end of your post-commit hook as follows;
+
+@/somepath/update.rb &quot;$REPOS&quot;@
+
+Everytime you commit, it will automatically update a test copy of the site located at;
+
+@http://example.com.projects.myhost.ca/@
+
+h3. Conclusion
+
+This is a simple way to give the whole family access to test websites without the clutter and extra time of using FTP.
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Scrollpane Woes to Fix the Flow</title>
+    <link href="http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow/"/>
+    <updated>2008-06-26T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow</id>
+    <content type="html">Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.
+
+To fully understand the problem you need to go into the interaction between the Flash player, V2 components, and MovieClips. First off you will rarely, if ever, experience this problem in the Flash Developer environment. Why? The problem appears to be timing, and local files generally have no measurable load time relative to their web based counterparts. In your browser once the SWF has been cached the next refresh of the page generally works fine. Wipe your cache and watch the problem return.
+
+h3. Where does the MovieClip class fit in?
+
+MovieClip objects wipe their event handlers with a loadMovie, except the onClipEvent(), and variations of on(). For dynamically created clips it means you need to monitor the MovieClip outside of the MovieClip’s instance. On moderate to slow connections the ScrollPane seems to report a SWF file being loaded before it is actually complete, most likely because of the way it monitors the loading process.
+
+h3. A Solution.
+
+As mentioned previously we’ve tried a couple different methods to resolve this problem. While ours has its limitations it works where we need it to. The initial implementation was as follows:
+
+&lt;pre&gt;
+var check_loaded:Object = { _frequency: 500, 
+  _intervalID: null,
+  callback: null,
+  pane: null,
+// start
+  start: function() {
+    this.stop( );// clear any running instances
+    this._intervalID = setInterval( this, &quot;checkPane&quot;, this._frequency );
+    this.pane._visible = false;
+  },  // ::start(...
+// stop
+  stop: function() {
+    if(this._intervalID !== null) {
+      clearInterval(this._intervalID);
+    }  // if(...
+    this._intervalID = null;
+  },  // ::stop(...
+// checkPane
+  checkPane: function() { 
+    var clip:MovieClip = this.pane.content;
+    if( clip !== null ) {
+      var total:Number = clip.getBytesTotal();
+      var current:Number = clip.getBytesLoaded();
+      // 36 is the size of a blank flash file
+      if( current &gt;= total &amp;&amp; total &gt;= 36 ) {
+        this.stop( );
+        this.pane.refreshPane( );
+        this.pane._visible = true;
+        if( this.callback !== null ) {
+          this.callback( );
+        }  // if(...
+      }// if(...
+      trace( current + &quot; of &quot; + total );
+    }  // if(...
+  }  // ::checkPane(...
+};
+&lt;/pre&gt;
+
+Enough already here’s how you use it with your ScrollPane.
+
+&lt;pre&gt;
+theScrollPane.contentPath = &quot;CONTENT.swf&quot;;
+check_loaded.pane = theScrollPane;
+check_loaded.start( );
+&lt;/pre&gt;
+
+It works, but isn’t a clean OO implementation. A better approach is to reorganize the code into a separate ActionScript class.  See &quot;F3MaskPane&quot;:/images/F3MaskPane.as for my implementation. With your new shiny class your code will look like below instead of the two blocks of code above.
+
+&lt;pre&gt;
+import F3MaskPane; 
+var check_loaded:F3MaskPane = new F3MaskPane( theScrollPane ); 
+theScrollPane.contentPath = &quot;CONTENT.swf&quot;; 
+check_loaded.start( );
+&lt;/pre&gt;
+
+h3. Notes and limitations on F3MaskPane.
+
+If you depend/expect your border to be visible prior to loading content you’ll need to find another way.
+The visibility of the ScrollPane is turned off to prevent the blink that occurs during the refreshPane call.
+The F3MaskPane must not extend the Object class because of what appears to be a bug with calls to setInterval.
+There is currently no upper limit on the number of iterations that checkPane will be called.
+Audio maybe a problem because of the refreshPane.
+That’s all for now.
+
+</content>
+  </entry>
+  
+  <entry>
+    <title>Rsync Daily Snapshots</title>
+    <link href="http://junctionbox.ca/2006/04/17/rsync-daily-snapshots/"/>
+    <updated>2006-04-17T00:00:00-07:00</updated>
+    <id>http://junctionbox.ca/2006/04/17/rsync-daily-snapshots</id>
+    <content type="html">Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n&lt;pre&gt;
+#!/bin/sh
+
+HOST=localhost.localdomain
+BASE=/home/samba/rsync
+DATEDIR=`date +%Y-%m-%d-%a`
+CUR=current
+BAK=&quot;HOME ETC VAR&quot;
+
+for CURVOL in $BAK; do
+rsync -avz --delete --force rsync://$HOST/$CURVOL $BASE/$CUR/$CURVOL
+done
+
+mkdir $BASE/$DATEDIR
+cp -Rl $BASE/$CUR/* $BASE/$DATEDIR/
+&lt;/pre&gt;
+</content>
+  </entry>
   
 </feed>

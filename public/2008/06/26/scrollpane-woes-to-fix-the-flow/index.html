@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Home - JunctionBox.ca</title>
+  <title>Scrollpane Woes to Fix the Flow - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -58,158 +58,111 @@
 </div></nav>
   <div>
     <div>
-      <div id="articles">
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a></h1>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2008/06/26/scrollpane-woes-to-fix-the-flow/">Scrollpane Woes to Fix the Flow</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 28 00:00:00 -0700 2011" pubdate>May 28<span>th</span>, 2011</time>
+      <time datetime="Thu Jun 26 00:00:00 -0700 2008" pubdate>June 26<span>th</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+<div class="entry">Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.
 
-So what exactly does this look like?
+To fully understand the problem you need to go into the interaction between the Flash player, V2 components, and MovieClips. First off you will rarely, if ever, experience this problem in the Flash Developer environment. Why? The problem appears to be timing, and local files generally have no measurable load time relative to their web based counterparts. In your browser once the SWF has been cached the next refresh of the page generally works fine. Wipe your cache and watch the problem return.
 
-Let&#8217;s start with a simple function that outputs your name:
+h3. Where does the MovieClip class fit in?
 
-<pre>
-def name
-	@first_name
-end
-</pre>
+MovieClip objects wipe their event handlers with a loadMovie, except the onClipEvent(), and variations of on(). For dynamically created clips it means you need to monitor the MovieClip outside of the MovieClip’s instance. On moderate to slow connections the ScrollPane seems to report a SWF file being loaded before it is actually complete, most likely because of the way it monitors the loading process.
 
-Now we want to change the function but it&#8217;s going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I&#8217;m not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
+h3. A Solution.
+
+As mentioned previously we’ve tried a couple different methods to resolve this problem. While ours has its limitations it works where we need it to. The initial implementation was as follows:
 
 <pre>
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
-
-def name_flag_name2
-	# TBD
-end
+var check_loaded:Object = { _frequency: 500, 
+  _intervalID: null,
+  callback: null,
+  pane: null,
+// start
+  start: function() {
+    this.stop( );// clear any running instances
+    this._intervalID = setInterval( this, "checkPane", this._frequency );
+    this.pane._visible = false;
+  },  // ::start(...
+// stop
+  stop: function() {
+    if(this._intervalID !== null) {
+      clearInterval(this._intervalID);
+    }  // if(...
+    this._intervalID = null;
+  },  // ::stop(...
+// checkPane
+  checkPane: function() { 
+    var clip:MovieClip = this.pane.content;
+    if( clip !== null ) {
+      var total:Number = clip.getBytesTotal();
+      var current:Number = clip.getBytesLoaded();
+      // 36 is the size of a blank flash file
+      if( current >= total && total >= 36 ) {
+        this.stop( );
+        this.pane.refreshPane( );
+        this.pane._visible = true;
+        if( this.callback !== null ) {
+          this.callback( );
+        }  // if(...
+      }// if(...
+      trace( current + " of " + total );
+    }  // if(...
+  }  // ::checkPane(...
+};
 </pre>
 
-That&#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&#8217;ll need something that handles a little more logic:
+Enough already here’s how you use it with your ScrollPane.
 
 <pre>
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
+theScrollPane.contentPath = "CONTENT.swf";
+check_loaded.pane = theScrollPane;
+check_loaded.start( );
 </pre>
 
-I leave the implementation details for the settings manager up to the user. Here are a few thoughts to consider during it&#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Here&#8217;s the scenario:  You&#8217;re committed to running mainline, you&#8217;re development team is distributed with many components. 
-</div>
-
-
-  </article>
-
-
-
-  <article>
-    <header>
-  <h1><a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a></h1>
-  <p>
-    
-      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
-    
-    
-      <time datetime="Thu Feb 10 00:00:00 -0800 2011" pubdate>February 10<span>th</span>, 2011</time>
-    
-    
-  </p>
-</header>
-
-<div class="entry">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here&#8217;s the general code cobbled together;
+It works, but isn’t a clean OO implementation. A better approach is to reorganize the code into a separate ActionScript class.  See &#8220;F3MaskPane&#8221;:/images/F3MaskPane.as for my implementation. With your new shiny class your code will look like below instead of the two blocks of code above.
 
 <pre>
-Const BINARY = 1
-Const SAVE_CREATE_OVERWRITE = 2
-Const SAVE_CREATE_NOT_EXIST = 1
-Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
-Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject("Scripting.FileSystemObject").GetSpecialFolder(2).Path & "\"
-
-Dim http, WshShell, file_stream
-
-Set WshShell = WScript.CreateObject("WScript.Shell")
-
-
-
-download_file "http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457", "jre.exe"
-WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
-' JRE
-
-
-' Download a file to the temp folder and specified filename.
-'
-'
-Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
-
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
-
-	http.open "GET", src, FALSE
-	http.send
-
-	Set file_stream = CreateObject("Adodb.Stream")
-
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
-
-	Set file_stream = nothing
-	Set http = nothing
-End Function
+import F3MaskPane; 
+var check_loaded:F3MaskPane = new F3MaskPane( theScrollPane ); 
+theScrollPane.contentPath = "CONTENT.swf"; 
+check_loaded.start( );
 </pre>
+
+h3. Notes and limitations on F3MaskPane.
+
+If you depend/expect your border to be visible prior to loading content you’ll need to find another way.
+The visibility of the ScrollPane is turned off to prevent the blink that occurs during the refreshPane call.
+The F3MaskPane must not extend the Object class because of what appears to be a bug with calls to setInterval.
+There is currently no upper limit on the number of iterations that checkPane will be called.
+Audio maybe a problem because of the refreshPane.
+That’s all for now.
 
 </div>
 
 
-  </article>
-
-<p><a href="/archive/?s=frontpage">More Articles</a></p>
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
 </div>
       
         <aside><section>
