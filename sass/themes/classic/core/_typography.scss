@@ -113,7 +113,7 @@ del, s { text-decoration: line-through; }
 
 abbr, acronym { border-bottom: 1px dotted; cursor: help; }
 
-pre, code, tt { @extend .mono-font; }
+pre, code, tt { background:#efefef; padding:2px 5px; margin:1em 0; @extend .mono-font; }
 
 sub, sup { line-height: 0; }
 
