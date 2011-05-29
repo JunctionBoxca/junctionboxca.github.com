@@ -68,7 +68,8 @@ h2, section h1 {
 }
 h3, section h2, section section h1 {
   font-size: 1.6em;
-  margin-bottom: 0.875em;
+  margin-bottom: 0.33em;
+	margin-top:0.99em
 }
 h4, section h3, section section h2, section section section h1 {
   font-size: 1.3em;
@@ -84,12 +85,12 @@ h6, section h5, section section h4, section section section h3 {
 }
 p, blockquote, ul, ol { margin-bottom: 1.5em; }
 
-ul{ list-style-type: disc; }
+ul{ list-style-type: disc; margin-left:1.33em; }
 
-ol{ list-style-type: decimal; ol { list-style-type: lower-alpha; } }
+ol{ list-style-type: decimal; margin-left:1.33em; ol { list-style-type: lower-alpha; } }
 ul ul, ol ol { margin-left: 1.75em; }
 
-li { margin-bottom: .5em; }
+li { margin-bottom: .25em; }
 
 strong { font-weight: bold; }
 
