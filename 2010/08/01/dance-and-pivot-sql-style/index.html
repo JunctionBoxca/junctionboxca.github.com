@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Nathan Fisher - JunctionBox.ca</title>
+  <title>Dance and Pivot SQL Style - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -60,29 +60,89 @@
     <div>
       <div id="articles"><article>
   <header>
-  <h1><a href="/about/">Nathan Fisher</a></h1>
+  <h1><a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 14 00:00:00 -0700 2011" pubdate>May 14<span>th</span>, 2011</time>
+      <time datetime="Sun Aug 01 00:00:00 -0700 2010" pubdate>August 1<span>st</span>, 2010</time>
     
     
   </p>
 </header>
 
-<div class="entry"><!-- use the :mardown filter if you want to write pages with Markdown -->
-<h3>Hours of Availability</h3>
-<p>Currently unavailable for contract or consulting, except via my employer <a href="http://www.thoughtworks.com/">ThoughtWorks</a>. <br />
-<script type="text/javascript" src="http://www.linkedin.com/js/public-profile/widget-os.js"></script><br />
-<a class="linkedin-profileinsider-inline" href="http://uk.linkedin.com/in/nrfisher">Nathan Fisher</a></p>
-</div>
+<div class="entry"><p>Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:</p>
+<table>
+	<tr>
+		<td> id </td>
+		<td> created_at </td>
+		<td> page </td>
+	</tr>
+	<tr>
+		<td> Integer </td>
+		<td> DateTime </td>
+		<td> Varchar(255) </td>
+	</tr>
+</table>
+<p>I wanted to create a table like the following:</p>
+<table>
+	<tr>
+		<td> page </td>
+		<td> monday </td>
+		<td> tuesday </td>
+		<td> wednesday </td>
+		<td> thursday </td>
+		<td> friday </td>
+		<td> saturday </td>
+		<td> sunday </td>
+	</tr>
+	<tr>
+		<td> index </td>
+		<td> 3 </td>
+		<td> 5 </td>
+		<td> 2 </td>
+		<td> 8 </td>
+		<td> 9 </td>
+		<td> 30 </td>
+		<td> 32 </td>
+	</tr>
+	<tr>
+		<td> contact </td>
+		<td> 2 </td>
+		<td> 1 </td>
+		<td> 4 </td>
+		<td> 3 </td>
+		<td> 7 </td>
+		<td> 12 </td>
+		<td> 16 </td>
+</table>
+\nMy first though was just do a simple GROUP BY and pivot the table through code.<pre>
+SELECT page, DATE(created_at), COUNT(*) AS hits 
+FROM page_views
+GROUP BY DATE(created_at), page ORDER BY page;
+</pre>
+<p>I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure <span class="caps">SQL</span> and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on <a href="http://dev.mysql.com/doc/refman/5.1/en/functions.html">functions and operators</a>.  After a small meal and some strange query results I ran into a presentation created by <a href="http://datacharmer.org/">Giuseppe Maxia</a> aka the &#8220;Data Charmer&#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:</p>
+<pre>
+SELECT page_name AS name,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS tues,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS wed,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS thurs,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS fri,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sat,
+COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sun,
+COUNT(CASE WHEN DATE(created_at) 
+  IN ('?','?','?','?','?','?','?')
+  THEN id ELSE null END) AS total
+FROM page_views GROUP BY name
+</pre>
+<p>What are your thoughts? Any similar implementations how did you handle it?</p></div>
 
 
   
     <div id="disqus_thread"><script type="text/javascript">
-  var disqus_url = "http://junctionbox.ca/about/";
+  var disqus_url = "http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style/";
 </script>
 <noscript>
   <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
@@ -104,6 +164,56 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>

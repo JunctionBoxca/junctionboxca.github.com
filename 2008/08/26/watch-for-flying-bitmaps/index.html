@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7" manifest="default.appcache?v=1"><![endif]-->
+<!--[if lt IE 7 ]><html class="no-js ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" manifest="default.appcache?v=1" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <title>Watch for Flying Bitmaps - JunctionBox.ca</title>
+  <meta name="author" content="Nathan Fisher">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1">
+
+  
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <!--<script src="/javascripts/octopress.js" type="text/javascript"></script>-->
+  <script src="javascripts/libs/modernizr-1.7.min.js"></script>
+  <script src="javascripts/libs/ios-viewport-scaling-bug-fix.js"></script>
+  
+    <script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '#{page.google_analytics_tracking_id}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+</script>
+
+  
+  <link href="/atom.xml" rel="alternate" title="JunctionBox.ca" type="application/atom+xml"/>
+</head>
+
+<body  >
+  <header><div><h1><a href="/">JunctionBox.ca</a></h1>
+</div></header>
+  <nav><div><div>
+  <a href="/atom.xml">Subscribe</a>
+  <form action="http://google.com/search" method="get">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="q" value="site:junctionbox.ca" />
+  </form>
+</div>
+<ul>
+  <li><a href="/?s=nav">Home</a></li>
+  <li><a href="/about/?s=nav">About</a></li>
+  <li><a href="/archive/?s=nav">Archive</a></li>
+</ul>
+</div></nav>
+  <div>
+    <div>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2008/08/26/watch-for-flying-bitmaps/">Watch for Flying Bitmaps</a></h1>
+  <p>
+    
+      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
+    
+    
+      <time datetime="Tue Aug 26 00:00:00 -0700 2008" pubdate>August 26<span>th</span>, 2008</time>
+    
+    
+  </p>
+</header>
+
+<div class="entry"><p>Zee goal for today is to use ActionScript 3&#8217;s BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;</p>
+<ul>
+	<li>client-side image croppers.</li>
+	<li>runtime cropping of linked and external photos for panel backgrounds.</li>
+</ul>
+<p>What I will illustrate here is just a simple sliding door effect.  As seen in the <span class="caps">SWF</span> below. The items of greatest interest today include;</p>
+<ul>
+	<li>flash.display.Bitmap</li>
+	<li>flash.display.BitmapData</li>
+	<li>flash.geom.Point</li>
+	<li>flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.</li>
+</ul>
+<h3>Halves Too #Include</h3>
+<ul>
+	<li><span class="caps">JPG</span> or <span class="caps">PNG</span> that we want to slice up.</li>
+	<li>Flash compiler (Flex <span class="caps">SDK</span>/Flash 9/etc).</li>
+</ul>
+<h3>Blueprints, get your blueprints here!!</h3>
+<p>We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of <strong>TestPhoto</strong>. Done? Good now that we&#8217;ve made some room and set the table lets eat!</p>
+<h3>What size slice of pizza would you like with your BitmapData?</h3>
+<p>For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.</p>
+<p><code>var percentage:int = currentFrame / totalFrames;</code></p>
+<h3>I&#8217;m full what next?</h3>
+<p>Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.</p>
+<pre>
+var slice_width:int = percentage * bitmap_width; 
+var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
+
+// left edge is stationary
+var crop_region:Rectangle = new Rectangle( 0, 0, slide_width, source_bitmap.height );
+var destination_point:Point = new Point( 0, 0 );
+
+// here's where the magic happens
+slice_data.copyPixels( source_bitmap, crop_region, destination_point );
+var slice_bitmap:Bitmap = new Bitmap( slice_data );
+
+addChild( slice_bitmap );
+</pre>
+<h3>Would you like a mint sir?</h3>
+<p>Okay at some point you&#8217;re going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As <a href="http://www.johnralstonsaul.com/SUM_Unconscious.html">Mr. Saul</a> might argue, downsizing often has a detrimental effect. While I agree, I&#8217;m not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.</p>
+<p><code>if( numChildren &gt; 1 ) removeChildAt( 0 );</code></p>
+<h3>Cheque please!</h3>
+<p>Lets wrap this all up in a class for take-out.</p>
+<pre>
+/**
+ * Written by: Nathan Fisher
+ * License: Do with this what you want just don't blame me if it blows up. 
+ * 
+ * For the simple test use this as your root document class.
+ */
+package {
+ // photo linkage class name
+ import SourceBitmap;
+
+ import flash.display.Bitmap;
+ import flash.display.BitmapData;
+ import flash.display.MovieClip;
+ import flash.display.Sprite;
+
+ import flash.events.Event;
+
+ import flash.geom.Point;
+ import flash.geom.Rectangle;
+
+ public class SlidingDoor extends MovieClip {
+  public static const PHOTO_WIDTH:int = 720;
+  public static const PHOTO_HEIGHT:int = 478;
+  public static const DESTINATION_POINT:Point = new Point( 0, 0 );
+
+  private var source_data:BitmapData;
+  private var slice_container:Sprite;
+  private var bitmap_width:int;
+
+
+  /** SlidingDoor: Constructs a sliding door effect using the specified BitmapData.
+   *
+   */
+  public function SlidingDoor( theSourceData:BitmapData = null )
+  {
+   if( theSourceData == null ) theSourceData = new TestPhoto( PHOTO_WIDTH, PHOTO_HEIGHT );
+   source_data = theSourceData;
+   bitmap_width = theSourceData.width;
+
+   slice_container = new Sprite( );
+   addChild( slice_container );
+   addEventListener( Event.ENTER_FRAME, frameListener );
+  }
+
+
+  /** frameListener: Each passing frame represents a percentage of the photo to reveal.
+   *
+   */
+  public function frameListener( e:Event ):void
+  {
+   var slice_width:int = percentage * bitmap_width; 
+   var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
+
+   // left edge is stationary
+   var crop_region:Rectangle = new Rectangle( 0, 0, slide_width, source_bitmap.height );
+   var destination_point:Point = new Point( 0, 0 );
+
+   // here's where the magic happens
+   slice_data.copyPixels( source_bitmap, crop_region, destination_point );
+   var slice_bitmap:Bitmap = new Bitmap( slice_data );
+
+   // what good is art if no one see's it? Add to the slice_container so it is visible.
+   slice_container.addChild( slice_bitmap );
+   // remove previous slices if applicable.
+   if( slice_container.numChildren &gt; 1 ) slice_container.removeChildAt( 0 );
+  }
+ }
+}
+</pre>
+<p>In the example above I assumed the bitmap slice is the only element in it&#8217;s parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.</p>
+<h3>Flash to 2 minutes later in the lavatory&#8230; <span class="caps">OUTPUT</span>!</h3>
+<p><object type="application/x-shockwave-flash" data="/images/phototest.swf" width="550" height="400"><br />
+<param name="movie" value="/images/phototest.swf" /><br />
+</object></p>
+<h3>Notes &amp; Other Weirdness</h3>
+<p>The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.</p>
+<p>The included photo was provided by <a href="http://www.tessierpools.com/">Tessier Pools</a> and is a <a href="http://www.questarpools.com/">Skip Phillips</a> design.</p></div>
+
+
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
+</div>
+      
+        <aside><section>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<h2>JunctionBox.ca</h2> 
+<h3>Nathan Fisher - DevOp</h3>
+ 
+<p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
+    
+  </ul>
+	<p><a href="/archive/?s=sidebar">More Articles</a></p>
+  </section>
+
+
+  <section><h1>Latest Tweets</h1>
+<ul id="tweets">
+  Status updating...
+</ul>
+<p>Follow <a href="http://twitter.com/junctionboxca">@junctionboxca</a></p>
+
+  <script>
+    var twitter_user = "junctionboxca";
+    var show_replies = false;
+    var tweet_count = 3;
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"></script>
+
+</section>
+
+
+
+</aside>
+      
+    </div>
+  </div>
+  <footer><div><p>
+	<a href="/?s=footer">Home</a> |
+	<a href="/about/?s=footer">About</a> |
+	<a href="/archive/?s=footer">Archive</a> |
+  Copyright &copy; 2011 - Nathan Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</div></footer>
+  <!--[if (lt IE 9) & (!IEMobile)]>
+  <script src="javascripts/libs/DOMAssistantCompressed-2.8.js"></script>
+  <script src="javascripts/libs/selectivizr-1.0.1.js"></script>
+  <script src="javascripts/libs/respond.min.js"></script>
+  <![endif]-->
+</body>
+</html>

@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Nathan Fisher - JunctionBox.ca</title>
+  <title>Beware the Garbage Man's Scope - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -60,29 +60,36 @@
     <div>
       <div id="articles"><article>
   <header>
-  <h1><a href="/about/">Nathan Fisher</a></h1>
+  <h1><a href="/2008/07/25/beware-the-garbage-man-s-scope/">Beware the Garbage Man's Scope</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 14 00:00:00 -0700 2011" pubdate>May 14<span>th</span>, 2011</time>
+      <time datetime="Fri Jul 25 00:00:00 -0700 2008" pubdate>July 25<span>th</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry"><!-- use the :mardown filter if you want to write pages with Markdown -->
-<h3>Hours of Availability</h3>
-<p>Currently unavailable for contract or consulting, except via my employer <a href="http://www.thoughtworks.com/">ThoughtWorks</a>. <br />
-<script type="text/javascript" src="http://www.linkedin.com/js/public-profile/widget-os.js"></script><br />
-<a class="linkedin-profileinsider-inline" href="http://uk.linkedin.com/in/nrfisher">Nathan Fisher</a></p>
-</div>
+<div class="entry"><p>Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I&#8217;ll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don&#8217;t assume anything and clean up after yourself. Unless you&#8217;re trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;<br />
+\n@new Tween( pages, &#8220;rotation&#8221;, Elastic.easeOut, src, dest, duration, true );@</p>
+<p>You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &#8220;Why create a member variable? I don&#8217;t care what happens to it after its done its deed.&#8221;</p>
+<p>Unfortunately I didn&#8217;t realize how wrong it was until seemingly at random its expected effect would get tossed like <a href="http://www.foxmovies.com/fightclub/">Marla&#8217;s bridesmaid dress</a>.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of <em>unnecessary</em> dancing around to debug why something so foolish wasn&#8217;t working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &#8220;watchdog&#8221; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.</p>
+<p>I published the site only to shortly after find my salvation in the comments on Adobe&#8217;s Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn&#8217;t take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.</p>
+<h3>Conclusion</h3>
+<p>In the future kids don&#8217;t play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.</p>
+<pre>
+private var _rotation_tween:Tween;
+public function rotatePage( dest ):void {
+ _rotation_tween = new Tween( pages, "rotation", Elastic.easeOut, src, dest, duration, true );
+}
+</pre></div>
 
 
   
     <div id="disqus_thread"><script type="text/javascript">
-  var disqus_url = "http://junctionbox.ca/about/";
+  var disqus_url = "http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope/";
 </script>
 <noscript>
   <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
@@ -104,6 +111,56 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>

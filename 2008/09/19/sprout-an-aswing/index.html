@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Nathan Fisher - JunctionBox.ca</title>
+  <title>Sprout an AsWing - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -60,29 +60,39 @@
     <div>
       <div id="articles"><article>
   <header>
-  <h1><a href="/about/">Nathan Fisher</a></h1>
+  <h1><a href="/2008/09/19/sprout-an-aswing/">Sprout an AsWing</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 14 00:00:00 -0700 2011" pubdate>May 14<span>th</span>, 2011</time>
+      <time datetime="Fri Sep 19 00:00:00 -0700 2008" pubdate>September 19<span>th</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry"><!-- use the :mardown filter if you want to write pages with Markdown -->
-<h3>Hours of Availability</h3>
-<p>Currently unavailable for contract or consulting, except via my employer <a href="http://www.thoughtworks.com/">ThoughtWorks</a>. <br />
-<script type="text/javascript" src="http://www.linkedin.com/js/public-profile/widget-os.js"></script><br />
-<a class="linkedin-profileinsider-inline" href="http://uk.linkedin.com/in/nrfisher">Nathan Fisher</a></p>
-</div>
+<div class="entry"><p>Looking to throw together a quick app in Flash to test Sprouts I decided on working with AsWing.  Here&#8217;s some of the process I followed to get the environment up and going.</p>
+<p>Install the sprouts gem;</p>
+<p><code># sudo gem install sprouts</code></p>
+<p>Download the latest aswing package;</p>
+<p><a href="http://code.google.com/p/aswing/downloads/list">AsWing on Google Code</a></p>
+<p>Create a new project;</p>
+<p><code># sprout -n as3 TickTock</code></p>
+<p>Copy AsWing.swc into TickTock/lib.</p>
+<p>Modify the debug task in TickTock/rakefile.rb as illustrated:</p>
+<pre>
+desc 'Compile and debug the application'
+debug :debug do |t|
+	t.input = 'src/TickTock.as'
+	t.library_path &lt;&lt; "lib/AsWing.swc"
+end
+</pre></div>
 
 
   
     <div id="disqus_thread"><script type="text/javascript">
-  var disqus_url = "http://junctionbox.ca/about/";
+  var disqus_url = "http://junctionbox.ca/2008/09/19/sprout-an-aswing/";
 </script>
 <noscript>
   <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
@@ -104,6 +114,56 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>

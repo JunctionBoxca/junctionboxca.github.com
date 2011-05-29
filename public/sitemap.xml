@@ -5,10 +5,6 @@
       <lastmod>2011-05-29</lastmod>
   </url>
   <url>
-      <loc>http://junctionbox.ca/archive.haml</loc>
-      <lastmod>2011-05-29</lastmod>
-  </url>
-  <url>
       <loc>http://junctionbox.ca/atom.xml</loc>
       <lastmod>2011-05-29</lastmod>
   </url>
@@ -23,85 +19,5 @@
   <url>
       <loc>http://junctionbox.ca/test/typography.haml</loc>
       <lastmod>2011-05-29</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2011/05/28/branching-by-abstraction-101</loc>
-      <lastmod>2011-05-28</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2011/02/10/gated-checkins</loc>
-      <lastmod>2011-02-10</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2011/02/10/bootstrapping-windows</loc>
-      <lastmod>2011-02-10</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x</loc>
-      <lastmod>2010-10-05</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style</loc>
-      <lastmod>2010-08-01</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest</loc>
-      <lastmod>2010-04-17</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto</loc>
-      <lastmod>2010-03-24</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2010/02/23/fresh-book-it</loc>
-      <lastmod>2010-02-23</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2009/12/12/approaching-bliss--tdd+php+mvc</loc>
-      <lastmod>2009-12-12</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection</loc>
-      <lastmod>2009-11-03</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping</loc>
-      <lastmod>2009-06-17</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/09/23/rest-+-less-weekend-while-camping</loc>
-      <lastmod>2008-09-23</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/09/19/sprout-an-aswing</loc>
-      <lastmod>2008-09-19</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---</loc>
-      <lastmod>2008-09-04</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps</loc>
-      <lastmod>2008-08-26</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope</loc>
-      <lastmod>2008-07-25</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation</loc>
-      <lastmod>2008-07-04</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion</loc>
-      <lastmod>2008-06-26</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow</loc>
-      <lastmod>2008-06-26</lastmod>
-  </url>
-  <url>
-      <loc>http://junctionbox.ca/2006/04/17/rsync-daily-snapshots</loc>
-      <lastmod>2006-04-17</lastmod>
   </url>
 </urlset>

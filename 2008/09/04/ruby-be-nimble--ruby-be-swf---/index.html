@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Nathan Fisher - JunctionBox.ca</title>
+  <title>Ruby be nimble, Ruby be SWF... - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -60,29 +60,57 @@
     <div>
       <div id="articles"><article>
   <header>
-  <h1><a href="/about/">Nathan Fisher</a></h1>
+  <h1><a href="/2008/09/04/ruby-be-nimble--ruby-be-swf---/">Ruby be nimble, Ruby be SWF...</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 14 00:00:00 -0700 2011" pubdate>May 14<span>th</span>, 2011</time>
+      <time datetime="Thu Sep 04 00:00:00 -0700 2008" pubdate>September 4<span>th</span>, 2008</time>
     
     
   </p>
 </header>
 
-<div class="entry"><!-- use the :mardown filter if you want to write pages with Markdown -->
-<h3>Hours of Availability</h3>
-<p>Currently unavailable for contract or consulting, except via my employer <a href="http://www.thoughtworks.com/">ThoughtWorks</a>. <br />
-<script type="text/javascript" src="http://www.linkedin.com/js/public-profile/widget-os.js"></script><br />
-<a class="linkedin-profileinsider-inline" href="http://uk.linkedin.com/in/nrfisher">Nathan Fisher</a></p>
-</div>
+<div class="entry"><p>This is a quick post with notes on the <a href="http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf"><span class="caps">SWF</span> format</a>.  Well so far it&#8217;s only one really, and it is in reference to compression.</p>
+<p>From page 13, 3rd paragraph in the documentation;</p>
+<p class="quote">&#8220;The FileLength field is the total length of the <span class="caps">SWF</span> file, including the header. If this is an<br />
+uncompressed <span class="caps">SWF</span> file (<span class="caps">FWS</span> signature), the FileLength field should exactly match the file<br />
+size. If this is a compressed <span class="caps">SWF</span> file (<span class="caps">CWS</span> signature), the FileLength field indicates the total<br />
+length of the file after decompression, and thus generally does not match the file size. Having<br />
+the uncompressed size available can make the decompression process more efficient.&#8221;<br />
+\nSeems pretty clear and straight forward, but it doesn&#8217;t really reference where the compression starts.  I initially assumed, that it starts at the end of the <span class="caps">SWF</span> header.  The end of the header seemed like a logical boundary to me. What I quickly found with <a href="http://www.suavetech.com/0xed/0xed.html">0xED</a> is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?</p>
+<h3>Toes to the edge, and wait for the gun.</h3>
+<p>Okay so we know that the compression starts <strong>after</strong> the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;</p>
+<p><code>require 'zlib'</code></p>
+<p>And requires the compressed contents in a string buffer like so;</p>
+<pre>
+def read_remaining_bytes
+	pos = @file.tell
+	@file.seek( 0, IO::SEEK_END )
+	end_pos = @file.tell
+	@file.pos = pos
+	@file.read( end_pos - pos )
+end
+</pre>
+<p>Note: @file is a file handle using File.new( filename, &#8216;r&#8217; ), it is assumed the position in the file is the first byte immediately after the <span class="caps">SWF</span> length attribute.  See SwfReader in <a href="http://junctionbox.ca/projects/ruby-swfer/">Ruby-Swfer</a> for further details.</p>
+<h3>Inflate those water wings and kick!</h3>
+<p>Okay we have our compressed content now lets inflate it!</p>
+<pre>
+def decompress( compressed_contents )
+	zstream = Zlib::Inflate.new
+	decompressed_contents = zstream.inflate( compressed_contents )
+	zstream.finish
+	zstream.close
+	decompressed_contents
+end
+</pre>
+<p>And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.</p></div>
 
 
   
     <div id="disqus_thread"><script type="text/javascript">
-  var disqus_url = "http://junctionbox.ca/about/";
+  var disqus_url = "http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---/";
 </script>
 <noscript>
   <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
@@ -104,6 +132,56 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>

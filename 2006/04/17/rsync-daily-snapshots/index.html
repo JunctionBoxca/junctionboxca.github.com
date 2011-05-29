@@ -7,7 +7,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Nathan Fisher - JunctionBox.ca</title>
+  <title>Rsync Daily Snapshots - JunctionBox.ca</title>
   <meta name="author" content="Nathan Fisher">
   
 
@@ -60,29 +60,40 @@
     <div>
       <div id="articles"><article>
   <header>
-  <h1><a href="/about/">Nathan Fisher</a></h1>
+  <h1><a href="/2006/04/17/rsync-daily-snapshots/">Rsync Daily Snapshots</a></h1>
   <p>
     
       <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
     
     
-      <time datetime="Sat May 14 00:00:00 -0700 2011" pubdate>May 14<span>th</span>, 2011</time>
+      <time datetime="Mon Apr 17 00:00:00 -0700 2006" pubdate>April 17<span>th</span>, 2006</time>
     
     
   </p>
 </header>
 
-<div class="entry"><!-- use the :mardown filter if you want to write pages with Markdown -->
-<h3>Hours of Availability</h3>
-<p>Currently unavailable for contract or consulting, except via my employer <a href="http://www.thoughtworks.com/">ThoughtWorks</a>. <br />
-<script type="text/javascript" src="http://www.linkedin.com/js/public-profile/widget-os.js"></script><br />
-<a class="linkedin-profileinsider-inline" href="http://uk.linkedin.com/in/nrfisher">Nathan Fisher</a></p>
-</div>
+<div class="entry"><p>Need to backup in a hurry? Want to create daily snapshots that don&#8217;t take more drive platters than Google? Here&#8217;s a quick and efficient way to back-up data from your <span class="caps">RSYNC</span> server. <strong>Warning</strong> do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).</p>
+<div class="highlight"><pre><code class="bash"><span class="c">#!/bin/sh</span>
+
+<span class="nv">HOST</span><span class="o">=</span>localhost.localdomain
+<span class="nv">BASE</span><span class="o">=</span>/home/samba/rsync
+<span class="nv">DATEDIR</span><span class="o">=</span><span class="sb">`</span>date +%Y-%m-%d-%a<span class="sb">`</span>
+<span class="nv">CUR</span><span class="o">=</span>current
+<span class="nv">BAK</span><span class="o">=</span><span class="s2">&quot;HOME ETC VAR&quot;</span>
+
+<span class="k">for </span>CURVOL in <span class="nv">$BAK</span>; <span class="k">do</span>
+rsync -avz --delete --force rsync://<span class="nv">$HOST</span>/<span class="nv">$CURVOL</span> <span class="nv">$BASE</span>/<span class="nv">$CUR</span>/<span class="nv">$CURVOL</span>
+<span class="k">done</span>
+
+mkdir <span class="nv">$BASE</span>/<span class="nv">$DATEDIR</span>
+cp -Rl <span class="nv">$BASE</span>/<span class="nv">$CUR</span>/* <span class="nv">$BASE</span>/<span class="nv">$DATEDIR</span>/
+</code></pre>
+</div></div>
 
 
   
     <div id="disqus_thread"><script type="text/javascript">
-  var disqus_url = "http://junctionbox.ca/about/";
+  var disqus_url = "http://junctionbox.ca/2006/04/17/rsync-daily-snapshots/";
 </script>
 <noscript>
   <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
@@ -104,6 +115,56 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>

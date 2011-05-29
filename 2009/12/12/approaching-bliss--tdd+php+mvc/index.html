@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7" manifest="default.appcache?v=1"><![endif]-->
+<!--[if lt IE 7 ]><html class="no-js ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" manifest="default.appcache?v=1" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <title>Approaching bliss; TDD+PHP+MVC - JunctionBox.ca</title>
+  <meta name="author" content="Nathan Fisher">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1">
+
+  
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <!--<script src="/javascripts/octopress.js" type="text/javascript"></script>-->
+  <script src="javascripts/libs/modernizr-1.7.min.js"></script>
+  <script src="javascripts/libs/ios-viewport-scaling-bug-fix.js"></script>
+  
+    <script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '#{page.google_analytics_tracking_id}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+</script>
+
+  
+  <link href="/atom.xml" rel="alternate" title="JunctionBox.ca" type="application/atom+xml"/>
+</head>
+
+<body  >
+  <header><div><h1><a href="/">JunctionBox.ca</a></h1>
+</div></header>
+  <nav><div><div>
+  <a href="/atom.xml">Subscribe</a>
+  <form action="http://google.com/search" method="get">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="q" value="site:junctionbox.ca" />
+  </form>
+</div>
+<ul>
+  <li><a href="/?s=nav">Home</a></li>
+  <li><a href="/about/?s=nav">About</a></li>
+  <li><a href="/archive/?s=nav">Archive</a></li>
+</ul>
+</div></nav>
+  <div>
+    <div>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a></h1>
+  <p>
+    
+      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
+    
+    
+      <time datetime="Sat Dec 12 00:00:00 -0800 2009" pubdate>December 12<span>th</span>, 2009</time>
+    
+    
+  </p>
+</header>
+
+<div class="entry"><p>Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn&#8217;t seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding <span class="caps">TDD</span> and CodeIgnitor on the interweb. In my search I ran across the article <a href="http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/">Setting up the perfect CodeIgniter &amp; <span class="caps">TDD</span> Environment</a>.  I downloaded the code and massaged it a little to suit my needs.  I&#8217;m not fully content with the implementation of BaseTestPath, but I&#8217;m sure a round of <span class="caps">TDD</span> (which I should&#8217;ve started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn&#8217;t been thoroughly tested, so use at your own peril. Specifically I haven&#8217;t verified the views section, but upon initial inspection unit tests work.  I&#8217;m thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.</p>
+<pre>
+&lt;?php
+/*
+SimpleTest + CodeIgniter
+
+test.php
+
+the test runner - loads all needed files, integrates with CodeIgniter and runs the tests 
+
+Written by Jamie Rumbelow
+http://jamierumbelow.net/
+
+Modifications by Nathan Fisher
+http://junctionbox.ca/
+
+Notes on Directory structure; where ./ is the root of a fresh CI project.
+
+./test.php
+./system/test # symlink or similar to root of SimpleTest folder
+./system/application/tests
+./system/application/tests/models
+./system/application/tests/views
+./system/application/tests/controllers
+
+Changes:
+
+	* Added console writer for test suite.
+	* Moved all of the file scanning into classes.
+	* Fixed a bug where vim swp files are treated as test classes.
+	* Fixed a bug where view files can never exclusively be processed.
+
+Todo:
+
+	* Unit Tests - how ironic :(
+	* Fix potential problem if test folders do not exist.
+
+License:
+
+Free to use however you please... if it causes harm in anyway the authors are not liable.
+
+
+*/
+ 
+//Configure and load files
+define('ROOT', dirname(__FILE__) . '/');
+define('APP_ROOT', ROOT . 'system/application/');
+ 
+require_once ROOT . 'system/test/unit_tester.php';
+require_once ROOT . 'system/test/web_tester.php';
+require_once ROOT . 'system/test/reporter.php';
+
+class CodeIgniterUnitTestCase extends UnitTestCase {
+	protected $ci;
+	 
+	public function __construct() {
+		parent::UnitTestCase();
+		$this-&gt;ci =&amp; get_instance();
+	}
+}
+ 
+class CodeIgniterWebTestCase extends WebTestCase {
+	protected $ci;
+ 
+	public function __construct() {
+		parent::WebTestCase();
+		$this-&gt;ci =&amp; get_instance();
+	}
+}
+
+function add_full_path( &amp;$v, $k, $o ) {
+	$o-&gt;addImplementationPath($o-&gt;getImplementationPath($v));
+	$v = $o-&gt;getTestPath() . '/' . $v;
+}
+
+function filter_hidden( $v ) {
+	if( preg_match('/^\./', $v) ) {
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+/**
+ * BaseTestPath:
+ *
+ */
+abstract class BaseTestPath {
+	abstract function getTestPath();
+	abstract function getImplementationPath($test);
+
+	var $is_fullpath = FALSE;
+	var $filenames = null;
+	var $impl_filenames = array();
+
+	function getFilenames() {
+		if( $this-&gt;filenames === null ) {
+			$this-&gt;filenames = @scandir($this-&gt;getTestPath());
+			$this-&gt;filenames = array_filter( $this-&gt;filenames, 'filter_hidden' );
+		}
+		return $this-&gt;filenames;
+	}
+
+	function addToTestSuite( &amp;$test ) {
+		$this-&gt;loadImplementations();
+		foreach( $this-&gt;getFilenamesWithFullPath() as $test_file ) {
+			$test-&gt;addFile( $test_file );
+		}
+	}
+
+	function loadImplementations() {
+		$this-&gt;getFilenamesWithFullPath();
+		foreach( $this-&gt;impl_filenames as $impl ) {
+			if( file_exists($impl) ) {
+				require_once($impl);
+			}
+		}
+	}
+
+	function getFilenamesWithFullPath() {
+		if( $this-&gt;is_fullpath == FALSE ) {
+			$this-&gt;getFilenames();
+			array_walk( $this-&gt;filenames, 'add_full_path', $this );
+			$this-&gt;is_fullpath = TRUE;
+		}
+
+		return $this-&gt;filenames;
+	}
+
+	function addImplementationPath( $impl_path ) {
+		array_push($this-&gt;impl_filenames, $impl_path);
+	}
+}
+
+
+/**
+ * ControllerTestPath:
+ *
+ */
+class ControllerTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/controllers';
+	}
+
+	function getImplementationPath( $test_filename ) {
+		$controller = preg_replace( '#.*?([a-zA-Z0-9_\-]+)_controller_test.php$#', '$1.php', $test_filename );
+		return APP_ROOT . 'controller/' . $controller;
+	}
+}
+
+
+/**
+ * ModelTestPath:
+ *
+ */
+class ModelTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/models';
+	}
+
+	function getImplementationPath($test_filename) {
+		$model = preg_replace('#.*?([a-zA-Z0-9_\-]+_model)_test.php$#', '$1.php', $test_filename);
+		return APP_ROOT . 'models/' . $model;
+	}
+}
+
+
+/**
+ * ViewTestPath:
+ *
+ */
+class ViewTestPath extends BaseTestPath {
+	function getTestPath() {
+		return APP_ROOT . 'tests/views';
+	}
+
+	function getImplementationPath( $test_filename ) {
+		$view = preg_replace('#.*?([a-zA-Z0-9_\-]+)_view_test.php$#', '$1.php', $test_filename);
+		$view = implode( '/', explode('_',$view) );
+		return APP_ROOT . 'views/' . $view;
+	}
+}
+
+
+//Capture CodeIgniter output, discard and load system into $CI variable
+ob_start();
+include(ROOT . 'index.php');
+$CI =&amp; get_instance();
+ob_end_clean();
+ 
+//Setup the test suite
+$test_suite =&amp; new TestSuite();
+$test_suite-&gt;_label = 'CodeIgniter Application Test Suite';
+
+$controller_tests = new ControllerTestPath();
+$model_tests = new ModelTestPath();
+$view_tests = new ViewTestPath();
+$tests = array();
+
+if( isset($_GET['controllers']) ) {
+	array_push( $tests, $controller_tests );
+}
+
+if( isset($_GET['models']) ) {
+	array_push( $tests, $model_tests );
+}
+
+if( isset($_GET['views']) ) {
+	array_push( $tests, $view_tests );
+}
+
+if( sizeof($tests) == 0 ) {
+	$tests = array( $model_tests, $view_tests, $controller_tests );
+}
+
+foreach( $tests as $test ) {
+	$test-&gt;addToTestSuite( &amp;$test_suite );
+}
+
+//Run tests!
+if (TextReporter::inCli()) {
+	exit ($test_suite-&gt;run(new TextReporter()) ? 0 : 1);
+}
+$test_suite-&gt;run(new HtmlReporter());
+
+/* End of file test.php */
+/* Location: ./test.php */
+</pre></div>
+
+
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
+</div>
+      
+        <aside><section>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<h2>JunctionBox.ca</h2> 
+<h3>Nathan Fisher - DevOp</h3>
+ 
+<p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
+    
+  </ul>
+	<p><a href="/archive/?s=sidebar">More Articles</a></p>
+  </section>
+
+
+  <section><h1>Latest Tweets</h1>
+<ul id="tweets">
+  Status updating...
+</ul>
+<p>Follow <a href="http://twitter.com/junctionboxca">@junctionboxca</a></p>
+
+  <script>
+    var twitter_user = "junctionboxca";
+    var show_replies = false;
+    var tweet_count = 3;
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"></script>
+
+</section>
+
+
+
+</aside>
+      
+    </div>
+  </div>
+  <footer><div><p>
+	<a href="/?s=footer">Home</a> |
+	<a href="/about/?s=footer">About</a> |
+	<a href="/archive/?s=footer">Archive</a> |
+  Copyright &copy; 2011 - Nathan Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</div></footer>
+  <!--[if (lt IE 9) & (!IEMobile)]>
+  <script src="javascripts/libs/DOMAssistantCompressed-2.8.js"></script>
+  <script src="javascripts/libs/selectivizr-1.0.1.js"></script>
+  <script src="javascripts/libs/respond.min.js"></script>
+  <![endif]-->
+</body>
+</html>

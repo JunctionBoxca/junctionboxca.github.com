@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7" manifest="default.appcache?v=1"><![endif]-->
+<!--[if lt IE 7 ]><html class="no-js ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" manifest="default.appcache?v=1" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <title>Tripping over Rubies while Camping - JunctionBox.ca</title>
+  <meta name="author" content="Nathan Fisher">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1">
+
+  
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <!--<script src="/javascripts/octopress.js" type="text/javascript"></script>-->
+  <script src="javascripts/libs/modernizr-1.7.min.js"></script>
+  <script src="javascripts/libs/ios-viewport-scaling-bug-fix.js"></script>
+  
+    <script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '#{page.google_analytics_tracking_id}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+</script>
+
+  
+  <link href="/atom.xml" rel="alternate" title="JunctionBox.ca" type="application/atom+xml"/>
+</head>
+
+<body  >
+  <header><div><h1><a href="/">JunctionBox.ca</a></h1>
+</div></header>
+  <nav><div><div>
+  <a href="/atom.xml">Subscribe</a>
+  <form action="http://google.com/search" method="get">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="q" value="site:junctionbox.ca" />
+  </form>
+</div>
+<ul>
+  <li><a href="/?s=nav">Home</a></li>
+  <li><a href="/about/?s=nav">About</a></li>
+  <li><a href="/archive/?s=nav">Archive</a></li>
+</ul>
+</div></nav>
+  <div>
+    <div>
+      <div id="articles"><article>
+  <header>
+  <h1><a href="/2009/06/17/tripping-over-rubies-while-camping/">Tripping over Rubies while Camping</a></h1>
+  <p>
+    
+      <span class="byline author vcard">By <span class="fn">Nathan Fisher</span></span>
+    
+    
+      <time datetime="Wed Jun 17 00:00:00 -0700 2009" pubdate>June 17<span>th</span>, 2009</time>
+    
+    
+  </p>
+</header>
+
+<div class="entry"><p>Today was another day like any other, but then I stopped and said hey &#8220;GO team!!&#8221;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster&#8230; the labour wasn&#8217;t in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. <a href="http://redhanded.hobix.com/bits/campingAMicroframework.html">Camping is a micro framework</a> that was the perfect fit for the task. Maybe <span class="caps">PHP</span> was more appropriate for the problem domain.  However, much like the previous sentence it wasn&#8217;t how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It&#8217;s painful to watch, but given my current server environment it is a necessary evil. Understand I&#8217;m well familiar with the configure install shuffle (./configure &amp;&amp; make &amp;&amp; sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.</p>
+<p>The first thing I did was &#8220;gem update &#8212;system&#8221;.  Version 0.9.4, the default for Centos 5, sucks on small VPS&#8217;s (mostly because it&#8217;ll crash from resource constraints).  I&#8217;ve been keeping up to date on Ruby so that&#8217;s no worry, you may have to do the same.</p>
+<p>So I can pull gems down to my hearts content, or can I?  First up was RedCloth&#8230; long story short the gem uses Ragel and Centos 5 only provides version 5.x as an <span class="caps">RPM</span>. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;</p>
+<p><code>gem install camping  # nuff said, installs 1.5 with ease</code></p>
+<p>Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route&#8230; interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine&#8230; and then it hit I tried to login. Hmm curious the login doesn&#8217;t work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB&#8230; that&#8217;s curious no entries or tables.  So on with the search for my apps apparent lack of state.</p>
+<h3>Active Campers lose weight when they&#8217;ve got state!</h3>
+<p>So ActiveRecord 2.1.0 doesn&#8217;t play nicely with camping&#8217;s session model out of the box. Found in a thread that you need to turn off partial updates;</p>
+<p><code>AppName::Models::Base.partial_updates = false</code></p>
+<p>Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&#8217;m quite happy to have found a lovely new tool!</p></div>
+
+
+  
+    <div id="disqus_thread"><script type="text/javascript">
+  var disqus_url = "http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping/";
+</script>
+<noscript>
+  <a href="http://junctionboxca.disqus.com/?url=ref">View the discussion thread</a>
+</noscript>
+<script type="text/javascript" src="http://disqus.com/forums/junctionboxca/embed.js"></script>
+</div>
+  
+</article>
+</div>
+      
+        <aside><section>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<h2>JunctionBox.ca</h2> 
+<h3>Nathan Fisher - DevOp</h3>
+ 
+<p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2011/05/28/branching-by-abstraction-101/">Branching by Abstraction 101</a>
+        <time>May 28, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/gated-checkins/">Thinking Gated checkins are the Solution?</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/02/10/bootstrapping-windows/">Bootstrapping Windows</a>
+        <time>February 10, 2011</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/10/05/initial-configuration-of-puppetd-on-os-x/">Initial Configuration of Puppetd on OS X</a>
+        <time>October 05, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/08/01/dance-and-pivot-sql-style/">Dance and Pivot SQL Style</a>
+        <time>August 01, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/04/17/simplified-tdd-with-sinatra-autotest/">Simplified TDD with Sinatra autotest</a>
+        <time>April 17, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/03/24/dom-a-regato--my-tests-are-auto/">Dom A Regato, My Tests Are Auto</a>
+        <time>March 24, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2010/02/23/fresh-book-it/">Fresh Book It</a>
+        <time>February 23, 2010</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/">Approaching bliss; TDD+PHP+MVC</a>
+        <time>December 12, 2009</time>
+      </li>
+    
+      <li class="post">
+        <a href="/2009/11/03/kick-dependence--here-s-an-injection/">Kick dependence, here's an injection</a>
+        <time>November 03, 2009</time>
+      </li>
+    
+  </ul>
+	<p><a href="/archive/?s=sidebar">More Articles</a></p>
+  </section>
+
+
+  <section><h1>Latest Tweets</h1>
+<ul id="tweets">
+  Status updating...
+</ul>
+<p>Follow <a href="http://twitter.com/junctionboxca">@junctionboxca</a></p>
+
+  <script>
+    var twitter_user = "junctionboxca";
+    var show_replies = false;
+    var tweet_count = 3;
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"></script>
+
+</section>
+
+
+
+</aside>
+      
+    </div>
+  </div>
+  <footer><div><p>
+	<a href="/?s=footer">Home</a> |
+	<a href="/about/?s=footer">About</a> |
+	<a href="/archive/?s=footer">Archive</a> |
+  Copyright &copy; 2011 - Nathan Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</div></footer>
+  <!--[if (lt IE 9) & (!IEMobile)]>
+  <script src="javascripts/libs/DOMAssistantCompressed-2.8.js"></script>
+  <script src="javascripts/libs/selectivizr-1.0.1.js"></script>
+  <script src="javascripts/libs/respond.min.js"></script>
+  <![endif]-->
+</body>
+</html>
