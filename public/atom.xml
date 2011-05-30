@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T20:31:22-07:00</updated>
+  <updated>2011-05-29T20:52:27-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -19,7 +19,7 @@
     <link href="http://junctionbox.ca/2011/05/28/branching-by-abstraction-101/"/>
     <updated>2011-05-28T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2011/05/28/branching-by-abstraction-101</id>
-    <content type="html">&lt;p&gt;Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&amp;#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction!&lt;/p&gt;
+    <content type="html">&lt;p&gt;Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery and a cornerstone of DevOps.  So what&amp;#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction!&lt;/p&gt;
 &lt;p&gt;So what exactly does this look like?&lt;/p&gt;
 &lt;p&gt;Let&amp;#8217;s start with a simple function that outputs your name:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;

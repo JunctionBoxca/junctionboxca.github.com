@@ -4,7 +4,7 @@ created_at: 2011-05-28 12:00:00 +00:00
 layout:     post
 ---
 
-Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery and a cornerstone of DevOps.  So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
 
 So what exactly does this look like?
 
