@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T20:01:27-07:00</updated>
+  <updated>2011-05-29T20:31:22-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -22,30 +22,27 @@
     <content type="html">&lt;p&gt;Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&amp;#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction!&lt;/p&gt;
 &lt;p&gt;So what exactly does this look like?&lt;/p&gt;
 &lt;p&gt;Let&amp;#8217;s start with a simple function that outputs your name:&lt;/p&gt;
-&lt;pre&gt;
-def name
-	@first_name
-end
-&lt;/pre&gt;
-&lt;p&gt;Now we want to change the function but it&amp;#8217;s going to be significant in someway, how would we achieve that while minimising the risk on the current functionality? The simplest way would be to introduce a binary variable that allows for flow control. I&amp;#8217;m not a big fan of this option as it can lead down a difficult path for wiring in configuration files to it.&lt;/p&gt;
-&lt;pre&gt;
-def name
-	return name_flag_name2 if @enable_name2
-	@name
-end
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
+	&lt;span class=&quot;vi&quot;&gt;@first_name&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Now we want to change the function but it&amp;#8217;s going to be significant in someway, how would we achieve that while minimising the risk on the current functionality? The simplest way would be to introduce a binary variable that allows for flow control. I&amp;#8217;m not a big fan of this option as it can lead down a difficult path for wiring in configuration files to it.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name_flag_name2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@enable_name2&lt;/span&gt;
+	&lt;span class=&quot;vi&quot;&gt;@name&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 
-def name_flag_name2
-	# TBD
-end
-&lt;/pre&gt;
-&lt;p&gt;That&amp;#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&amp;#8217;ll need something that handles a little more logic:&lt;/p&gt;
-&lt;pre&gt;
-def name
-	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
-	@name
-end
-&lt;/pre&gt;
-&lt;p&gt;I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it&amp;#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?&lt;/p&gt;</content>
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name_flag_name2&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;# TBD&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;That&amp;#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&amp;#8217;ll need something that handles a little more logic:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name_flag_name2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@features&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;enabled?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:enable_name2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user_account_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;vi&quot;&gt;@name&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it&amp;#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -110,36 +107,32 @@ End Function
     <id>http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x</id>
     <content type="html">&lt;p&gt;Configuring puppetd on OS X&lt;/p&gt;
 &lt;p&gt;Create the User and Group accounts;&lt;/p&gt;
-&lt;pre&gt;
-sudo dscl . -create /Groups/puppet
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo dscl . -create /Groups/puppet
 sudo dscl . -create /Groups/puppet PrimaryGroupID 300
 
 sudo dscl . -create /Users/puppet
 sudo dscl . -create /Users/puppet PrimaryGroupID 300
 sudo dscl . -create /Users/puppet UniqueID 300
 sudo dscl . -create /Users/puppet UserShell /usr/bin/false
-&lt;/pre&gt;
-&lt;p&gt;Create the folders&lt;/p&gt;
-&lt;pre&gt;
-sudo mkdir /etc/puppet
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Create the folders&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo mkdir /etc/puppet
 sudo mkdir -p /var/puppet/log
 sudo chown -R puppet:puppet /var/puppet
 sudo chown -R puppet:puppet /etc/puppet
-&lt;/pre&gt;
-&lt;p&gt;Create the config file.&lt;/p&gt;
-&lt;pre&gt;
-sudo puppetd --genconfig &amp;gt; /etc/puppet/puppet.conf
-&lt;/pre&gt;
-&lt;p&gt;Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&amp;#8217;s).&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Create the config file.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo puppetd --genconfig &amp;gt; /etc/puppet/puppet.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&amp;#8217;s).&lt;/p&gt;
 &lt;p&gt;If you run into issues with your certificates;&lt;/p&gt;
 &lt;h4&gt;Client&lt;/h4&gt;
-&lt;pre&gt;
-rm -rf /etc/puppet/ssl
-&lt;/pre&gt;
-&lt;h4&gt;Server&lt;/h4&gt;
-&lt;pre&gt;
-puppetca --clean CERT_ID
-&lt;/pre&gt;</content>
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;rm -rf /etc/puppet/ssl
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;h4&gt;Server&lt;/h4&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;puppetca --clean CERT_ID
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content>
   </entry>
   
   <entry>
@@ -148,6 +141,7 @@ puppetca --clean CERT_ID
     <updated>2010-08-01T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style</id>
     <content type="html">&lt;p&gt;Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:&lt;/p&gt;
+&lt;h3&gt;Schema&lt;/h3&gt;
 &lt;table&gt;
 	&lt;tr&gt;
 		&lt;td&gt; id &lt;/td&gt;
@@ -161,6 +155,7 @@ puppetca --clean CERT_ID
 	&lt;/tr&gt;
 &lt;/table&gt;
 &lt;p&gt;I wanted to create a table like the following:&lt;/p&gt;
+&lt;h3&gt;Output&lt;/h3&gt;
 &lt;table&gt;
 	&lt;tr&gt;
 		&lt;td&gt; page &lt;/td&gt;
@@ -191,28 +186,28 @@ puppetca --clean CERT_ID
 		&lt;td&gt; 7 &lt;/td&gt;
 		&lt;td&gt; 12 &lt;/td&gt;
 		&lt;td&gt; 16 &lt;/td&gt;
+	&lt;/tr&gt;
 &lt;/table&gt;
-\nMy first though was just do a simple GROUP BY and pivot the table through code.&lt;pre&gt;
-SELECT page, DATE(created_at), COUNT(*) AS hits 
-FROM page_views
-GROUP BY DATE(created_at), page ORDER BY page;
-&lt;/pre&gt;
-&lt;p&gt;I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure &lt;span class=&quot;caps&quot;&gt;SQL&lt;/span&gt; and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &lt;a href=&quot;http://dev.mysql.com/doc/refman/5.1/en/functions.html&quot;&gt;functions and operators&lt;/a&gt;.  After a small meal and some strange query results I ran into a presentation created by &lt;a href=&quot;http://datacharmer.org/&quot;&gt;Giuseppe Maxia&lt;/a&gt; aka the &amp;#8220;Data Charmer&amp;#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:&lt;/p&gt;
-&lt;pre&gt;
-SELECT page_name AS name,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS tues,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS wed,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS thurs,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS fri,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sat,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sun,
-COUNT(CASE WHEN DATE(created_at) 
-  IN ('?','?','?','?','?','?','?')
-  THEN id ELSE null END) AS total
-FROM page_views GROUP BY name
-&lt;/pre&gt;
-&lt;p&gt;What are your thoughts? Any similar implementations how did you handle it?&lt;/p&gt;</content>
+&lt;p&gt;My first though was just do a simple &lt;span class=&quot;caps&quot;&gt;GROUP&lt;/span&gt; BY and pivot the table through code.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;mysql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hits&lt;/span&gt; 
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page_views&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;GROUP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;BY&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ORDER&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;BY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure &lt;span class=&quot;caps&quot;&gt;SQL&lt;/span&gt; and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &lt;a href=&quot;http://dev.mysql.com/doc/refman/5.1/en/functions.html&quot;&gt;functions and operators&lt;/a&gt;.  After a small meal and some strange query results I ran into a presentation created by &lt;a href=&quot;http://datacharmer.org/&quot;&gt;Giuseppe Maxia&lt;/a&gt; aka the &amp;#8220;Data Charmer&amp;#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;mysql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SELECT&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page_name&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tues&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thurs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sun&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;COUNT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;CASE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHEN&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DATE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;created_at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;IN&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;THEN&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ELSE&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;null&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;END&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;AS&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;total&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;page_views&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;GROUP&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;BY&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;What are your thoughts? Any similar implementations how did you handle it?&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -227,112 +222,94 @@ FROM page_views GROUP BY name
 	&lt;li&gt;Sinatra unit test.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;File setup:&lt;/p&gt;
-&lt;pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;MyApp
+mkdir -p &lt;span class=&quot;nv&quot;&gt;$project&lt;/span&gt;/&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;lib,test&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$project&lt;/span&gt;
+cat &lt;span class=&quot;s&quot;&gt;&amp;lt;&amp;lt;EOT &amp;gt; test/test_app.rb&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;$:.unshift File.join(File.dirname(__FILE__),&amp;#39;..&amp;#39;,&amp;#39;lib&amp;#39;)&lt;/span&gt;
 
-export project=MyApp
-mkdir -p $project/{lib,test}
-cd $project
-cat &amp;lt;&amp;lt;EOT &amp;gt; test/test_app.rb
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+&lt;span class=&quot;s&quot;&gt;require &amp;#39;app&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;require &amp;#39;test/unit&amp;#39;&lt;/span&gt;
 
-require 'app'
-require 'test/unit'
-
-class AppTest &amp;lt; Test::Unit::TestCase
-  def test_fail
-    flunk 'Write your App tests!'
-  end
-end
-EOT
+&lt;span class=&quot;s&quot;&gt;class AppTest &amp;lt; Test::Unit::TestCase&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;  def test_fail&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;    flunk &amp;#39;Write your App tests!&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;  end&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;EOT&lt;/span&gt;
 
 autotest
-
-&lt;/pre&gt;
-&lt;p&gt;This should output something akin to the following, if you don&amp;#8217;t get that then somethings amiss that you&amp;#8217;ll need to investigate further.&lt;/p&gt;
-&lt;pre&gt;/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- app (LoadError)
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from ./test/test_app.rb:4
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from -e:2
-	from -e:2:in `each'
-	from -e:2&lt;/pre&gt;
-&lt;p&gt;Next create a new file named &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;touch lib/app.rb&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Once saved your test should kick to life with one failure:&lt;/p&gt;
-&lt;pre&gt;
-
-1) Failure:
-test_fail(AppTest) [./test/test_app.rb:8]:
-Write your App tests!.
-
-&lt;/pre&gt;&lt;p&gt;\nHugely simplified test suite, but it gets you going and doesn&amp;#8217;t contain reams of mystical cruft to debug.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;This should output something akin to the following, if you don&amp;#8217;t get that then somethings amiss that you&amp;#8217;ll need to investigate further.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;sr&quot;&gt;/Library/&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Ruby&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Site&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rubygems&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom_require&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`gem_original_require&amp;#39;: no such file to load -- app (LoadError)&lt;/span&gt;
+&lt;span class=&quot;sb&quot;&gt;	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;	from ./test/test_app.rb:4&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require&amp;#39;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt; /Library/&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Ruby&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Site&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rubygems&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;custom_require&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;31&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`require&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;sb&quot;&gt;	from -e:2&lt;/span&gt;
+&lt;span class=&quot;sb&quot;&gt;	from -e:2:in `&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;each&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Next create a new file named &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;touch lib/app.rb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Once saved your test should kick to life with one failure:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_fail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_app&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Write&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;your&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tests!&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Hugely simplified test suite, but it gets you going and doesn&amp;#8217;t contain reams of mystical cruft to debug.&lt;/p&gt;
 &lt;p&gt;Next up is introducing rack&amp;#8217;s test suite, modify your test_app.rb to look like the following;&lt;/p&gt;
-&lt;pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;vg&quot;&gt;$:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unshift&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dirname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;__FILE__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;..&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;lib&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;app&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;test/unit&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;rack/test&amp;#39;&lt;/span&gt;
 
-require 'app'
-require 'test/unit'
-require 'rack/test'
+&lt;span class=&quot;n&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:test&lt;/span&gt;
 
-set :environment, :test
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AppTest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Unit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TestCase&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rack&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Methods&lt;/span&gt;
 
-class AppTest &amp;lt; Test::Unit::TestCase
-  include Rack::Test::Methods
-
-  def app
-    App
-  end
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;app&lt;/span&gt;
+    &lt;span class=&quot;no&quot;&gt;App&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
   
-  def test_fail
-    flunk 'Write your App tests!'
-  end
-end
-
-&lt;/pre&gt;
-&lt;p&gt;Back to a test that doesn&amp;#8217;t run? Good!&lt;/p&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_fail&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;flunk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Write your App tests!&amp;#39;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Back to a test that doesn&amp;#8217;t run? Good!&lt;/p&gt;
 &lt;p&gt;Let&amp;#8217;s get it back to a running test with the following change to &amp;#8216;lib/app.rb&amp;#8217;:&lt;/p&gt;
-&lt;pre&gt;
-%w{rubygems sinatra}.each {|l| require l }
-&lt;/pre&gt;
-&lt;p&gt;Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:&lt;/p&gt;
-&lt;pre&gt;
-
-def test_root_is_accessible
-  get '/'
-  assert last_response.ok?
-end
-
-&lt;/pre&gt;
-&lt;p&gt;Your autotest should switch to the error output below:&lt;/p&gt;
-&lt;pre&gt;
-
-1) Error:
-test_root_is_accessible(AppTest):
-NameError: uninitialized constant AppTest::App
-./test/test_app.rb:13:in `app'
-
-&lt;/pre&gt;
-&lt;p&gt;That&amp;#8217;s an indicator we&amp;#8217;re missing our application class.  Dealing with one problem at a time lets implement the skeleton class in &amp;#8216;lib/app.rb&amp;#8217; as outlined below.&lt;/p&gt;
-&lt;pre&gt;
-class App &amp;lt; Sinatra::Base
-end
-&lt;/pre&gt;
-&lt;p&gt;You should get a failing test case with the output below, which indicates the route is not found.&lt;/p&gt;
-&lt;pre&gt;
-1) Failure:
-test_root_is_accessible(AppTest) [./test/test_app.rb:18]:
-&amp;lt;false&amp;gt; is not true.
-&lt;/pre&gt;
-&lt;p&gt;Next up lets add the route in &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
-&lt;pre&gt;
-
-get '/' do
-end
-
-&lt;/pre&gt;
-&lt;p&gt;And there we go our first of hopefully many tests is now passing, congratulations!&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;sx&quot;&gt;%w{rubygems sinatra}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_root_is_accessible&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;assert&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;last_response&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ok?&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Your autotest should switch to the error output below:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_root_is_accessible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;NameError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uninitialized&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;constant&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;App&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_app&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`app&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;That&amp;#8217;s an indicator we&amp;#8217;re missing our application class.  Dealing with one problem at a time lets implement the skeleton class in &amp;#8216;lib/app.rb&amp;#8217; as outlined below.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Sinatra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;You should get a failing test case with the output below, which indicates the route is not found.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_root_is_accessible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_app&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;Next up lets add the route in &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;&lt;p&gt;And there we go our first of hopefully many tests is now passing, congratulations!&lt;/p&gt;
 &lt;p&gt;For the source see;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;git://github.com/nfisher/Sinatra-Skeleton.git&quot;&gt;git://github.com/nfisher/Sinatra-Skeleton.git&lt;/a&gt;&lt;/p&gt;</content>
   </entry>
@@ -1258,19 +1235,23 @@ That’s all for now.&lt;/p&gt;</content>
     <link href="http://junctionbox.ca/2006/04/17/rsync-daily-snapshots/"/>
     <updated>2006-04-17T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2006/04/17/rsync-daily-snapshots</id>
-    <content type="html">&lt;p&gt;Need to backup in a hurry? Want to create daily snapshots that don&amp;#8217;t take more drive platters than Google? Here&amp;#8217;s a quick and efficient way to back-up data from your &lt;span class=&quot;caps&quot;&gt;RSYNC&lt;/span&gt; server. &lt;strong&gt;Warning&lt;/strong&gt; do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n&lt;pre&gt;&lt;br /&gt;
-#!/bin/sh&lt;/p&gt;
-&lt;p&gt;&lt;span class=&quot;caps&quot;&gt;HOST&lt;/span&gt;=localhost.localdomain&lt;br /&gt;
-&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;=/home/samba/rsync&lt;br /&gt;
-&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;=`date +%Y-%m-%d-%a`&lt;br /&gt;
-&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;=current&lt;br /&gt;
-&lt;span class=&quot;caps&quot;&gt;BAK&lt;/span&gt;=&amp;#8220;&lt;span class=&quot;caps&quot;&gt;HOME&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;ETC&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;VAR&lt;/span&gt;&amp;#8221;&lt;/p&gt;
-&lt;p&gt;for &lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt; in $&lt;span class=&quot;caps&quot;&gt;BAK&lt;/span&gt;; do&lt;br /&gt;
-rsync -avz &amp;#8212;delete &amp;#8212;force rsync://$&lt;span class=&quot;caps&quot;&gt;HOST&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt; $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt;&lt;br /&gt;
-done&lt;/p&gt;
-&lt;p&gt;mkdir $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;&lt;br /&gt;
-cp -Rl $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;/* $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;/&lt;br /&gt;
-&lt;/pre&gt;&lt;/p&gt;</content>
+    <content type="html">&lt;p&gt;Need to backup in a hurry? Want to create daily snapshots that don&amp;#8217;t take more drive platters than Google? Here&amp;#8217;s a quick and efficient way to back-up data from your &lt;span class=&quot;caps&quot;&gt;RSYNC&lt;/span&gt; server. &lt;strong&gt;Warning&lt;/strong&gt; do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;HOST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;localhost.localdomain
+&lt;span class=&quot;nv&quot;&gt;BASE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/samba/rsync
+&lt;span class=&quot;nv&quot;&gt;DATEDIR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;date +%Y-%m-%d-%a&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;CUR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;current
+&lt;span class=&quot;nv&quot;&gt;BAK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;HOME ETC VAR&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;CURVOL in &lt;span class=&quot;nv&quot;&gt;$BAK&lt;/span&gt;; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+rsync -avz --delete --force rsync://&lt;span class=&quot;nv&quot;&gt;$HOST&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$CURVOL&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$BASE&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$CUR&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$CURVOL&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+
+mkdir &lt;span class=&quot;nv&quot;&gt;$BASE&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$DATEDIR&lt;/span&gt;
+cp -Rl &lt;span class=&quot;nv&quot;&gt;$BASE&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$CUR&lt;/span&gt;/* &lt;span class=&quot;nv&quot;&gt;$BASE&lt;/span&gt;/&lt;span class=&quot;nv&quot;&gt;$DATEDIR&lt;/span&gt;/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content>
   </entry>
   
 </feed>

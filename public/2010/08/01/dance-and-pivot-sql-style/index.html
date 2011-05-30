@@ -74,6 +74,7 @@
 </header>
 
 <div class="entry"><p>Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:</p>
+<h3>Schema</h3>
 <table>
 	<tr>
 		<td> id </td>
@@ -87,6 +88,7 @@
 	</tr>
 </table>
 <p>I wanted to create a table like the following:</p>
+<h3>Output</h3>
 <table>
 	<tr>
 		<td> page </td>
@@ -117,28 +119,28 @@
 		<td> 7 </td>
 		<td> 12 </td>
 		<td> 16 </td>
+	</tr>
 </table>
-\nMy first though was just do a simple GROUP BY and pivot the table through code.<pre>
-SELECT page, DATE(created_at), COUNT(*) AS hits 
-FROM page_views
-GROUP BY DATE(created_at), page ORDER BY page;
-</pre>
-<p>I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure <span class="caps">SQL</span> and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on <a href="http://dev.mysql.com/doc/refman/5.1/en/functions.html">functions and operators</a>.  After a small meal and some strange query results I ran into a presentation created by <a href="http://datacharmer.org/">Giuseppe Maxia</a> aka the &#8220;Data Charmer&#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:</p>
-<pre>
-SELECT page_name AS name,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS tues,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS wed,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS thurs,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS fri,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sat,
-COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS sun,
-COUNT(CASE WHEN DATE(created_at) 
-  IN ('?','?','?','?','?','?','?')
-  THEN id ELSE null END) AS total
-FROM page_views GROUP BY name
-</pre>
-<p>What are your thoughts? Any similar implementations how did you handle it?</p></div>
+<p>My first though was just do a simple <span class="caps">GROUP</span> BY and pivot the table through code.</p>
+<div class="highlight"><pre><code class="mysql"><span class="k">SELECT</span> <span class="n">page</span><span class="p">,</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">),</span> <span class="nf">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hits</span> 
+<span class="k">FROM</span> <span class="n">page_views</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">),</span> <span class="n">page</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">page</span><span class="p">;</span>
+</code></pre>
+</div><p>I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure <span class="caps">SQL</span> and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on <a href="http://dev.mysql.com/doc/refman/5.1/en/functions.html">functions and operators</a>.  After a small meal and some strange query results I ran into a presentation created by <a href="http://datacharmer.org/">Giuseppe Maxia</a> aka the &#8220;Data Charmer&#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:</p>
+<div class="highlight"><pre><code class="mysql"><span class="k">SELECT</span> <span class="n">page_name</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">mon</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">tues</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">wed</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">thurs</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">fri</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sat</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sun</span><span class="p">,</span>
+<span class="nf">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="kt">DATE</span><span class="p">(</span><span class="n">created_at</span><span class="p">)</span> 
+  <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="s1">&#39;?&#39;</span><span class="p">)</span>
+  <span class="k">THEN</span> <span class="n">id</span> <span class="k">ELSE</span> <span class="no">null</span> <span class="n">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total</span>
+<span class="k">FROM</span> <span class="n">page_views</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">name</span>
+</code></pre>
+</div><p>What are your thoughts? Any similar implementations how did you handle it?</p></div>
 
 
   

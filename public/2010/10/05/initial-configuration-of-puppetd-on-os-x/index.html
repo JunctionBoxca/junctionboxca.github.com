@@ -75,36 +75,32 @@
 
 <div class="entry"><p>Configuring puppetd on OS X</p>
 <p>Create the User and Group accounts;</p>
-<pre>
-sudo dscl . -create /Groups/puppet
+<div class="highlight"><pre><code class="bash">sudo dscl . -create /Groups/puppet
 sudo dscl . -create /Groups/puppet PrimaryGroupID 300
 
 sudo dscl . -create /Users/puppet
 sudo dscl . -create /Users/puppet PrimaryGroupID 300
 sudo dscl . -create /Users/puppet UniqueID 300
 sudo dscl . -create /Users/puppet UserShell /usr/bin/false
-</pre>
-<p>Create the folders</p>
-<pre>
-sudo mkdir /etc/puppet
+</code></pre>
+</div><p>Create the folders</p>
+<div class="highlight"><pre><code class="bash">sudo mkdir /etc/puppet
 sudo mkdir -p /var/puppet/log
 sudo chown -R puppet:puppet /var/puppet
 sudo chown -R puppet:puppet /etc/puppet
-</pre>
-<p>Create the config file.</p>
-<pre>
-sudo puppetd --genconfig &gt; /etc/puppet/puppet.conf
-</pre>
-<p>Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&#8217;s).</p>
+</code></pre>
+</div><p>Create the config file.</p>
+<div class="highlight"><pre><code class="bash">sudo puppetd --genconfig &gt; /etc/puppet/puppet.conf
+</code></pre>
+</div><p>Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&#8217;s).</p>
 <p>If you run into issues with your certificates;</p>
 <h4>Client</h4>
-<pre>
-rm -rf /etc/puppet/ssl
-</pre>
-<h4>Server</h4>
-<pre>
-puppetca --clean CERT_ID
-</pre></div>
+<div class="highlight"><pre><code class="bash">rm -rf /etc/puppet/ssl
+</code></pre>
+</div><h4>Server</h4>
+<div class="highlight"><pre><code class="bash">puppetca --clean CERT_ID
+</code></pre>
+</div></div>
 
 
   

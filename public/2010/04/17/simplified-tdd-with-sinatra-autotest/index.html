@@ -80,112 +80,94 @@
 	<li>Sinatra unit test.</li>
 </ul>
 <p>File setup:</p>
-<pre>
+<div class="highlight"><pre><code class="bash"><span class="nb">export </span><span class="nv">project</span><span class="o">=</span>MyApp
+mkdir -p <span class="nv">$project</span>/<span class="o">{</span>lib,test<span class="o">}</span>
+<span class="nb">cd</span> <span class="nv">$project</span>
+cat <span class="s">&lt;&lt;EOT &gt; test/test_app.rb</span>
+<span class="s">$:.unshift File.join(File.dirname(__FILE__),&#39;..&#39;,&#39;lib&#39;)</span>
 
-export project=MyApp
-mkdir -p $project/{lib,test}
-cd $project
-cat &lt;&lt;EOT &gt; test/test_app.rb
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+<span class="s">require &#39;app&#39;</span>
+<span class="s">require &#39;test/unit&#39;</span>
 
-require 'app'
-require 'test/unit'
-
-class AppTest &lt; Test::Unit::TestCase
-  def test_fail
-    flunk 'Write your App tests!'
-  end
-end
-EOT
+<span class="s">class AppTest &lt; Test::Unit::TestCase</span>
+<span class="s">  def test_fail</span>
+<span class="s">    flunk &#39;Write your App tests!&#39;</span>
+<span class="s">  end</span>
+<span class="s">end</span>
+<span class="s">EOT</span>
 
 autotest
-
-</pre>
-<p>This should output something akin to the following, if you don&#8217;t get that then somethings amiss that you&#8217;ll need to investigate further.</p>
-<pre>/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- app (LoadError)
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from ./test/test_app.rb:4
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from -e:2
-	from -e:2:in `each'
-	from -e:2</pre>
-<p>Next create a new file named &#8216;lib/app.rb&#8217;.</p>
-<p><code>touch lib/app.rb</code></p>
-<p>Once saved your test should kick to life with one failure:</p>
-<pre>
-
-1) Failure:
-test_fail(AppTest) [./test/test_app.rb:8]:
-Write your App tests!.
-
-</pre><p>\nHugely simplified test suite, but it gets you going and doesn&#8217;t contain reams of mystical cruft to debug.</p>
+</code></pre>
+</div><p>This should output something akin to the following, if you don&#8217;t get that then somethings amiss that you&#8217;ll need to investigate further.</p>
+<div class="highlight"><pre><code class="ruby"><span class="sr">/Library/</span><span class="no">Ruby</span><span class="o">/</span><span class="no">Site</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">/</span><span class="n">rubygems</span><span class="o">/</span><span class="n">custom_require</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">31</span><span class="ss">:in</span> <span class="sb">`gem_original_require&#39;: no such file to load -- app (LoadError)</span>
+<span class="sb">	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `</span><span class="nb">require</span><span class="s1">&#39;</span>
+<span class="s1">	from ./test/test_app.rb:4</span>
+<span class="s1">	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require&#39;</span>
+	<span class="n">from</span><span class="sr"> /Library/</span><span class="no">Ruby</span><span class="o">/</span><span class="no">Site</span><span class="o">/</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">/</span><span class="n">rubygems</span><span class="o">/</span><span class="n">custom_require</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">31</span><span class="ss">:in</span> <span class="sb">`require&#39;</span>
+<span class="sb">	from -e:2</span>
+<span class="sb">	from -e:2:in `</span><span class="n">each</span><span class="err">&#39;</span>
+	<span class="n">from</span> <span class="o">-</span><span class="n">e</span><span class="p">:</span><span class="mi">2</span>
+</code></pre>
+</div><p>Next create a new file named &#8216;lib/app.rb&#8217;.</p>
+<div class="highlight"><pre><code class="bash">touch lib/app.rb
+</code></pre>
+</div><p>Once saved your test should kick to life with one failure:</p>
+<div class="highlight"><pre><code class="ruby"><span class="mi">1</span><span class="p">)</span> <span class="no">Failure</span><span class="p">:</span>
+<span class="n">test_fail</span><span class="p">(</span><span class="no">AppTest</span><span class="p">)</span> <span class="o">[.</span><span class="n">/</span><span class="nb">test</span><span class="o">/</span><span class="n">test_app</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">8</span><span class="o">]</span><span class="p">:</span>
+<span class="no">Write</span> <span class="n">your</span> <span class="no">App</span> <span class="n">tests!</span><span class="o">.</span>
+</code></pre>
+</div><p>Hugely simplified test suite, but it gets you going and doesn&#8217;t contain reams of mystical cruft to debug.</p>
 <p>Next up is introducing rack&#8217;s test suite, modify your test_app.rb to look like the following;</p>
-<pre>
+<div class="highlight"><pre><code class="ruby"><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span><span class="s1">&#39;..&#39;</span><span class="p">,</span><span class="s1">&#39;lib&#39;</span><span class="p">)</span>
 
-$:.unshift File.join(File.dirname(__FILE__),'..','lib')
+<span class="nb">require</span> <span class="s1">&#39;app&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;test/unit&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
 
-require 'app'
-require 'test/unit'
-require 'rack/test'
+<span class="n">set</span> <span class="ss">:environment</span><span class="p">,</span> <span class="ss">:test</span>
 
-set :environment, :test
+<span class="k">class</span> <span class="nc">AppTest</span> <span class="o">&lt;</span> <span class="no">Test</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
 
-class AppTest &lt; Test::Unit::TestCase
-  include Rack::Test::Methods
-
-  def app
-    App
-  end
+  <span class="k">def</span> <span class="nf">app</span>
+    <span class="no">App</span>
+  <span class="k">end</span>
   
-  def test_fail
-    flunk 'Write your App tests!'
-  end
-end
-
-</pre>
-<p>Back to a test that doesn&#8217;t run? Good!</p>
+  <span class="k">def</span> <span class="nf">test_fail</span>
+    <span class="n">flunk</span> <span class="s1">&#39;Write your App tests!&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div><p>Back to a test that doesn&#8217;t run? Good!</p>
 <p>Let&#8217;s get it back to a running test with the following change to &#8216;lib/app.rb&#8217;:</p>
-<pre>
-%w{rubygems sinatra}.each {|l| require l }
-</pre>
-<p>Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:</p>
-<pre>
-
-def test_root_is_accessible
-  get '/'
-  assert last_response.ok?
-end
-
-</pre>
-<p>Your autotest should switch to the error output below:</p>
-<pre>
-
-1) Error:
-test_root_is_accessible(AppTest):
-NameError: uninitialized constant AppTest::App
-./test/test_app.rb:13:in `app'
-
-</pre>
-<p>That&#8217;s an indicator we&#8217;re missing our application class.  Dealing with one problem at a time lets implement the skeleton class in &#8216;lib/app.rb&#8217; as outlined below.</p>
-<pre>
-class App &lt; Sinatra::Base
-end
-</pre>
-<p>You should get a failing test case with the output below, which indicates the route is not found.</p>
-<pre>
-1) Failure:
-test_root_is_accessible(AppTest) [./test/test_app.rb:18]:
-&lt;false&gt; is not true.
-</pre>
-<p>Next up lets add the route in &#8216;lib/app.rb&#8217;.</p>
-<pre>
-
-get '/' do
-end
-
-</pre>
-<p>And there we go our first of hopefully many tests is now passing, congratulations!</p>
+<div class="highlight"><pre><code class="ruby"><span class="sx">%w{rubygems sinatra}</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">l</span><span class="o">|</span> <span class="nb">require</span> <span class="n">l</span> <span class="p">}</span>
+</code></pre>
+</div><p>Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:</p>
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">test_root_is_accessible</span>
+  <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+  <span class="n">assert</span> <span class="n">last_response</span><span class="o">.</span><span class="n">ok?</span>
+<span class="k">end</span>
+</code></pre>
+</div><p>Your autotest should switch to the error output below:</p>
+<div class="highlight"><pre><code class="ruby"><span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+<span class="n">test_root_is_accessible</span><span class="p">(</span><span class="no">AppTest</span><span class="p">):</span>
+<span class="no">NameError</span><span class="p">:</span> <span class="n">uninitialized</span> <span class="n">constant</span> <span class="no">AppTest</span><span class="o">::</span><span class="no">App</span>
+<span class="o">.</span><span class="n">/</span><span class="nb">test</span><span class="o">/</span><span class="n">test_app</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">13</span><span class="ss">:in</span> <span class="sb">`app&#39;</span>
+</code></pre>
+</div><p>That&#8217;s an indicator we&#8217;re missing our application class.  Dealing with one problem at a time lets implement the skeleton class in &#8216;lib/app.rb&#8217; as outlined below.</p>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">App</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+</code></pre>
+</div><p>You should get a failing test case with the output below, which indicates the route is not found.</p>
+<div class="highlight"><pre><code class="ruby"><span class="mi">1</span><span class="p">)</span> <span class="no">Failure</span><span class="p">:</span>
+<span class="n">test_root_is_accessible</span><span class="p">(</span><span class="no">AppTest</span><span class="p">)</span> <span class="o">[.</span><span class="n">/</span><span class="nb">test</span><span class="o">/</span><span class="n">test_app</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">18</span><span class="o">]</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="kp">false</span><span class="o">&gt;</span> <span class="n">is</span> <span class="ow">not</span> <span class="kp">true</span><span class="o">.</span>
+</code></pre>
+</div><p>Next up lets add the route in &#8216;lib/app.rb&#8217;.</p>
+<div class="highlight"><pre><code class="ruby"><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+<span class="k">end</span>
+</code></pre>
+</div><p>And there we go our first of hopefully many tests is now passing, congratulations!</p>
 <p>For the source see;</p>
 <p><a href="git://github.com/nfisher/Sinatra-Skeleton.git">git://github.com/nfisher/Sinatra-Skeleton.git</a></p></div>
 

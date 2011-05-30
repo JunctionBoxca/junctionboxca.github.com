@@ -73,19 +73,23 @@
   </p>
 </header>
 
-<div class="entry"><p>Need to backup in a hurry? Want to create daily snapshots that don&#8217;t take more drive platters than Google? Here&#8217;s a quick and efficient way to back-up data from your <span class="caps">RSYNC</span> server. <strong>Warning</strong> do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n<pre><br />
-#!/bin/sh</p>
-<p><span class="caps">HOST</span>=localhost.localdomain<br />
-<span class="caps">BASE</span>=/home/samba/rsync<br />
-<span class="caps">DATEDIR</span>=`date +%Y-%m-%d-%a`<br />
-<span class="caps">CUR</span>=current<br />
-<span class="caps">BAK</span>=&#8220;<span class="caps">HOME</span> <span class="caps">ETC</span> <span class="caps">VAR</span>&#8221;</p>
-<p>for <span class="caps">CURVOL</span> in $<span class="caps">BAK</span>; do<br />
-rsync -avz &#8212;delete &#8212;force rsync://$<span class="caps">HOST</span>/$<span class="caps">CURVOL</span> $<span class="caps">BASE</span>/$<span class="caps">CUR</span>/$<span class="caps">CURVOL</span><br />
-done</p>
-<p>mkdir $<span class="caps">BASE</span>/$<span class="caps">DATEDIR</span><br />
-cp -Rl $<span class="caps">BASE</span>/$<span class="caps">CUR</span>/* $<span class="caps">BASE</span>/$<span class="caps">DATEDIR</span>/<br />
-</pre></p></div>
+<div class="entry"><p>Need to backup in a hurry? Want to create daily snapshots that don&#8217;t take more drive platters than Google? Here&#8217;s a quick and efficient way to back-up data from your <span class="caps">RSYNC</span> server. <strong>Warning</strong> do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).</p>
+<div class="highlight"><pre><code class="bash"><span class="c">#!/bin/sh</span>
+
+<span class="nv">HOST</span><span class="o">=</span>localhost.localdomain
+<span class="nv">BASE</span><span class="o">=</span>/home/samba/rsync
+<span class="nv">DATEDIR</span><span class="o">=</span><span class="sb">`</span>date +%Y-%m-%d-%a<span class="sb">`</span>
+<span class="nv">CUR</span><span class="o">=</span>current
+<span class="nv">BAK</span><span class="o">=</span><span class="s2">&quot;HOME ETC VAR&quot;</span>
+
+<span class="k">for </span>CURVOL in <span class="nv">$BAK</span>; <span class="k">do</span>
+rsync -avz --delete --force rsync://<span class="nv">$HOST</span>/<span class="nv">$CURVOL</span> <span class="nv">$BASE</span>/<span class="nv">$CUR</span>/<span class="nv">$CURVOL</span>
+<span class="k">done</span>
+
+mkdir <span class="nv">$BASE</span>/<span class="nv">$DATEDIR</span>
+cp -Rl <span class="nv">$BASE</span>/<span class="nv">$CUR</span>/* <span class="nv">$BASE</span>/<span class="nv">$DATEDIR</span>/
+</code></pre>
+</div></div>
 
 
   

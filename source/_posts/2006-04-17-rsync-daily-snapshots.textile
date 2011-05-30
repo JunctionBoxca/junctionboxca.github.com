@@ -3,7 +3,10 @@ title:      Rsync Daily Snapshots
 created_at: 2006-04-17 12:00:00 +00:00
 layout:     post
 ---
-Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n<pre>
+Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).
+
+{% highlight bash %}
+
 #!/bin/sh
 
 HOST=localhost.localdomain
@@ -18,4 +21,5 @@ done
 
 mkdir $BASE/$DATEDIR
 cp -Rl $BASE/$CUR/* $BASE/$DATEDIR/
-</pre>
+
+{% endhighlight %}
