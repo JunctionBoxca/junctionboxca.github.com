@@ -1,0 +1,41 @@
+---
+title:      Branching by Abstraction 101
+created_at: 2011-05-28 12:00:00 +00:00
+layout:     post
+---
+
+Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
+
+So what exactly does this look like?
+
+Let's start with a simple function that outputs your name:
+
+<pre>
+def name
+	@first_name
+end
+</pre>
+
+Now we want to change the function but it's going to be significant in someway, how would we achieve that while minimising the risk on the current functionality? The simplest way would be to introduce a binary variable that allows for flow control. I'm not a big fan of this option as it can lead down a difficult path for wiring in configuration files to it.
+
+<pre>
+def name
+	return name_flag_name2 if @enable_name2
+	@name
+end
+
+def name_flag_name2
+	# TBD
+end
+</pre>
+
+That's a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you'll need something that handles a little more logic:
+
+<pre>
+def name
+	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
+	@name
+end
+</pre>
+
+I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it's implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?

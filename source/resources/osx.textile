@@ -1,0 +1,21 @@
+---
+title:      OS X
+created_at: March 21 2011
+layout: page
+---
+
+h3. Turn off spotlight indexing
+
+pre. mdutil -a -i off
+
+h3. Flush DNS cache
+
+pre. lookupd -flushcache
+
+h3. Clean MacPorts
+
+pre. sudo port clean --all installed
+
+h2. Reference Material
+
+"Onne Gorter":http://tech.inhelsinki.nl/gnu_developement_under_mac_os_x/ - on taming the command line terminal.

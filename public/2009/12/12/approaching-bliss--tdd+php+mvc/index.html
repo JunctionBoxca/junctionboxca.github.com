@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,10 +73,9 @@
   </p>
 </header>
 
-<div class="entry">Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn&#8217;t seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding TDD and CodeIgnitor on the interweb. In my search I ran across the article &#8220;Setting up the perfect CodeIgniter & TDD Environment&#8221;:http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/.  I downloaded the code and massaged it a little to suit my needs.  I&#8217;m not fully content with the implementation of BaseTestPath, but I&#8217;m sure a round of TDD (which I should&#8217;ve started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn&#8217;t been thoroughly tested, so use at your own peril. Specifically I haven&#8217;t verified the views section, but upon initial inspection unit tests work.  I&#8217;m thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.
-
+<div class="entry"><p>Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn&#8217;t seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding <span class="caps">TDD</span> and CodeIgnitor on the interweb. In my search I ran across the article <a href="http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/">Setting up the perfect CodeIgniter &amp; <span class="caps">TDD</span> Environment</a>.  I downloaded the code and massaged it a little to suit my needs.  I&#8217;m not fully content with the implementation of BaseTestPath, but I&#8217;m sure a round of <span class="caps">TDD</span> (which I should&#8217;ve started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn&#8217;t been thoroughly tested, so use at your own peril. Specifically I haven&#8217;t verified the views section, but upon initial inspection unit tests work.  I&#8217;m thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.</p>
 <pre>
-<?php
+&lt;?php
 /*
 SimpleTest + CodeIgniter
 
@@ -130,7 +130,7 @@ class CodeIgniterUnitTestCase extends UnitTestCase {
 	 
 	public function __construct() {
 		parent::UnitTestCase();
-		$this->ci =& get_instance();
+		$this-&gt;ci =&amp; get_instance();
 	}
 }
  
@@ -139,13 +139,13 @@ class CodeIgniterWebTestCase extends WebTestCase {
  
 	public function __construct() {
 		parent::WebTestCase();
-		$this->ci =& get_instance();
+		$this-&gt;ci =&amp; get_instance();
 	}
 }
 
-function add_full_path( &$v, $k, $o ) {
-	$o->addImplementationPath($o->getImplementationPath($v));
-	$v = $o->getTestPath() . '/' . $v;
+function add_full_path( &amp;$v, $k, $o ) {
+	$o-&gt;addImplementationPath($o-&gt;getImplementationPath($v));
+	$v = $o-&gt;getTestPath() . '/' . $v;
 }
 
 function filter_hidden( $v ) {
@@ -170,23 +170,23 @@ abstract class BaseTestPath {
 	var $impl_filenames = array();
 
 	function getFilenames() {
-		if( $this->filenames === null ) {
-			$this->filenames = @scandir($this->getTestPath());
-			$this->filenames = array_filter( $this->filenames, 'filter_hidden' );
+		if( $this-&gt;filenames === null ) {
+			$this-&gt;filenames = @scandir($this-&gt;getTestPath());
+			$this-&gt;filenames = array_filter( $this-&gt;filenames, 'filter_hidden' );
 		}
-		return $this->filenames;
+		return $this-&gt;filenames;
 	}
 
-	function addToTestSuite( &$test ) {
-		$this->loadImplementations();
-		foreach( $this->getFilenamesWithFullPath() as $test_file ) {
-			$test->addFile( $test_file );
+	function addToTestSuite( &amp;$test ) {
+		$this-&gt;loadImplementations();
+		foreach( $this-&gt;getFilenamesWithFullPath() as $test_file ) {
+			$test-&gt;addFile( $test_file );
 		}
 	}
 
 	function loadImplementations() {
-		$this->getFilenamesWithFullPath();
-		foreach( $this->impl_filenames as $impl ) {
+		$this-&gt;getFilenamesWithFullPath();
+		foreach( $this-&gt;impl_filenames as $impl ) {
 			if( file_exists($impl) ) {
 				require_once($impl);
 			}
@@ -194,17 +194,17 @@ abstract class BaseTestPath {
 	}
 
 	function getFilenamesWithFullPath() {
-		if( $this->is_fullpath == FALSE ) {
-			$this->getFilenames();
-			array_walk( $this->filenames, 'add_full_path', $this );
-			$this->is_fullpath = TRUE;
+		if( $this-&gt;is_fullpath == FALSE ) {
+			$this-&gt;getFilenames();
+			array_walk( $this-&gt;filenames, 'add_full_path', $this );
+			$this-&gt;is_fullpath = TRUE;
 		}
 
-		return $this->filenames;
+		return $this-&gt;filenames;
 	}
 
 	function addImplementationPath( $impl_path ) {
-		array_push($this->impl_filenames, $impl_path);
+		array_push($this-&gt;impl_filenames, $impl_path);
 	}
 }
 
@@ -261,12 +261,12 @@ class ViewTestPath extends BaseTestPath {
 //Capture CodeIgniter output, discard and load system into $CI variable
 ob_start();
 include(ROOT . 'index.php');
-$CI =& get_instance();
+$CI =&amp; get_instance();
 ob_end_clean();
  
 //Setup the test suite
-$test_suite =& new TestSuite();
-$test_suite->_label = 'CodeIgniter Application Test Suite';
+$test_suite =&amp; new TestSuite();
+$test_suite-&gt;_label = 'CodeIgniter Application Test Suite';
 
 $controller_tests = new ControllerTestPath();
 $model_tests = new ModelTestPath();
@@ -290,20 +290,18 @@ if( sizeof($tests) == 0 ) {
 }
 
 foreach( $tests as $test ) {
-	$test->addToTestSuite( &$test_suite );
+	$test-&gt;addToTestSuite( &amp;$test_suite );
 }
 
 //Run tests!
 if (TextReporter::inCli()) {
-	exit ($test_suite->run(new TextReporter()) ? 0 : 1);
+	exit ($test_suite-&gt;run(new TextReporter()) ? 0 : 1);
 }
-$test_suite->run(new HtmlReporter());
+$test_suite-&gt;run(new HtmlReporter());
 
 /* End of file test.php */
 /* Location: ./test.php */
-</pre>
-
-</div>
+</pre></div>
 
 
   
@@ -320,15 +318,17 @@ $test_suite->run(new HtmlReporter());
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -383,10 +383,24 @@ $test_suite->run(new HtmlReporter());
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -411,6 +425,7 @@ $test_suite->run(new HtmlReporter());
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

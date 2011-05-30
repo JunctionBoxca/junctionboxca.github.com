@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,38 +73,30 @@
   </p>
 </header>
 
-<div class="entry">Zee goal for today is to use ActionScript 3&#8217;s BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;
-
-* client-side image croppers.
-* runtime cropping of linked and external photos for panel backgrounds.
-
-What I will illustrate here is just a simple sliding door effect.  As seen in the SWF below. The items of greatest interest today include;
-
-* flash.display.Bitmap
-* flash.display.BitmapData
-* flash.geom.Point
-* flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.
-
-h3. Halves Too #Include
-
-* JPG or PNG that we want to slice up.
-* Flash compiler (Flex SDK/Flash 9/etc).
-
-h3. Blueprints, get your blueprints here!!
-
-We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of *TestPhoto*. Done? Good now that we&#8217;ve made some room and set the table lets eat!
-
-h3. What size slice of pizza would you like with your BitmapData?
-
-For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.
-
-@var percentage:int = currentFrame / totalFrames;@
-
-
-h3. I&#8217;m full what next?
-
-Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.
-
+<div class="entry"><p>Zee goal for today is to use ActionScript 3&#8217;s BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;</p>
+<ul>
+	<li>client-side image croppers.</li>
+	<li>runtime cropping of linked and external photos for panel backgrounds.</li>
+</ul>
+<p>What I will illustrate here is just a simple sliding door effect.  As seen in the <span class="caps">SWF</span> below. The items of greatest interest today include;</p>
+<ul>
+	<li>flash.display.Bitmap</li>
+	<li>flash.display.BitmapData</li>
+	<li>flash.geom.Point</li>
+	<li>flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.</li>
+</ul>
+<h3>Halves Too #Include</h3>
+<ul>
+	<li><span class="caps">JPG</span> or <span class="caps">PNG</span> that we want to slice up.</li>
+	<li>Flash compiler (Flex <span class="caps">SDK</span>/Flash 9/etc).</li>
+</ul>
+<h3>Blueprints, get your blueprints here!!</h3>
+<p>We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of <strong>TestPhoto</strong>. Done? Good now that we&#8217;ve made some room and set the table lets eat!</p>
+<h3>What size slice of pizza would you like with your BitmapData?</h3>
+<p>For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.</p>
+<p><code>var percentage:int = currentFrame / totalFrames;</code></p>
+<h3>I&#8217;m full what next?</h3>
+<p>Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.</p>
 <pre>
 var slice_width:int = percentage * bitmap_width; 
 var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
@@ -118,17 +111,11 @@ var slice_bitmap:Bitmap = new Bitmap( slice_data );
 
 addChild( slice_bitmap );
 </pre>
-
-h3. Would you like a mint sir?
-
-Okay at some point you&#8217;re going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As &#8220;Mr. Saul&#8221;:http://www.johnralstonsaul.com/SUM_Unconscious.html might argue, downsizing often has a detrimental effect. While I agree, I&#8217;m not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.
-
-@if( numChildren > 1 ) removeChildAt( 0 );@
-
-h3. Cheque please!
-
-Lets wrap this all up in a class for take-out.
-
+<h3>Would you like a mint sir?</h3>
+<p>Okay at some point you&#8217;re going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As <a href="http://www.johnralstonsaul.com/SUM_Unconscious.html">Mr. Saul</a> might argue, downsizing often has a detrimental effect. While I agree, I&#8217;m not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.</p>
+<p><code>if( numChildren &gt; 1 ) removeChildAt( 0 );</code></p>
+<h3>Cheque please!</h3>
+<p>Lets wrap this all up in a class for take-out.</p>
 <pre>
 /**
  * Written by: Nathan Fisher
@@ -194,27 +181,19 @@ package {
    // what good is art if no one see's it? Add to the slice_container so it is visible.
    slice_container.addChild( slice_bitmap );
    // remove previous slices if applicable.
-   if( slice_container.numChildren > 1 ) slice_container.removeChildAt( 0 );
+   if( slice_container.numChildren &gt; 1 ) slice_container.removeChildAt( 0 );
   }
  }
 }
 </pre>
-
-In the example above I assumed the bitmap slice is the only element in it&#8217;s parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.
-
-h3. Flash to 2 minutes later in the lavatory&#8230; OUTPUT!
-
-<object type="application/x-shockwave-flash" data="/images/phototest.swf" width="550" height="400">
-<param name="movie" value="/images/phototest.swf" />
-</object>
-
-h3. Notes & Other Weirdness
-
-The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.
-
-The included photo was provided by &#8220;Tessier Pools&#8221;:http://www.tessierpools.com/ and is a &#8220;Skip Phillips&#8221;:http://www.questarpools.com/ design.
-
-</div>
+<p>In the example above I assumed the bitmap slice is the only element in it&#8217;s parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.</p>
+<h3>Flash to 2 minutes later in the lavatory&#8230; <span class="caps">OUTPUT</span>!</h3>
+<p><object type="application/x-shockwave-flash" data="/images/phototest.swf" width="550" height="400"><br />
+<param name="movie" value="/images/phototest.swf" /><br />
+</object></p>
+<h3>Notes &amp; Other Weirdness</h3>
+<p>The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.</p>
+<p>The included photo was provided by <a href="http://www.tessierpools.com/">Tessier Pools</a> and is a <a href="http://www.questarpools.com/">Skip Phillips</a> design.</p></div>
 
 
   
@@ -231,15 +210,17 @@ The included photo was provided by &#8220;Tessier Pools&#8221;:http://www.tessie
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -294,10 +275,24 @@ The included photo was provided by &#8220;Tessier Pools&#8221;:http://www.tessie
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -322,6 +317,7 @@ The included photo was provided by &#8220;Tessier Pools&#8221;:http://www.tessie
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

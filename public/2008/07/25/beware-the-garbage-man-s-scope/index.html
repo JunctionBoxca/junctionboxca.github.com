@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,27 +73,19 @@
   </p>
 </header>
 
-<div class="entry">Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I&#8217;ll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don&#8217;t assume anything and clean up after yourself. Unless you&#8217;re trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;
-\n@new Tween( pages, &#8220;rotation&#8221;, Elastic.easeOut, src, dest, duration, true );@
-
-You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &#8220;Why create a member variable? I don&#8217;t care what happens to it after its done its deed.&#8221;
-
-Unfortunately I didn&#8217;t realize how wrong it was until seemingly at random its expected effect would get tossed like &#8220;Marla&#8217;s bridesmaid dress&#8221;:http://www.foxmovies.com/fightclub/.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of _unnecessary_ dancing around to debug why something so foolish wasn&#8217;t working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &#8220;watchdog&#8221; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.
-
-I published the site only to shortly after find my salvation in the comments on Adobe&#8217;s Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn&#8217;t take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.
-
-h3. Conclusion
-
-In the future kids don&#8217;t play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.
-
+<div class="entry"><p>Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I&#8217;ll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don&#8217;t assume anything and clean up after yourself. Unless you&#8217;re trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;<br />
+\n@new Tween( pages, &#8220;rotation&#8221;, Elastic.easeOut, src, dest, duration, true );@</p>
+<p>You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &#8220;Why create a member variable? I don&#8217;t care what happens to it after its done its deed.&#8221;</p>
+<p>Unfortunately I didn&#8217;t realize how wrong it was until seemingly at random its expected effect would get tossed like <a href="http://www.foxmovies.com/fightclub/">Marla&#8217;s bridesmaid dress</a>.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of <em>unnecessary</em> dancing around to debug why something so foolish wasn&#8217;t working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &#8220;watchdog&#8221; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.</p>
+<p>I published the site only to shortly after find my salvation in the comments on Adobe&#8217;s Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn&#8217;t take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.</p>
+<h3>Conclusion</h3>
+<p>In the future kids don&#8217;t play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.</p>
 <pre>
 private var _rotation_tween:Tween;
 public function rotatePage( dest ):void {
  _rotation_tween = new Tween( pages, "rotation", Elastic.easeOut, src, dest, duration, true );
 }
-</pre>
-
-</div>
+</pre></div>
 
 
   
@@ -109,15 +102,17 @@ public function rotatePage( dest ):void {
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -172,10 +167,24 @@ public function rotatePage( dest ):void {
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -200,6 +209,7 @@ public function rotatePage( dest ):void {
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

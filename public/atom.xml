@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T16:53:29-07:00</updated>
+  <updated>2011-05-29T20:01:27-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -19,20 +19,15 @@
     <link href="http://junctionbox.ca/2011/05/28/branching-by-abstraction-101/"/>
     <updated>2011-05-28T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2011/05/28/branching-by-abstraction-101</id>
-    <content type="html">Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction! 
-
-So what exactly does this look like?
-
-Let's start with a simple function that outputs your name:
-
+    <content type="html">&lt;p&gt;Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery.  So what&amp;#8217;s an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction!&lt;/p&gt;
+&lt;p&gt;So what exactly does this look like?&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s start with a simple function that outputs your name:&lt;/p&gt;
 &lt;pre&gt;
 def name
 	@first_name
 end
 &lt;/pre&gt;
-
-Now we want to change the function but it's going to be significant in someway, how would we achieve that? The simplest way would be to introduce a binary variable that allows flow control. I'm not a big fan of this option as it can potentially require a lot of overhead to wire in configuration files to it.
-
+&lt;p&gt;Now we want to change the function but it&amp;#8217;s going to be significant in someway, how would we achieve that while minimising the risk on the current functionality? The simplest way would be to introduce a binary variable that allows for flow control. I&amp;#8217;m not a big fan of this option as it can lead down a difficult path for wiring in configuration files to it.&lt;/p&gt;
 &lt;pre&gt;
 def name
 	return name_flag_name2 if @enable_name2
@@ -43,18 +38,14 @@ def name_flag_name2
 	# TBD
 end
 &lt;/pre&gt;
-
-That's a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you'll need something that handles a little more logic:
-
+&lt;p&gt;That&amp;#8217;s a simple on/off approach for rolling out a new feature what if you want to do canary releases?  Well you&amp;#8217;ll need something that handles a little more logic:&lt;/p&gt;
 &lt;pre&gt;
 def name
 	return name_flag_name2 if @features.enabled?(:enable_name2, @user_account_type)
 	@name
 end
 &lt;/pre&gt;
-
-I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it's implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?
-</content>
+&lt;p&gt;I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it&amp;#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -62,17 +53,15 @@ I leave the implementation details for the feature manager up to the user. Here 
     <link href="http://junctionbox.ca/2011/02/10/bootstrapping-windows/"/>
     <updated>2011-02-10T00:00:00-08:00</updated>
     <id>http://junctionbox.ca/2011/02/10/bootstrapping-windows</id>
-    <content type="html">Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It's a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
-
-Here's the general code cobbled together;
-
+    <content type="html">&lt;p&gt;Finding myself back in the Windows domain I really miss package repository tools like &lt;span class=&quot;caps&quot;&gt;YUM&lt;/span&gt; and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It&amp;#8217;s a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.&lt;/p&gt;
+&lt;p&gt;Here&amp;#8217;s the general code cobbled together;&lt;/p&gt;
 &lt;pre&gt;
 Const BINARY = 1
 Const SAVE_CREATE_OVERWRITE = 2
 Const SAVE_CREATE_NOT_EXIST = 1
 Const ERR_DOWNLOAD_FILE_UNAVAILABLE = -1
 Const ERR_DOWNLOAD_FILE_UNSAVABLE = -2
-temp = WScript.CreateObject(&quot;Scripting.FileSystemObject&quot;).GetSpecialFolder(2).Path &amp; &quot;\&quot;
+temp = WScript.CreateObject(&quot;Scripting.FileSystemObject&quot;).GetSpecialFolder(2).Path &amp;amp; &quot;\&quot;
 
 Dim http, WshShell, file_stream
 
@@ -81,7 +70,7 @@ Set WshShell = WScript.CreateObject(&quot;WScript.Shell&quot;)
 
 
 download_file &quot;http://javadl.sun.com/webapps/download/AutoDL?BundleId=44457&quot;, &quot;jre.exe&quot;
-WshShell.Run temp &amp; &quot;jre.exe /s /v &quot;&quot;/qn ADDLOCAL=ALL IEXPLORER=1&quot;&quot;&quot;, 1, TRUE
+WshShell.Run temp &amp;amp; &quot;jre.exe /s /v &quot;&quot;/qn ADDLOCAL=ALL IEXPLORER=1&quot;&quot;&quot;, 1, TRUE
 ' JRE
 
 
@@ -105,15 +94,13 @@ Function download_file(src, dest)
 	file_stream.type = BINARY
 	file_stream.open
 	file_stream.write http.responseBody
-	file_stream.saveToFile temp &amp; dest, SAVE_CREATE_OVERWRITE 
+	file_stream.saveToFile temp &amp;amp; dest, SAVE_CREATE_OVERWRITE 
 	file_stream.close
 
 	Set file_stream = nothing
 	Set http = nothing
 End Function
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -121,10 +108,8 @@ End Function
     <link href="http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x/"/>
     <updated>2010-10-05T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x</id>
-    <content type="html">Configuring puppetd on OS X
-
-Create the User and Group accounts;
-
+    <content type="html">&lt;p&gt;Configuring puppetd on OS X&lt;/p&gt;
+&lt;p&gt;Create the User and Group accounts;&lt;/p&gt;
 &lt;pre&gt;
 sudo dscl . -create /Groups/puppet
 sudo dscl . -create /Groups/puppet PrimaryGroupID 300
@@ -134,39 +119,27 @@ sudo dscl . -create /Users/puppet PrimaryGroupID 300
 sudo dscl . -create /Users/puppet UniqueID 300
 sudo dscl . -create /Users/puppet UserShell /usr/bin/false
 &lt;/pre&gt;
-
-Create the folders
-
+&lt;p&gt;Create the folders&lt;/p&gt;
 &lt;pre&gt;
 sudo mkdir /etc/puppet
 sudo mkdir -p /var/puppet/log
 sudo chown -R puppet:puppet /var/puppet
 sudo chown -R puppet:puppet /etc/puppet
 &lt;/pre&gt;
-
-Create the config file.
-
+&lt;p&gt;Create the config file.&lt;/p&gt;
 &lt;pre&gt;
-sudo puppetd --genconfig &gt; /etc/puppet/puppet.conf
+sudo puppetd --genconfig &amp;gt; /etc/puppet/puppet.conf
 &lt;/pre&gt;
-
-Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP's).
-
-If you run into issues with your certificates;
-
-h4. Client
-
+&lt;p&gt;Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&amp;#8217;s).&lt;/p&gt;
+&lt;p&gt;If you run into issues with your certificates;&lt;/p&gt;
+&lt;h4&gt;Client&lt;/h4&gt;
 &lt;pre&gt;
 rm -rf /etc/puppet/ssl
 &lt;/pre&gt;
-
-h4. Server
-
+&lt;h4&gt;Server&lt;/h4&gt;
 &lt;pre&gt;
 puppetca --clean CERT_ID
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -174,25 +147,57 @@ puppetca --clean CERT_ID
     <link href="http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style/"/>
     <updated>2010-08-01T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style</id>
-    <content type="html">Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:
-
-| id | created_at | page |
-| Integer | DateTime | Varchar(255) |
-
-I wanted to create a table like the following:
-
-| page | monday | tuesday | wednesday | thursday | friday | saturday | sunday |
-| index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
-| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |\nMy first though was just do a simple GROUP BY and pivot the table through code.
-
-&lt;pre&gt;
+    <content type="html">&lt;p&gt;Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:&lt;/p&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td&gt; id &lt;/td&gt;
+		&lt;td&gt; created_at &lt;/td&gt;
+		&lt;td&gt; page &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; Integer &lt;/td&gt;
+		&lt;td&gt; DateTime &lt;/td&gt;
+		&lt;td&gt; Varchar(255) &lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;I wanted to create a table like the following:&lt;/p&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td&gt; page &lt;/td&gt;
+		&lt;td&gt; monday &lt;/td&gt;
+		&lt;td&gt; tuesday &lt;/td&gt;
+		&lt;td&gt; wednesday &lt;/td&gt;
+		&lt;td&gt; thursday &lt;/td&gt;
+		&lt;td&gt; friday &lt;/td&gt;
+		&lt;td&gt; saturday &lt;/td&gt;
+		&lt;td&gt; sunday &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; index &lt;/td&gt;
+		&lt;td&gt; 3 &lt;/td&gt;
+		&lt;td&gt; 5 &lt;/td&gt;
+		&lt;td&gt; 2 &lt;/td&gt;
+		&lt;td&gt; 8 &lt;/td&gt;
+		&lt;td&gt; 9 &lt;/td&gt;
+		&lt;td&gt; 30 &lt;/td&gt;
+		&lt;td&gt; 32 &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; contact &lt;/td&gt;
+		&lt;td&gt; 2 &lt;/td&gt;
+		&lt;td&gt; 1 &lt;/td&gt;
+		&lt;td&gt; 4 &lt;/td&gt;
+		&lt;td&gt; 3 &lt;/td&gt;
+		&lt;td&gt; 7 &lt;/td&gt;
+		&lt;td&gt; 12 &lt;/td&gt;
+		&lt;td&gt; 16 &lt;/td&gt;
+&lt;/table&gt;
+\nMy first though was just do a simple GROUP BY and pivot the table through code.&lt;pre&gt;
 SELECT page, DATE(created_at), COUNT(*) AS hits 
 FROM page_views
 GROUP BY DATE(created_at), page ORDER BY page;
 &lt;/pre&gt;
-
-I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure SQL and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &quot;functions and operators&quot;:http://dev.mysql.com/doc/refman/5.1/en/functions.html.  After a small meal and some strange query results I ran into a presentation created by &quot;Giuseppe Maxia&quot;:http://datacharmer.org/ aka the &quot;Data Charmer&quot;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:
-
+&lt;p&gt;I figured I could alternatively use temp tables but, I had an itch to find out if there was another way using pure &lt;span class=&quot;caps&quot;&gt;SQL&lt;/span&gt; and no temp tables.  During my search I ran across all sorts of queries some obscure head scratchers.  After much frustration I started reading the MySQL for any reprieve particularly the section on &lt;a href=&quot;http://dev.mysql.com/doc/refman/5.1/en/functions.html&quot;&gt;functions and operators&lt;/a&gt;.  After a small meal and some strange query results I ran into a presentation created by &lt;a href=&quot;http://datacharmer.org/&quot;&gt;Giuseppe Maxia&lt;/a&gt; aka the &amp;#8220;Data Charmer&amp;#8221;.  I reamed through his presentation and found what I was looking for in the form of a 2 query crosstab.  I reformulated his query to suit my needs and came up with the following:&lt;/p&gt;
 &lt;pre&gt;
 SELECT page_name AS name,
 COUNT(CASE WHEN DATE(created_at) = '?' THEN id ELSE null END) AS mon,
@@ -207,10 +212,7 @@ COUNT(CASE WHEN DATE(created_at)
   THEN id ELSE null END) AS total
 FROM page_views GROUP BY name
 &lt;/pre&gt;
-
-What are your thoughts? Any similar implementations how did you handle it?
-
-</content>
+&lt;p&gt;What are your thoughts? Any similar implementations how did you handle it?&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -218,26 +220,25 @@ What are your thoughts? Any similar implementations how did you handle it?
     <link href="http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest/"/>
     <updated>2010-04-17T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest</id>
-    <content type="html">General overview of what we're building;
-
-* Simple autotest compatible directory structure.
-* Sinatra application.
-* Sinatra unit test.
-
-File setup:
-
+    <content type="html">&lt;p&gt;General overview of what we&amp;#8217;re building;&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Simple autotest compatible directory structure.&lt;/li&gt;
+	&lt;li&gt;Sinatra application.&lt;/li&gt;
+	&lt;li&gt;Sinatra unit test.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;File setup:&lt;/p&gt;
 &lt;pre&gt;
 
 export project=MyApp
 mkdir -p $project/{lib,test}
 cd $project
-cat &lt;&lt;EOT &gt; test/test_app.rb
+cat &amp;lt;&amp;lt;EOT &amp;gt; test/test_app.rb
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'app'
 require 'test/unit'
 
-class AppTest &lt; Test::Unit::TestCase
+class AppTest &amp;lt; Test::Unit::TestCase
   def test_fail
     flunk 'Write your App tests!'
   end
@@ -247,9 +248,7 @@ EOT
 autotest
 
 &lt;/pre&gt;
-
-p. This should output something akin to the following, if you don't get that then somethings amiss that you'll need to investigate further.
-
+&lt;p&gt;This should output something akin to the following, if you don&amp;#8217;t get that then somethings amiss that you&amp;#8217;ll need to investigate further.&lt;/p&gt;
 &lt;pre&gt;/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- app (LoadError)
 	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
 	from ./test/test_app.rb:4
@@ -258,23 +257,17 @@ p. This should output something akin to the following, if you don't get that the
 	from -e:2
 	from -e:2:in `each'
 	from -e:2&lt;/pre&gt;
-
-p. Next create a new file named 'lib/app.rb'.
-
-p. @touch lib/app.rb@
-
-p. Once saved your test should kick to life with one failure:
-
+&lt;p&gt;Next create a new file named &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;touch lib/app.rb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Once saved your test should kick to life with one failure:&lt;/p&gt;
 &lt;pre&gt;
 
 1) Failure:
 test_fail(AppTest) [./test/test_app.rb:8]:
 Write your App tests!.
 
-&lt;/pre&gt;\nHugely simplified test suite, but it gets you going and doesn't contain reams of mystical cruft to debug.
-
-Next up is introducing rack's test suite, modify your test_app.rb to look like the following;
-
+&lt;/pre&gt;&lt;p&gt;\nHugely simplified test suite, but it gets you going and doesn&amp;#8217;t contain reams of mystical cruft to debug.&lt;/p&gt;
+&lt;p&gt;Next up is introducing rack&amp;#8217;s test suite, modify your test_app.rb to look like the following;&lt;/p&gt;
 &lt;pre&gt;
 
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
@@ -285,7 +278,7 @@ require 'rack/test'
 
 set :environment, :test
 
-class AppTest &lt; Test::Unit::TestCase
+class AppTest &amp;lt; Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app
@@ -298,17 +291,12 @@ class AppTest &lt; Test::Unit::TestCase
 end
 
 &lt;/pre&gt;
-
-Back to a test that doesn't run? Good!
-
-Let's get it back to a running test with the following change to 'lib/app.rb':
-
+&lt;p&gt;Back to a test that doesn&amp;#8217;t run? Good!&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s get it back to a running test with the following change to &amp;#8216;lib/app.rb&amp;#8217;:&lt;/p&gt;
 &lt;pre&gt;
 %w{rubygems sinatra}.each {|l| require l }
 &lt;/pre&gt;
-
-Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:
-
+&lt;p&gt;Now you should have a failing test.  Lets start on something meaningful remove the test_fail method and add the following:&lt;/p&gt;
 &lt;pre&gt;
 
 def test_root_is_accessible
@@ -317,9 +305,7 @@ def test_root_is_accessible
 end
 
 &lt;/pre&gt;
-
-Your autotest should switch to the error output below:
-
+&lt;p&gt;Your autotest should switch to the error output below:&lt;/p&gt;
 &lt;pre&gt;
 
 1) Error:
@@ -328,38 +314,27 @@ NameError: uninitialized constant AppTest::App
 ./test/test_app.rb:13:in `app'
 
 &lt;/pre&gt;
-
-That's an indicator we're missing our application class.  Dealing with one problem at a time lets implement the skeleton class in 'lib/app.rb' as outlined below.
-
+&lt;p&gt;That&amp;#8217;s an indicator we&amp;#8217;re missing our application class.  Dealing with one problem at a time lets implement the skeleton class in &amp;#8216;lib/app.rb&amp;#8217; as outlined below.&lt;/p&gt;
 &lt;pre&gt;
-class App &lt; Sinatra::Base
+class App &amp;lt; Sinatra::Base
 end
 &lt;/pre&gt;
-
-You should get a failing test case with the output below, which indicates the route is not found.
-
+&lt;p&gt;You should get a failing test case with the output below, which indicates the route is not found.&lt;/p&gt;
 &lt;pre&gt;
 1) Failure:
 test_root_is_accessible(AppTest) [./test/test_app.rb:18]:
-&lt;false&gt; is not true.
+&amp;lt;false&amp;gt; is not true.
 &lt;/pre&gt;
-
-Next up lets add the route in 'lib/app.rb'.
-
+&lt;p&gt;Next up lets add the route in &amp;#8216;lib/app.rb&amp;#8217;.&lt;/p&gt;
 &lt;pre&gt;
 
 get '/' do
 end
 
 &lt;/pre&gt;
-
-And there we go our first of hopefully many tests is now passing, congratulations!
-
-For the source see;
-
-&quot;git://github.com/nfisher/Sinatra-Skeleton.git&quot;:git://github.com/nfisher/Sinatra-Skeleton.git
-
-</content>
+&lt;p&gt;And there we go our first of hopefully many tests is now passing, congratulations!&lt;/p&gt;
+&lt;p&gt;For the source see;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;git://github.com/nfisher/Sinatra-Skeleton.git&quot;&gt;git://github.com/nfisher/Sinatra-Skeleton.git&lt;/a&gt;&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -367,26 +342,27 @@ For the source see;
     <link href="http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto/"/>
     <updated>2010-03-24T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto</id>
-    <content type="html">So in my ever increasing commitment to TDD, I've started seeking an efficient way to run tests.  Call me what you will but, I find running tests breaks my tempo.  So how do I keep aware of my testing state, but stay with my head in the code.  Some out there might call for NetBeans, I've used it and loved it, but I'm drawn to vim like a moth to the proverbial flame.
-
-Mix 1 vertical pinch of *NERDTree*, 1 horizontal slice of *bufexplorer*, a gram of *FuzzyFinder*, *rails.vim*, and some custom bindings and what do you get?  A pimped out ride in vim for rails development.  Sure it may look like a Honda with those over-sized spoilers, but its just the way I like it!  Long story short, NetBeans is a great package, but I just can't stay away from vim long.  Alas I digress, the goal is to maximize my productivity while staying committed to the Tao of TDD.\nSo under the hood I've got MacVim runnin', lean, mean and full-screen but, how do I maximize my productivity?  The first thing that came to mind was FAM, at first I was considering rolling my own tool... mmm maybe we'll just consult with the interwebz a little before we take it that far.  Came across autotest, interesting, but it uses polling....or does it?  Enter autotest-fsevent, just what the doctor ordered for keepin' those idle cycles, idle.  Add a sprinkle of autotest-growl (highly recommend &quot;Music Video&quot; as your default growl style) and autotest-rails-pure and you've got a nice setup for TDD.
-
-So a quick rundown of my setup.
-
-* MacVim
-** Rails.vim
-** NERDTree.vim
-** bufexplor.vim
-** FuzzyFinder.vim
-** keyboard mapping love
-* gems
-** autotest
-** autotest-fsevent
-** autotest-growl
-** autotest-rails-pure
-** test-unit
-
-</content>
+    <content type="html">&lt;p&gt;So in my ever increasing commitment to &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt;, I&amp;#8217;ve started seeking an efficient way to run tests.  Call me what you will but, I find running tests breaks my tempo.  So how do I keep aware of my testing state, but stay with my head in the code.  Some out there might call for NetBeans, I&amp;#8217;ve used it and loved it, but I&amp;#8217;m drawn to vim like a moth to the proverbial flame.&lt;/p&gt;
+&lt;p&gt;Mix 1 vertical pinch of &lt;strong&gt;NERDTree&lt;/strong&gt;, 1 horizontal slice of &lt;strong&gt;bufexplorer&lt;/strong&gt;, a gram of &lt;strong&gt;FuzzyFinder&lt;/strong&gt;, &lt;strong&gt;rails.vim&lt;/strong&gt;, and some custom bindings and what do you get?  A pimped out ride in vim for rails development.  Sure it may look like a Honda with those over-sized spoilers, but its just the way I like it!  Long story short, NetBeans is a great package, but I just can&amp;#8217;t stay away from vim long.  Alas I digress, the goal is to maximize my productivity while staying committed to the Tao of &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt;.\nSo under the hood I&amp;#8217;ve got MacVim runnin&amp;#8217;, lean, mean and full-screen but, how do I maximize my productivity?  The first thing that came to mind was &lt;span class=&quot;caps&quot;&gt;FAM&lt;/span&gt;, at first I was considering rolling my own tool&amp;#8230; mmm maybe we&amp;#8217;ll just consult with the interwebz a little before we take it that far.  Came across autotest, interesting, but it uses polling&amp;#8230;.or does it?  Enter autotest-fsevent, just what the doctor ordered for keepin&amp;#8217; those idle cycles, idle.  Add a sprinkle of autotest-growl (highly recommend &amp;#8220;Music Video&amp;#8221; as your default growl style) and autotest-rails-pure and you&amp;#8217;ve got a nice setup for &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;So a quick rundown of my setup.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;MacVim
+	&lt;ul&gt;
+		&lt;li&gt;Rails.vim&lt;/li&gt;
+		&lt;li&gt;NERDTree.vim&lt;/li&gt;
+		&lt;li&gt;bufexplor.vim&lt;/li&gt;
+		&lt;li&gt;FuzzyFinder.vim&lt;/li&gt;
+		&lt;li&gt;keyboard mapping love&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+	&lt;li&gt;gems
+	&lt;ul&gt;
+		&lt;li&gt;autotest&lt;/li&gt;
+		&lt;li&gt;autotest-fsevent&lt;/li&gt;
+		&lt;li&gt;autotest-growl&lt;/li&gt;
+		&lt;li&gt;autotest-rails-pure&lt;/li&gt;
+		&lt;li&gt;test-unit&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
   </entry>
   
   <entry>
@@ -394,26 +370,16 @@ So a quick rundown of my setup.
     <link href="http://junctionbox.ca/2010/02/23/fresh-book-it/"/>
     <updated>2010-02-23T00:00:00-08:00</updated>
     <id>http://junctionbox.ca/2010/02/23/fresh-book-it</id>
-    <content type="html">A few years ago I signed up for a &quot;Freshbooks&quot;:http://www.freshbooks.com/ account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.
-
-We're now close to 100 people, and over 200 projects.  Freshbooks project selection just isn't cutting it anymore, but I was sure there was a solution, namely a project selector with type ahead search.
-
-One late night at work, waiting for a *large* db dump to load, I decided to do a little hacking.  I cracked open the page source to see what JS framework was used.  JQuery was available and I was elated!  Firebug was up next.  I was pretty certain I could pull the data I wanted from the Project selection box.  I got the id from the inspector, fired up the console and started poking around.
-
-I came up with some code that worked in the console and turned it into a one-liner for a bookmarklet... and presto...fizzo.  No dice, no workie... just rendered [Object object].
-
-Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;
-
-@(function(){})()@\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.
-
-Now I know when you look at the code you'll scream &quot;GLOBALS ARE BAD&quot;, but its a bookmarklet and I was just having fun with javascript.
-
-Turns out my solution was to wrap the variable initialization in void().
-
-@void(project_list = null)@
-
-Hold the applause, but here's the final code (for now :).
-
+    <content type="html">&lt;p&gt;A few years ago I signed up for a &lt;a href=&quot;http://www.freshbooks.com/&quot;&gt;Freshbooks&lt;/a&gt; account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;re now close to 100 people, and over 200 projects.  Freshbooks project selection just isn&amp;#8217;t cutting it anymore, but I was sure there was a solution, namely a project selector with type ahead search.&lt;/p&gt;
+&lt;p&gt;One late night at work, waiting for a &lt;strong&gt;large&lt;/strong&gt; db dump to load, I decided to do a little hacking.  I cracked open the page source to see what JS framework was used.  JQuery was available and I was elated!  Firebug was up next.  I was pretty certain I could pull the data I wanted from the Project selection box.  I got the id from the inspector, fired up the console and started poking around.&lt;/p&gt;
+&lt;p&gt;I came up with some code that worked in the console and turned it into a one-liner for a bookmarklet&amp;#8230; and presto&amp;#8230;fizzo.  No dice, no workie&amp;#8230; just rendered [Object object].&lt;/p&gt;
+&lt;p&gt;Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;(function(){})()&lt;/code&gt;\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.&lt;/p&gt;
+&lt;p&gt;Now I know when you look at the code you&amp;#8217;ll scream &amp;#8220;&lt;span class=&quot;caps&quot;&gt;GLOBALS&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;ARE&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;BAD&lt;/span&gt;&amp;#8221;, but its a bookmarklet and I was just having fun with javascript.&lt;/p&gt;
+&lt;p&gt;Turns out my solution was to wrap the variable initialization in void().&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;void(project_list = null)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Hold the applause, but here&amp;#8217;s the final code (for now :).&lt;/p&gt;
 &lt;pre&gt;
 javascript:
 void(project_list = null);
@@ -422,7 +388,7 @@ void(project_select = null);
 function init( ) {
         project_list = $('#projectid option');
         project_select = $('#projectid');
-        search_box = '&lt;input type=&quot;text&quot; onkeyup=&quot;projectSearch(this);&quot; style=&quot;width:200px&quot; id=&quot;search_entry&quot;/&gt;&lt;div id=&quot;search_results&quot; style=&quot;position:absolute;width:22em;overflow:auto;max-height:12em;&quot;&gt;&lt;/div&gt;';
+        search_box = '&amp;lt;input type=&quot;text&quot; onkeyup=&quot;projectSearch(this);&quot; style=&quot;width:200px&quot; id=&quot;search_entry&quot;/&amp;gt;&amp;lt;div id=&quot;search_results&quot; style=&quot;position:absolute;width:22em;overflow:auto;max-height:12em;&quot;&amp;gt;&amp;lt;/div&amp;gt;';
         project_select.css('visibility','hidden');
         project_select.after(search_box);
 }
@@ -433,7 +399,7 @@ function projectSearch($target) {
         var links = '';
         search_results.empty();
         project_list.each( function($index, $element) {
-            if( $element.text.match(re) &amp;&amp; parseInt($element.value) &gt; 0 ) {links += projectLink( $element.value, $element.text );}
+            if( $element.text.match(re) &amp;amp;&amp;amp; parseInt($element.value) &amp;gt; 0 ) {links += projectLink( $element.value, $element.text );}
           });
         search_results.prepend(links);
 }
@@ -446,13 +412,11 @@ function updateSelection( $id, $label ) {
 }
 
 function projectLink( $id, $label ) {
-        return '&lt;a href=&quot;#&quot; style=&quot;display:block;clear:both;background-color:#ccc;border-bottom:1px solid #999;padding:4px 2px;&quot; onclick=&quot;updateSelection(\''+ $id + '\',\'' + $label +'\');return false;&quot;&gt;' + $label + '&lt;/a&gt;';
+        return '&amp;lt;a href=&quot;#&quot; style=&quot;display:block;clear:both;background-color:#ccc;border-bottom:1px solid #999;padding:4px 2px;&quot; onclick=&quot;updateSelection(\''+ $id + '\',\'' + $label +'\');return false;&quot;&amp;gt;' + $label + '&amp;lt;/a&amp;gt;';
 }
 
 init();
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -460,10 +424,9 @@ init();
     <link href="http://junctionbox.ca/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/"/>
     <updated>2009-12-12T00:00:00-08:00</updated>
     <id>http://junctionbox.ca/2009/12/12/approaching-bliss--tdd+php+mvc</id>
-    <content type="html">Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn't seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding TDD and CodeIgnitor on the interweb. In my search I ran across the article &quot;Setting up the perfect CodeIgniter &amp; TDD Environment&quot;:http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/.  I downloaded the code and massaged it a little to suit my needs.  I'm not fully content with the implementation of BaseTestPath, but I'm sure a round of TDD (which I should've started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn't been thoroughly tested, so use at your own peril. Specifically I haven't verified the views section, but upon initial inspection unit tests work.  I'm thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.
-
+    <content type="html">&lt;p&gt;Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework.  As much as it doesn&amp;#8217;t seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework.  I decided to see what ramblings there were regarding &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt; and CodeIgnitor on the interweb. In my search I ran across the article &lt;a href=&quot;http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/&quot;&gt;Setting up the perfect CodeIgniter &amp;amp; &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt; Environment&lt;/a&gt;.  I downloaded the code and massaged it a little to suit my needs.  I&amp;#8217;m not fully content with the implementation of BaseTestPath, but I&amp;#8217;m sure a round of &lt;span class=&quot;caps&quot;&gt;TDD&lt;/span&gt; (which I should&amp;#8217;ve started with) will probably iron it out.  Kudos to Jamie for doing the heavy lifting!\nIt hasn&amp;#8217;t been thoroughly tested, so use at your own peril. Specifically I haven&amp;#8217;t verified the views section, but upon initial inspection unit tests work.  I&amp;#8217;m thinking generate and destroy functions that build out the skelton for models, controllers, views might be my next step.&lt;/p&gt;
 &lt;pre&gt;
-&lt;?php
+&amp;lt;?php
 /*
 SimpleTest + CodeIgniter
 
@@ -518,7 +481,7 @@ class CodeIgniterUnitTestCase extends UnitTestCase {
 	 
 	public function __construct() {
 		parent::UnitTestCase();
-		$this-&gt;ci =&amp; get_instance();
+		$this-&amp;gt;ci =&amp;amp; get_instance();
 	}
 }
  
@@ -527,13 +490,13 @@ class CodeIgniterWebTestCase extends WebTestCase {
  
 	public function __construct() {
 		parent::WebTestCase();
-		$this-&gt;ci =&amp; get_instance();
+		$this-&amp;gt;ci =&amp;amp; get_instance();
 	}
 }
 
-function add_full_path( &amp;$v, $k, $o ) {
-	$o-&gt;addImplementationPath($o-&gt;getImplementationPath($v));
-	$v = $o-&gt;getTestPath() . '/' . $v;
+function add_full_path( &amp;amp;$v, $k, $o ) {
+	$o-&amp;gt;addImplementationPath($o-&amp;gt;getImplementationPath($v));
+	$v = $o-&amp;gt;getTestPath() . '/' . $v;
 }
 
 function filter_hidden( $v ) {
@@ -558,23 +521,23 @@ abstract class BaseTestPath {
 	var $impl_filenames = array();
 
 	function getFilenames() {
-		if( $this-&gt;filenames === null ) {
-			$this-&gt;filenames = @scandir($this-&gt;getTestPath());
-			$this-&gt;filenames = array_filter( $this-&gt;filenames, 'filter_hidden' );
+		if( $this-&amp;gt;filenames === null ) {
+			$this-&amp;gt;filenames = @scandir($this-&amp;gt;getTestPath());
+			$this-&amp;gt;filenames = array_filter( $this-&amp;gt;filenames, 'filter_hidden' );
 		}
-		return $this-&gt;filenames;
+		return $this-&amp;gt;filenames;
 	}
 
-	function addToTestSuite( &amp;$test ) {
-		$this-&gt;loadImplementations();
-		foreach( $this-&gt;getFilenamesWithFullPath() as $test_file ) {
-			$test-&gt;addFile( $test_file );
+	function addToTestSuite( &amp;amp;$test ) {
+		$this-&amp;gt;loadImplementations();
+		foreach( $this-&amp;gt;getFilenamesWithFullPath() as $test_file ) {
+			$test-&amp;gt;addFile( $test_file );
 		}
 	}
 
 	function loadImplementations() {
-		$this-&gt;getFilenamesWithFullPath();
-		foreach( $this-&gt;impl_filenames as $impl ) {
+		$this-&amp;gt;getFilenamesWithFullPath();
+		foreach( $this-&amp;gt;impl_filenames as $impl ) {
 			if( file_exists($impl) ) {
 				require_once($impl);
 			}
@@ -582,17 +545,17 @@ abstract class BaseTestPath {
 	}
 
 	function getFilenamesWithFullPath() {
-		if( $this-&gt;is_fullpath == FALSE ) {
-			$this-&gt;getFilenames();
-			array_walk( $this-&gt;filenames, 'add_full_path', $this );
-			$this-&gt;is_fullpath = TRUE;
+		if( $this-&amp;gt;is_fullpath == FALSE ) {
+			$this-&amp;gt;getFilenames();
+			array_walk( $this-&amp;gt;filenames, 'add_full_path', $this );
+			$this-&amp;gt;is_fullpath = TRUE;
 		}
 
-		return $this-&gt;filenames;
+		return $this-&amp;gt;filenames;
 	}
 
 	function addImplementationPath( $impl_path ) {
-		array_push($this-&gt;impl_filenames, $impl_path);
+		array_push($this-&amp;gt;impl_filenames, $impl_path);
 	}
 }
 
@@ -649,12 +612,12 @@ class ViewTestPath extends BaseTestPath {
 //Capture CodeIgniter output, discard and load system into $CI variable
 ob_start();
 include(ROOT . 'index.php');
-$CI =&amp; get_instance();
+$CI =&amp;amp; get_instance();
 ob_end_clean();
  
 //Setup the test suite
-$test_suite =&amp; new TestSuite();
-$test_suite-&gt;_label = 'CodeIgniter Application Test Suite';
+$test_suite =&amp;amp; new TestSuite();
+$test_suite-&amp;gt;_label = 'CodeIgniter Application Test Suite';
 
 $controller_tests = new ControllerTestPath();
 $model_tests = new ModelTestPath();
@@ -678,20 +641,18 @@ if( sizeof($tests) == 0 ) {
 }
 
 foreach( $tests as $test ) {
-	$test-&gt;addToTestSuite( &amp;$test_suite );
+	$test-&amp;gt;addToTestSuite( &amp;amp;$test_suite );
 }
 
 //Run tests!
 if (TextReporter::inCli()) {
-	exit ($test_suite-&gt;run(new TextReporter()) ? 0 : 1);
+	exit ($test_suite-&amp;gt;run(new TextReporter()) ? 0 : 1);
 }
-$test_suite-&gt;run(new HtmlReporter());
+$test_suite-&amp;gt;run(new HtmlReporter());
 
 /* End of file test.php */
 /* Location: ./test.php */
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -699,59 +660,51 @@ $test_suite-&gt;run(new HtmlReporter());
     <link href="http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection/"/>
     <updated>2009-11-03T00:00:00-08:00</updated>
     <id>http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection</id>
-    <content type="html">Recently I have been mulling the benefits of Dependency Injection in relationship to PHP.  I still question it's need, but I felt like an experiment for the fun of it.
-
-First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  &quot;this&quot;:http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc shamelessly &quot;php'ized&quot; ruby code.
-
+    <content type="html">&lt;p&gt;Recently I have been mulling the benefits of Dependency Injection in relationship to &lt;span class=&quot;caps&quot;&gt;PHP&lt;/span&gt;.  I still question it&amp;#8217;s need, but I felt like an experiment for the fun of it.&lt;/p&gt;
+&lt;p&gt;First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  &lt;a href=&quot;http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc&quot;&gt;this&lt;/a&gt; shamelessly &amp;#8220;php&amp;#8217;ized&amp;#8221; ruby code.&lt;/p&gt;
 &lt;pre&gt;
 function create_app() {
  $container = new DI_Container( );
- $container-&gt;register( 'logfilename', 'logfile.log' );
- $container-&gt;register( 'db_user', 'nfisher' );
- $container-&gt;register( 'db_pass', 'secret' );
- $container-&gt;register( 'dbi_string', 'db:host:and:stuff' );
+ $container-&amp;gt;register( 'logfilename', 'logfile.log' );
+ $container-&amp;gt;register( 'db_user', 'nfisher' );
+ $container-&amp;gt;register( 'db_pass', 'secret' );
+ $container-&amp;gt;register( 'dbi_string', 'db:host:and:stuff' );
 
- $container-&gt;register( 'authenticator', function($c) {
-  return new Authenticator( $c-&gt;database, $c-&gt;logger, $c-&gt;error_handler );
+ $container-&amp;gt;register( 'authenticator', function($c) {
+  return new Authenticator( $c-&amp;gt;database, $c-&amp;gt;logger, $c-&amp;gt;error_handler );
 } );
 
- $container-&gt;register('error_handler', function($c) {
+ $container-&amp;gt;register('error_handler', function($c) {
   $errh = new ErrorHandler( );
-  $errh-&gt;logger = $c-&gt;logger;
+  $errh-&amp;gt;logger = $c-&amp;gt;logger;
   return $errh;
 } );
 
- $container-&gt;register('logger', function($c) {
-  return new Logger( $c-&gt;logfilename );
+ $container-&amp;gt;register('logger', function($c) {
+  return new Logger( $c-&amp;gt;logfilename );
 } );
 
- $container-&gt;register('database', function($c) {
-  return new DB( $c-&gt;dbi_string, $c-&gt;db_user, $c-&gt;db_pass );
+ $container-&amp;gt;register('database', function($c) {
+  return new DB( $c-&amp;gt;dbi_string, $c-&amp;gt;db_user, $c-&amp;gt;db_pass );
 } );
 
- $container-&gt;register('quotes', function($c) {
-  return new StockQuotes( $c-&gt;error_handler, $c-&gt;logger );
+ $container-&amp;gt;register('quotes', function($c) {
+  return new StockQuotes( $c-&amp;gt;error_handler, $c-&amp;gt;logger );
 } );
 
- $container-&gt;register('webapp', function($c) { 
-  $app = new WebApp( $c-&gt;quotes, $c-&gt;authenticator, $c-&gt;database );
-  $app-&gt;logger = $c-&gt;logger;
-  $app-&gt;set_error_handler( $c-&gt;error_handler );
+ $container-&amp;gt;register('webapp', function($c) { 
+  $app = new WebApp( $c-&amp;gt;quotes, $c-&amp;gt;authenticator, $c-&amp;gt;database );
+  $app-&amp;gt;logger = $c-&amp;gt;logger;
+  $app-&amp;gt;set_error_handler( $c-&amp;gt;error_handler );
   return $app;
 } );
 }
-&lt;/pre&gt;\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.
-
-h3. String Constants Aren't Unknown Objects
-
-The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).
-
-h3. Absence of Anonymous Functions
-
-Unfortunately my production environment is php 5.2, anonymous functions...5.3 so its a simple problem of what's more important... existing well tested env won out on that one.
-
-So I created a simple function binder with the following interface;
-
+&lt;/pre&gt;&lt;p&gt;\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.&lt;/p&gt;
+&lt;h3&gt;String Constants Aren&amp;#8217;t Unknown Objects&lt;/h3&gt;
+&lt;p&gt;The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).&lt;/p&gt;
+&lt;h3&gt;Absence of Anonymous Functions&lt;/h3&gt;
+&lt;p&gt;Unfortunately my production environment is php 5.2, anonymous functions&amp;#8230;5.3 so its a simple problem of what&amp;#8217;s more important&amp;#8230; existing well tested env won out on that one.&lt;/p&gt;
+&lt;p&gt;So I created a simple function binder with the following interface;&lt;/p&gt;
 &lt;pre&gt;
 interface Applyable {
  public function each( $o );
@@ -761,66 +714,43 @@ class FunctionBinder implements Applyable {
   private $_f_name;
 
   public function __construct( $f_name ) {
-    $this-&gt;_f_name;
+    $this-&amp;gt;_f_name;
   }
 
   /** each: Calls the stored function by name and passes the DI container as a reference. 
    */
   public function each( $c ) {
-    return call_user_func( $this-&gt;_f_name, $c );
+    return call_user_func( $this-&amp;gt;_f_name, $c );
   }
 }
 &lt;/pre&gt;
-
-The anonymous function became named;
-
+&lt;p&gt;The anonymous function became named;&lt;/p&gt;
 &lt;pre&gt;
 function create_logger( $c ) {
-  return new Logger( $c-&gt;logfilename );
+  return new Logger( $c-&amp;gt;logfilename );
 }
 &lt;/pre&gt;
-
-And the register became;
-
-
-@$container-&gt;register('logger', new FunctionBinder('create_logger') );@
-
-
-h3. Code check in aisle 3... code check
-
-Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler...okay it'll work, but it ain't gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.
-
-h3. Testing 1.. 2
-
-The next thought that occurred to me was why not include the dependencies with the registration process?
-
-
-@$container-&gt;register( 'logger', new FunctionBinder('create_logger'), 'logfilename' );@
-
-
-It seemed simple, but I didn't like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.
-
-h3. Put on trial and Execute
-
-While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!
-
+&lt;p&gt;And the register became;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$container-&amp;gt;register('logger', new FunctionBinder('create_logger') );&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Code check in aisle 3&amp;#8230; code check&lt;/h3&gt;
+&lt;p&gt;Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler&amp;#8230;okay it&amp;#8217;ll work, but it ain&amp;#8217;t gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.&lt;/p&gt;
+&lt;h3&gt;Testing 1.. 2&lt;/h3&gt;
+&lt;p&gt;The next thought that occurred to me was why not include the dependencies with the registration process?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$container-&amp;gt;register( 'logger', new FunctionBinder('create_logger'), 'logfilename' );&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;It seemed simple, but I didn&amp;#8217;t like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.&lt;/p&gt;
+&lt;h3&gt;Put on trial and Execute&lt;/h3&gt;
+&lt;p&gt;While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!&lt;/p&gt;
 &lt;pre&gt;
 function create_logger( $c ) {
- return $c-&gt;build( Logger, $c-&gt;logfilename );
+ return $c-&amp;gt;build( Logger, $c-&amp;gt;logfilename );
 }
 &lt;/pre&gt;
-
-How does that change things?  Well it allows for a 2 phase process;
-
-Phase 1: Evaluate dependencies.
-Phase 2: Instantiate objects.
-
-During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.
-Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it's time.
-
-I have a direction, stay tuned for the final product!
-
-</content>
+&lt;p&gt;How does that change things?  Well it allows for a 2 phase process;&lt;/p&gt;
+&lt;p&gt;Phase 1: Evaluate dependencies.&lt;br /&gt;
+Phase 2: Instantiate objects.&lt;/p&gt;
+&lt;p&gt;During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.&lt;br /&gt;
+Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it&amp;#8217;s time.&lt;/p&gt;
+&lt;p&gt;I have a direction, stay tuned for the final product!&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -828,26 +758,15 @@ I have a direction, stay tuned for the final product!
     <link href="http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping/"/>
     <updated>2009-06-17T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping</id>
-    <content type="html">Today was another day like any other, but then I stopped and said hey &quot;GO team!!&quot;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster... the labour wasn't in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. &quot;Camping is a micro framework&quot;:http://redhanded.hobix.com/bits/campingAMicroframework.html that was the perfect fit for the task. Maybe PHP was more appropriate for the problem domain.  However, much like the previous sentence it wasn't how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It's painful to watch, but given my current server environment it is a necessary evil. Understand I'm well familiar with the configure install shuffle (./configure &amp;&amp; make &amp;&amp; sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.
-
-The first thing I did was &quot;gem update --system&quot;.  Version 0.9.4, the default for Centos 5, sucks on small VPS's (mostly because it'll crash from resource constraints).  I've been keeping up to date on Ruby so that's no worry, you may have to do the same.
-
-So I can pull gems down to my hearts content, or can I?  First up was RedCloth... long story short the gem uses Ragel and Centos 5 only provides version 5.x as an RPM. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;
-
-@gem install camping  # nuff said, installs 1.5 with ease@
-
-Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route... interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine... and then it hit I tried to login. Hmm curious the login doesn't work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB... that's curious no entries or tables.  So on with the search for my apps apparent lack of state.
-
-h3. Active Campers lose weight when they've got state!
-
-So ActiveRecord 2.1.0 doesn't play nicely with camping's session model out of the box. Found in a thread that you need to turn off partial updates;
-
-
-@AppName::Models::Base.partial_updates = false@
-
-Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog... on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I'm quite happy to have found a lovely new tool!
-
-</content>
+    <content type="html">&lt;p&gt;Today was another day like any other, but then I stopped and said hey &amp;#8220;GO team!!&amp;#8221;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster&amp;#8230; the labour wasn&amp;#8217;t in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. &lt;a href=&quot;http://redhanded.hobix.com/bits/campingAMicroframework.html&quot;&gt;Camping is a micro framework&lt;/a&gt; that was the perfect fit for the task. Maybe &lt;span class=&quot;caps&quot;&gt;PHP&lt;/span&gt; was more appropriate for the problem domain.  However, much like the previous sentence it wasn&amp;#8217;t how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It&amp;#8217;s painful to watch, but given my current server environment it is a necessary evil. Understand I&amp;#8217;m well familiar with the configure install shuffle (./configure &amp;amp;&amp;amp; make &amp;amp;&amp;amp; sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.&lt;/p&gt;
+&lt;p&gt;The first thing I did was &amp;#8220;gem update &amp;#8212;system&amp;#8221;.  Version 0.9.4, the default for Centos 5, sucks on small VPS&amp;#8217;s (mostly because it&amp;#8217;ll crash from resource constraints).  I&amp;#8217;ve been keeping up to date on Ruby so that&amp;#8217;s no worry, you may have to do the same.&lt;/p&gt;
+&lt;p&gt;So I can pull gems down to my hearts content, or can I?  First up was RedCloth&amp;#8230; long story short the gem uses Ragel and Centos 5 only provides version 5.x as an &lt;span class=&quot;caps&quot;&gt;RPM&lt;/span&gt;. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;gem install camping  # nuff said, installs 1.5 with ease&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route&amp;#8230; interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine&amp;#8230; and then it hit I tried to login. Hmm curious the login doesn&amp;#8217;t work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB&amp;#8230; that&amp;#8217;s curious no entries or tables.  So on with the search for my apps apparent lack of state.&lt;/p&gt;
+&lt;h3&gt;Active Campers lose weight when they&amp;#8217;ve got state!&lt;/h3&gt;
+&lt;p&gt;So ActiveRecord 2.1.0 doesn&amp;#8217;t play nicely with camping&amp;#8217;s session model out of the box. Found in a thread that you need to turn off partial updates;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;AppName::Models::Base.partial_updates = false&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&amp;#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&amp;#8217;m quite happy to have found a lovely new tool!&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -855,24 +774,52 @@ Booyah sessions work now! Well ActiveRecord in general does.  After spending the
     <link href="http://junctionbox.ca/2008/09/23/rest-%2B-less-weekend-while-camping/"/>
     <updated>2008-09-23T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/09/23/rest-+-less-weekend-while-camping</id>
-    <content type="html">In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;
-
-* REST
-* RestStop
-* Actionscript 3 URLStream
-
-I started out with RestStop's blog.rb as a starting point, and modified it as an event recorder.  It worked like a charm out of the box.  From there I wrote a quick Flash interface to POST data to each controllers create method.  BOOM, Ka-POW, Problems... I was getting a little unexpected funk from the way Flash was handling HTTP status codes. IOErrorEvent's were being fired, babies cried, etc. So far my observations have shown that URLStream &amp; URLLoader classes do a funky dance when they receive 3xx series status.  At a later date I would like to investigate further to see if the 3xx status is the cause of the IOErrorEvent. Ultimately the classes only report the final http status and none of the intermediary status changes.\nI decided to look around a little on Google into what I thought to be a fairly standardized protocol.  Turns out REST is less of a protocol and more of a methodology.  Regardless of what you call it I'd still like to work from a common community shared standard, at least when it comes to HTTP status codes.  In that search I found the table below buried in the article &quot;How to Create a REST Protocol&quot;:http://www.xml.com/pub/a/2004/12/01/restful-web.html. It was great my first resource that seemed to clearly define some constraints in what otherwise looked like the Wild West of RESTful web services.
-
-| *Resource* | *Method* | *Representation* | *Status Codes* |
-| Employee | GET | Employee Format | 200, 301, 410 |
-| Employee | PUT | Employee Format | 200, 301, 400, 410 |
-| Employee | DELETE | N/A | 200, 204 |
-| All Employees | GET | Employee List Format | 200, 301 |
-| All Employees | POST | Employee Format | 201, 400 |
-
-
-I pulled up the descriptions for each of the status codes, and made a short comment in my Camping app.
-
+    <content type="html">&lt;p&gt;In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;span class=&quot;caps&quot;&gt;REST&lt;/span&gt;&lt;/li&gt;
+	&lt;li&gt;RestStop&lt;/li&gt;
+	&lt;li&gt;Actionscript 3 URLStream&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I started out with RestStop&amp;#8217;s blog.rb as a starting point, and modified it as an event recorder.  It worked like a charm out of the box.  From there I wrote a quick Flash interface to &lt;span class=&quot;caps&quot;&gt;POST&lt;/span&gt; data to each controllers create method.  &lt;span class=&quot;caps&quot;&gt;BOOM&lt;/span&gt;, Ka-&lt;span class=&quot;caps&quot;&gt;POW&lt;/span&gt;, Problems&amp;#8230; I was getting a little unexpected funk from the way Flash was handling &lt;span class=&quot;caps&quot;&gt;HTTP&lt;/span&gt; status codes. IOErrorEvent&amp;#8217;s were being fired, babies cried, etc. So far my observations have shown that URLStream &amp;amp; URLLoader classes do a funky dance when they receive 3xx series status.  At a later date I would like to investigate further to see if the 3xx status is the cause of the IOErrorEvent. Ultimately the classes only report the final http status and none of the intermediary status changes.\nI decided to look around a little on Google into what I thought to be a fairly standardized protocol.  Turns out &lt;span class=&quot;caps&quot;&gt;REST&lt;/span&gt; is less of a protocol and more of a methodology.  Regardless of what you call it I&amp;#8217;d still like to work from a common community shared standard, at least when it comes to &lt;span class=&quot;caps&quot;&gt;HTTP&lt;/span&gt; status codes.  In that search I found the table below buried in the article &lt;a href=&quot;http://www.xml.com/pub/a/2004/12/01/restful-web.html&quot;&gt;How to Create a &lt;span class=&quot;caps&quot;&gt;REST&lt;/span&gt; Protocol&lt;/a&gt;. It was great my first resource that seemed to clearly define some constraints in what otherwise looked like the Wild West of RESTful web services.&lt;/p&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td&gt; &lt;strong&gt;Resource&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Method&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Representation&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Status Codes&lt;/strong&gt; &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; Employee &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;GET&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; Employee Format &lt;/td&gt;
+		&lt;td&gt; 200, 301, 410 &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; Employee &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;PUT&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; Employee Format &lt;/td&gt;
+		&lt;td&gt; 200, 301, 400, 410 &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; Employee &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;DELETE&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; N/A &lt;/td&gt;
+		&lt;td&gt; 200, 204 &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; All Employees &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;GET&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; Employee List Format &lt;/td&gt;
+		&lt;td&gt; 200, 301 &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; All Employees &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;POST&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; Employee Format &lt;/td&gt;
+		&lt;td&gt; 201, 400 &lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;I pulled up the descriptions for each of the status codes, and made a short comment in my Camping app.&lt;/p&gt;
 &lt;pre&gt;
 &lt;code&gt;
 # Event GET			200,301,410
@@ -889,16 +836,44 @@ I pulled up the descriptions for each of the status codes, and made a short comm
 # 410 - Gone
 &lt;/code&gt;
 &lt;/pre&gt;
-
-Now I want to take the previous table a little bit further to map out each of the states.
-
-| *Resource* | *Method* | *Status* | *Action* | *Details* |
-| Event | GET | 200 - OK | READ =&gt; Show Event | Event found, READ Event. |
-| . | * | 301 - Moved Permanently | READ FAILED =&gt; ?? | Event no longer available, renamed or moved. |
-| . | * | 410 - Gone | READ FAILED =&gt; ?? | Event no longer available/never existed. |
-| . | PUT | 200 - OK | UPDATE =&gt; Show Event w/ Updates | Event updated, SHOW updated event |
-
-</content>
+&lt;p&gt;Now I want to take the previous table a little bit further to map out each of the states.&lt;/p&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+		&lt;td&gt; &lt;strong&gt;Resource&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Method&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Status&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Action&lt;/strong&gt; &lt;/td&gt;
+		&lt;td&gt; &lt;strong&gt;Details&lt;/strong&gt; &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; Event &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;GET&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; 200 &amp;#8211; OK &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;READ&lt;/span&gt; =&amp;gt; Show Event &lt;/td&gt;
+		&lt;td&gt; Event found, &lt;span class=&quot;caps&quot;&gt;READ&lt;/span&gt; Event. &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; . &lt;/td&gt;
+		&lt;td&gt; * &lt;/td&gt;
+		&lt;td&gt; 301 &amp;#8211; Moved Permanently &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;READ&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;FAILED&lt;/span&gt; =&amp;gt; ?? &lt;/td&gt;
+		&lt;td&gt; Event no longer available, renamed or moved. &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; . &lt;/td&gt;
+		&lt;td&gt; * &lt;/td&gt;
+		&lt;td&gt; 410 &amp;#8211; Gone &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;READ&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;FAILED&lt;/span&gt; =&amp;gt; ?? &lt;/td&gt;
+		&lt;td&gt; Event no longer available/never existed. &lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td&gt; . &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;PUT&lt;/span&gt; &lt;/td&gt;
+		&lt;td&gt; 200 &amp;#8211; OK &lt;/td&gt;
+		&lt;td&gt; &lt;span class=&quot;caps&quot;&gt;UPDATE&lt;/span&gt; =&amp;gt; Show Event w/ Updates &lt;/td&gt;
+		&lt;td&gt; Event updated, &lt;span class=&quot;caps&quot;&gt;SHOW&lt;/span&gt; updated event &lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;</content>
   </entry>
   
   <entry>
@@ -906,33 +881,22 @@ Now I want to take the previous table a little bit further to map out each of th
     <link href="http://junctionbox.ca/2008/09/19/sprout-an-aswing/"/>
     <updated>2008-09-19T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/09/19/sprout-an-aswing</id>
-    <content type="html">Looking to throw together a quick app in Flash to test Sprouts I decided on working with AsWing.  Here's some of the process I followed to get the environment up and going.
-
-Install the sprouts gem;
-
-@# sudo gem install sprouts@
-
-Download the latest aswing package;
-
-&quot;AsWing on Google Code&quot;:http://code.google.com/p/aswing/downloads/list
-
-Create a new project;
-
-@# sprout -n as3 TickTock@
-
-Copy AsWing.swc into TickTock/lib.
-
-Modify the debug task in TickTock/rakefile.rb as illustrated:
-
+    <content type="html">&lt;p&gt;Looking to throw together a quick app in Flash to test Sprouts I decided on working with AsWing.  Here&amp;#8217;s some of the process I followed to get the environment up and going.&lt;/p&gt;
+&lt;p&gt;Install the sprouts gem;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# sudo gem install sprouts&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Download the latest aswing package;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://code.google.com/p/aswing/downloads/list&quot;&gt;AsWing on Google Code&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Create a new project;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;# sprout -n as3 TickTock&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Copy AsWing.swc into TickTock/lib.&lt;/p&gt;
+&lt;p&gt;Modify the debug task in TickTock/rakefile.rb as illustrated:&lt;/p&gt;
 &lt;pre&gt;
 desc 'Compile and debug the application'
 debug :debug do |t|
 	t.input = 'src/TickTock.as'
-	t.library_path &lt;&lt; &quot;lib/AsWing.swc&quot;
+	t.library_path &amp;lt;&amp;lt; &quot;lib/AsWing.swc&quot;
 end
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -940,25 +904,18 @@ end
     <link href="http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---/"/>
     <updated>2008-09-04T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---</id>
-    <content type="html">This is a quick post with notes on the &quot;SWF format&quot;:http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf.  Well so far it's only one really, and it is in reference to compression.
-
-From page 13, 3rd paragraph in the documentation;
-
-p(quote). &quot;The FileLength field is the total length of the SWF file, including the header. If this is an
-uncompressed SWF file (FWS signature), the FileLength field should exactly match the file
-size. If this is a compressed SWF file (CWS signature), the FileLength field indicates the total
-length of the file after decompression, and thus generally does not match the file size. Having
-the uncompressed size available can make the decompression process more efficient.&quot;
-\nSeems pretty clear and straight forward, but it doesn't really reference where the compression starts.  I initially assumed, that it starts at the end of the SWF header.  The end of the header seemed like a logical boundary to me. What I quickly found with &quot;0xED&quot;:http://www.suavetech.com/0xed/0xed.html is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?
-
-h3. Toes to the edge, and wait for the gun.
-
-Okay so we know that the compression starts *after* the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;
-
-@require 'zlib'@
-
-And requires the compressed contents in a string buffer like so;
-
+    <content type="html">&lt;p&gt;This is a quick post with notes on the &lt;a href=&quot;http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf&quot;&gt;&lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; format&lt;/a&gt;.  Well so far it&amp;#8217;s only one really, and it is in reference to compression.&lt;/p&gt;
+&lt;p&gt;From page 13, 3rd paragraph in the documentation;&lt;/p&gt;
+&lt;p class=&quot;quote&quot;&gt;&amp;#8220;The FileLength field is the total length of the &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; file, including the header. If this is an&lt;br /&gt;
+uncompressed &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; file (&lt;span class=&quot;caps&quot;&gt;FWS&lt;/span&gt; signature), the FileLength field should exactly match the file&lt;br /&gt;
+size. If this is a compressed &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; file (&lt;span class=&quot;caps&quot;&gt;CWS&lt;/span&gt; signature), the FileLength field indicates the total&lt;br /&gt;
+length of the file after decompression, and thus generally does not match the file size. Having&lt;br /&gt;
+the uncompressed size available can make the decompression process more efficient.&amp;#8221;&lt;br /&gt;
+\nSeems pretty clear and straight forward, but it doesn&amp;#8217;t really reference where the compression starts.  I initially assumed, that it starts at the end of the &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; header.  The end of the header seemed like a logical boundary to me. What I quickly found with &lt;a href=&quot;http://www.suavetech.com/0xed/0xed.html&quot;&gt;0xED&lt;/a&gt; is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?&lt;/p&gt;
+&lt;h3&gt;Toes to the edge, and wait for the gun.&lt;/h3&gt;
+&lt;p&gt;Okay so we know that the compression starts &lt;strong&gt;after&lt;/strong&gt; the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;require 'zlib'&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;And requires the compressed contents in a string buffer like so;&lt;/p&gt;
 &lt;pre&gt;
 def read_remaining_bytes
 	pos = @file.tell
@@ -968,13 +925,9 @@ def read_remaining_bytes
 	@file.read( end_pos - pos )
 end
 &lt;/pre&gt;
-
-Note: @file is a file handle using File.new( filename, 'r' ), it is assumed the position in the file is the first byte immediately after the SWF length attribute.  See SwfReader in &quot;Ruby-Swfer&quot;:http://junctionbox.ca/projects/ruby-swfer/ for further details.
-
-h3. Inflate those water wings and kick!
-
-Okay we have our compressed content now lets inflate it!
-
+&lt;p&gt;Note: @file is a file handle using File.new( filename, &amp;#8216;r&amp;#8217; ), it is assumed the position in the file is the first byte immediately after the &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; length attribute.  See SwfReader in &lt;a href=&quot;http://junctionbox.ca/projects/ruby-swfer/&quot;&gt;Ruby-Swfer&lt;/a&gt; for further details.&lt;/p&gt;
+&lt;h3&gt;Inflate those water wings and kick!&lt;/h3&gt;
+&lt;p&gt;Okay we have our compressed content now lets inflate it!&lt;/p&gt;
 &lt;pre&gt;
 def decompress( compressed_contents )
 	zstream = Zlib::Inflate.new
@@ -984,10 +937,7 @@ def decompress( compressed_contents )
 	decompressed_contents
 end
 &lt;/pre&gt;
-
-And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.
-
-</content>
+&lt;p&gt;And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -995,38 +945,30 @@ And voila, you should have all your bytes in a nice little (big) string. All you
     <link href="http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps/"/>
     <updated>2008-08-26T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps</id>
-    <content type="html">Zee goal for today is to use ActionScript 3's BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;
-
-* client-side image croppers.
-* runtime cropping of linked and external photos for panel backgrounds.
-
-What I will illustrate here is just a simple sliding door effect.  As seen in the SWF below. The items of greatest interest today include;
-
-* flash.display.Bitmap
-* flash.display.BitmapData
-* flash.geom.Point
-* flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.
-
-h3. Halves Too #Include
-
-* JPG or PNG that we want to slice up.
-* Flash compiler (Flex SDK/Flash 9/etc).
-
-h3. Blueprints, get your blueprints here!!
-
-We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of *TestPhoto*. Done? Good now that we've made some room and set the table lets eat!
-
-h3. What size slice of pizza would you like with your BitmapData?
-
-For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.
-
-@var percentage:int = currentFrame / totalFrames;@
-
-
-h3. I'm full what next?
-
-Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.
-
+    <content type="html">&lt;p&gt;Zee goal for today is to use ActionScript 3&amp;#8217;s BitmapData to slice and dice a bitmap like a fine piece of sashimi.  A few applications include;&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;client-side image croppers.&lt;/li&gt;
+	&lt;li&gt;runtime cropping of linked and external photos for panel backgrounds.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;What I will illustrate here is just a simple sliding door effect.  As seen in the &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; below. The items of greatest interest today include;&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;flash.display.Bitmap&lt;/li&gt;
+	&lt;li&gt;flash.display.BitmapData&lt;/li&gt;
+	&lt;li&gt;flash.geom.Point&lt;/li&gt;
+	&lt;li&gt;flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Halves Too #Include&lt;/h3&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;span class=&quot;caps&quot;&gt;JPG&lt;/span&gt; or &lt;span class=&quot;caps&quot;&gt;PNG&lt;/span&gt; that we want to slice up.&lt;/li&gt;
+	&lt;li&gt;Flash compiler (Flex &lt;span class=&quot;caps&quot;&gt;SDK&lt;/span&gt;/Flash 9/etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Blueprints, get your blueprints here!!&lt;/h3&gt;
+&lt;p&gt;We are planning a sliding door effect that does not use a mask, where do we start? Well like all things even vaguely cool we require a little math. First lets create an additional 99 frames on our root timeline. Next drag your photo into the Library and create a linkage with a class name of &lt;strong&gt;TestPhoto&lt;/strong&gt;. Done? Good now that we&amp;#8217;ve made some room and set the table lets eat!&lt;/p&gt;
+&lt;h3&gt;What size slice of pizza would you like with your BitmapData?&lt;/h3&gt;
+&lt;p&gt;For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;var percentage:int = currentFrame / totalFrames;&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;I&amp;#8217;m full what next?&lt;/h3&gt;
+&lt;p&gt;Remember those extra 99 frames I asked you to add? Well they come in handy when used in conjunction with a frame listener. Below you will find only what is required for the dynamic slice using the current frame to calculate the percentage of image to reveal.&lt;/p&gt;
 &lt;pre&gt;
 var slice_width:int = percentage * bitmap_width; 
 var slice_data:BitmapData = new BitmapData( slice_width, source_bitmap.height );
@@ -1041,17 +983,11 @@ var slice_bitmap:Bitmap = new Bitmap( slice_data );
 
 addChild( slice_bitmap );
 &lt;/pre&gt;
-
-h3. Would you like a mint sir?
-
-Okay at some point you're going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As &quot;Mr. Saul&quot;:http://www.johnralstonsaul.com/SUM_Unconscious.html might argue, downsizing often has a detrimental effect. While I agree, I'm not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.
-
-@if( numChildren &gt; 1 ) removeChildAt( 0 );@
-
-h3. Cheque please!
-
-Lets wrap this all up in a class for take-out.
-
+&lt;h3&gt;Would you like a mint sir?&lt;/h3&gt;
+&lt;p&gt;Okay at some point you&amp;#8217;re going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As &lt;a href=&quot;http://www.johnralstonsaul.com/SUM_Unconscious.html&quot;&gt;Mr. Saul&lt;/a&gt; might argue, downsizing often has a detrimental effect. While I agree, I&amp;#8217;m not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;if( numChildren &amp;gt; 1 ) removeChildAt( 0 );&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Cheque please!&lt;/h3&gt;
+&lt;p&gt;Lets wrap this all up in a class for take-out.&lt;/p&gt;
 &lt;pre&gt;
 /**
  * Written by: Nathan Fisher
@@ -1117,27 +1053,19 @@ package {
    // what good is art if no one see's it? Add to the slice_container so it is visible.
    slice_container.addChild( slice_bitmap );
    // remove previous slices if applicable.
-   if( slice_container.numChildren &gt; 1 ) slice_container.removeChildAt( 0 );
+   if( slice_container.numChildren &amp;gt; 1 ) slice_container.removeChildAt( 0 );
   }
  }
 }
 &lt;/pre&gt;
-
-In the example above I assumed the bitmap slice is the only element in it's parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.
-
-h3. Flash to 2 minutes later in the lavatory... OUTPUT!
-
-&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/phototest.swf&quot; width=&quot;550&quot; height=&quot;400&quot;&gt;
-&lt;param name=&quot;movie&quot; value=&quot;/images/phototest.swf&quot; /&gt;
-&lt;/object&gt;
-
-h3. Notes &amp; Other Weirdness
-
-The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.
-
-The included photo was provided by &quot;Tessier Pools&quot;:http://www.tessierpools.com/ and is a &quot;Skip Phillips&quot;:http://www.questarpools.com/ design.
-
-</content>
+&lt;p&gt;In the example above I assumed the bitmap slice is the only element in it&amp;#8217;s parent container. As illustrated in the full class definition I suggest creating an empty MovieClip or Sprite that is reserved for such a purpose.&lt;/p&gt;
+&lt;h3&gt;Flash to 2 minutes later in the lavatory&amp;#8230; &lt;span class=&quot;caps&quot;&gt;OUTPUT&lt;/span&gt;!&lt;/h3&gt;
+&lt;p&gt;&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/phototest.swf&quot; width=&quot;550&quot; height=&quot;400&quot;&gt;&lt;br /&gt;
+&lt;param name=&quot;movie&quot; value=&quot;/images/phototest.swf&quot; /&gt;&lt;br /&gt;
+&lt;/object&gt;&lt;/p&gt;
+&lt;h3&gt;Notes &amp;amp; Other Weirdness&lt;/h3&gt;
+&lt;p&gt;The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.&lt;/p&gt;
+&lt;p&gt;The included photo was provided by &lt;a href=&quot;http://www.tessierpools.com/&quot;&gt;Tessier Pools&lt;/a&gt; and is a &lt;a href=&quot;http://www.questarpools.com/&quot;&gt;Skip Phillips&lt;/a&gt; design.&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -1145,27 +1073,19 @@ The included photo was provided by &quot;Tessier Pools&quot;:http://www.tessierp
     <link href="http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope/"/>
     <updated>2008-07-25T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope</id>
-    <content type="html">Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I'll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don't assume anything and clean up after yourself. Unless you're trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;
-\n@new Tween( pages, &quot;rotation&quot;, Elastic.easeOut, src, dest, duration, true );@
-
-You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &quot;Why create a member variable? I don't care what happens to it after its done its deed.&quot;
-
-Unfortunately I didn't realize how wrong it was until seemingly at random its expected effect would get tossed like &quot;Marla's bridesmaid dress&quot;:http://www.foxmovies.com/fightclub/.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of _unnecessary_ dancing around to debug why something so foolish wasn't working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &quot;watchdog&quot; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.
-
-I published the site only to shortly after find my salvation in the comments on Adobe's Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn't take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.
-
-h3. Conclusion
-
-In the future kids don't play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.
-
+    <content type="html">&lt;p&gt;Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I&amp;#8217;ll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don&amp;#8217;t assume anything and clean up after yourself. Unless you&amp;#8217;re trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;&lt;br /&gt;
+\n@new Tween( pages, &amp;#8220;rotation&amp;#8221;, Elastic.easeOut, src, dest, duration, true );@&lt;/p&gt;
+&lt;p&gt;You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, &amp;#8220;Why create a member variable? I don&amp;#8217;t care what happens to it after its done its deed.&amp;#8221;&lt;/p&gt;
+&lt;p&gt;Unfortunately I didn&amp;#8217;t realize how wrong it was until seemingly at random its expected effect would get tossed like &lt;a href=&quot;http://www.foxmovies.com/fightclub/&quot;&gt;Marla&amp;#8217;s bridesmaid dress&lt;/a&gt;.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of &lt;em&gt;unnecessary&lt;/em&gt; dancing around to debug why something so foolish wasn&amp;#8217;t working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a &amp;#8220;watchdog&amp;#8221; timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.&lt;/p&gt;
+&lt;p&gt;I published the site only to shortly after find my salvation in the comments on Adobe&amp;#8217;s Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn&amp;#8217;t take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;In the future kids don&amp;#8217;t play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.&lt;/p&gt;
 &lt;pre&gt;
 private var _rotation_tween:Tween;
 public function rotatePage( dest ):void {
  _rotation_tween = new Tween( pages, &quot;rotation&quot;, Elastic.easeOut, src, dest, duration, true );
 }
-&lt;/pre&gt;
-
-</content>
+&lt;/pre&gt;</content>
   </entry>
   
   <entry>
@@ -1173,11 +1093,10 @@ public function rotatePage( dest ):void {
     <link href="http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation/"/>
     <updated>2008-07-04T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation</id>
-    <content type="html">Here's a little app I wrote during a project to test ActionScript 3's regular expressions.\n&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/as3regex.swf&quot; width=&quot;760&quot; height=&quot;422&quot;&gt;
-&lt;param name=&quot;movie&quot; value=&quot;/images/as3regex.swf&quot; /&gt;
-&lt;/object&gt;
-
-</content>
+    <content type="html">&lt;p&gt;Here&amp;#8217;s a little app I wrote during a project to test ActionScript 3&amp;#8217;s regular expressions.&lt;/p&gt;
+&lt;p&gt;&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;/images/as3regex.swf&quot; width=&quot;900&quot; height=&quot;500&quot;&gt;&lt;br /&gt;
+&lt;param name=&quot;movie&quot; value=&quot;/images/as3regex.swf&quot; /&gt;&lt;br /&gt;
+&lt;/object&gt;&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -1185,60 +1104,53 @@ public function rotatePage( dest ):void {
     <link href="http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion/"/>
     <updated>2008-06-26T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion</id>
-    <content type="html">The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I'm not liable.  Also if you don't know what subversion is this article is not a good place to start.\nh3. Ingredients
-
-* Wildcard DNS
-* Apache 2.2
-* Subversion 1.4.x (SVN)
-* Your favourite scripting language
-* Back-ups, back-ups, back-ups!!!!!
-* Couple of hours
-
-Okay so how is all of this going to look? Well lets say you have a client named Example and their website is located at example.com.  The goal is to achieve a test site located at http://example.com.projects.myhost.ca/, it's a doozy to type, but it'll create consistency. Besides the amount of time spent typing will be more than offset by the time it saves you once configured properly.
-
-h3. Initial Imports Insulate Against Insolence
-
-Okay so lets say you've used svnadmin and created a webdav accessible repository at http://myhost.ca/svn/example.com/, how should the initial import look?
-
-* branches
-* tags
-* trunk
-** site
-** src
-
-As you'll note it's a pretty vanilla setup for subversion.  So moving forward we'll assume that trunk/site contains the latest and greatest of your clients website and trunk src is a dumping ground for your Illustrator, Photoshop, Actionscript and FLA's, etc.
-
-h3. We Hosts Da Vhosts
-
-So what's next? Lets get ready to rumble cuz we're going to create our vhost configuration. Pick your poison, but you can either append the following setup to your httpd.conf or add a new file named vhosts.conf in your conf.d folder.
-
+    <content type="html">&lt;p&gt;The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I&amp;#8217;m not liable.  Also if you don&amp;#8217;t know what subversion is this article is not a good place to start.\nh3. Ingredients&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Wildcard &lt;span class=&quot;caps&quot;&gt;DNS&lt;/span&gt;&lt;/li&gt;
+	&lt;li&gt;Apache 2.2&lt;/li&gt;
+	&lt;li&gt;Subversion 1.4.x (&lt;span class=&quot;caps&quot;&gt;SVN&lt;/span&gt;)&lt;/li&gt;
+	&lt;li&gt;Your favourite scripting language&lt;/li&gt;
+	&lt;li&gt;Back-ups, back-ups, back-ups!!!!!&lt;/li&gt;
+	&lt;li&gt;Couple of hours&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Okay so how is all of this going to look? Well lets say you have a client named Example and their website is located at example.com.  The goal is to achieve a test site located at http://example.com.projects.myhost.ca/, it&amp;#8217;s a doozy to type, but it&amp;#8217;ll create consistency. Besides the amount of time spent typing will be more than offset by the time it saves you once configured properly.&lt;/p&gt;
+&lt;h3&gt;Initial Imports Insulate Against Insolence&lt;/h3&gt;
+&lt;p&gt;Okay so lets say you&amp;#8217;ve used svnadmin and created a webdav accessible repository at http://myhost.ca/svn/example.com/, how should the initial import look?&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;branches&lt;/li&gt;
+	&lt;li&gt;tags&lt;/li&gt;
+	&lt;li&gt;trunk
+	&lt;ul&gt;
+		&lt;li&gt;site&lt;/li&gt;
+		&lt;li&gt;src&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As you&amp;#8217;ll note it&amp;#8217;s a pretty vanilla setup for subversion.  So moving forward we&amp;#8217;ll assume that trunk/site contains the latest and greatest of your clients website and trunk src is a dumping ground for your Illustrator, Photoshop, Actionscript and FLA&amp;#8217;s, etc.&lt;/p&gt;
+&lt;h3&gt;We Hosts Da Vhosts&lt;/h3&gt;
+&lt;p&gt;So what&amp;#8217;s next? Lets get ready to rumble cuz we&amp;#8217;re going to create our vhost configuration. Pick your poison, but you can either append the following setup to your httpd.conf or add a new file named vhosts.conf in your conf.d folder.&lt;/p&gt;
 &lt;pre&gt;
 LogFormat &quot;%V %h %l %u %t \&quot;%r\&quot; %s %b&quot; vcommon
 
-&lt;Directory /var/www/vhosts/project&gt;
+&amp;lt;Directory /var/www/vhosts/project&amp;gt;
 # adjust override as you see fit
 AllowOverride All
-&lt;/Directory&gt;
+&amp;lt;/Directory&amp;gt;
 
-&lt;virtualhost *:80&gt;
+&amp;lt;virtualhost *:80&amp;gt;
 ServerName *.projects.myhost.ca
 
 VirtualDocumentRoot /var/www/vhosts/projects/%-4+
 
 ErrorLog logs/projects.myhost.ca-error_log
 CustomLog logs/projects.myhost.ca-access_log vcommon
-&lt;/virtualhost&gt;
+&amp;lt;/virtualhost&amp;gt;
 &lt;/pre&gt;
-
-h3. Sweet Script O'Mine
-
-Where do we go now... GNR flashback... I think not! So we've got a repository and vhost now what? You've got 2 options here;
-write a script that updates an existing checkout.
-write a script that creates a checkout if it does not exist or updates if it does.
-Option 1 is what I've gone with as I've placed the checkout in a script for the creation of my repository. The benefit to Option 2 is that it ensures you're checkout environment will have the right permissions for svn updates.
-
-My script looks a little like the following;
-
+&lt;h3&gt;Sweet Script O&amp;#8217;Mine&lt;/h3&gt;
+&lt;p&gt;Where do we go now&amp;#8230; &lt;span class=&quot;caps&quot;&gt;GNR&lt;/span&gt; flashback&amp;#8230; I think not! So we&amp;#8217;ve got a repository and vhost now what? You&amp;#8217;ve got 2 options here;&lt;br /&gt;
+write a script that updates an existing checkout.&lt;br /&gt;
+write a script that creates a checkout if it does not exist or updates if it does.&lt;br /&gt;
+Option 1 is what I&amp;#8217;ve gone with as I&amp;#8217;ve placed the checkout in a script for the creation of my repository. The benefit to Option 2 is that it ensures you&amp;#8217;re checkout environment will have the right permissions for svn updates.&lt;/p&gt;
+&lt;p&gt;My script looks a little like the following;&lt;/p&gt;
 &lt;pre&gt;
 #!/usr/bin/ruby -w
 #
@@ -1262,20 +1174,12 @@ rescue
  # pick a error notification method log it, email it wuteva you want
 end
 &lt;/pre&gt;
-
-Now add this to the end of your post-commit hook as follows;
-
-@/somepath/update.rb &quot;$REPOS&quot;@
-
-Everytime you commit, it will automatically update a test copy of the site located at;
-
-@http://example.com.projects.myhost.ca/@
-
-h3. Conclusion
-
-This is a simple way to give the whole family access to test websites without the clutter and extra time of using FTP.
-
-</content>
+&lt;p&gt;Now add this to the end of your post-commit hook as follows;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/somepath/update.rb &quot;$REPOS&quot;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Everytime you commit, it will automatically update a test copy of the site located at;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://example.com.projects.myhost.ca/&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;This is a simple way to give the whole family access to test websites without the clutter and extra time of using &lt;span class=&quot;caps&quot;&gt;FTP&lt;/span&gt;.&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -1283,18 +1187,12 @@ This is a simple way to give the whole family access to test websites without th
     <link href="http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow/"/>
     <updated>2008-06-26T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow</id>
-    <content type="html">Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.
-
-To fully understand the problem you need to go into the interaction between the Flash player, V2 components, and MovieClips. First off you will rarely, if ever, experience this problem in the Flash Developer environment. Why? The problem appears to be timing, and local files generally have no measurable load time relative to their web based counterparts. In your browser once the SWF has been cached the next refresh of the page generally works fine. Wipe your cache and watch the problem return.
-
-h3. Where does the MovieClip class fit in?
-
-MovieClip objects wipe their event handlers with a loadMovie, except the onClipEvent(), and variations of on(). For dynamically created clips it means you need to monitor the MovieClip outside of the MovieClip’s instance. On moderate to slow connections the ScrollPane seems to report a SWF file being loaded before it is actually complete, most likely because of the way it monitors the loading process.
-
-h3. A Solution.
-
-As mentioned previously we’ve tried a couple different methods to resolve this problem. While ours has its limitations it works where we need it to. The initial implementation was as follows:
-
+    <content type="html">&lt;p&gt;Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.&lt;/p&gt;
+&lt;p&gt;To fully understand the problem you need to go into the interaction between the Flash player, V2 components, and MovieClips. First off you will rarely, if ever, experience this problem in the Flash Developer environment. Why? The problem appears to be timing, and local files generally have no measurable load time relative to their web based counterparts. In your browser once the &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; has been cached the next refresh of the page generally works fine. Wipe your cache and watch the problem return.&lt;/p&gt;
+&lt;h3&gt;Where does the MovieClip class fit in?&lt;/h3&gt;
+&lt;p&gt;MovieClip objects wipe their event handlers with a loadMovie, except the onClipEvent(), and variations of on(). For dynamically created clips it means you need to monitor the MovieClip outside of the MovieClip’s instance. On moderate to slow connections the ScrollPane seems to report a &lt;span class=&quot;caps&quot;&gt;SWF&lt;/span&gt; file being loaded before it is actually complete, most likely because of the way it monitors the loading process.&lt;/p&gt;
+&lt;h3&gt;A Solution.&lt;/h3&gt;
+&lt;p&gt;As mentioned previously we’ve tried a couple different methods to resolve this problem. While ours has its limitations it works where we need it to. The initial implementation was as follows:&lt;/p&gt;
 &lt;pre&gt;
 var check_loaded:Object = { _frequency: 500, 
   _intervalID: null,
@@ -1320,7 +1218,7 @@ var check_loaded:Object = { _frequency: 500,
       var total:Number = clip.getBytesTotal();
       var current:Number = clip.getBytesLoaded();
       // 36 is the size of a blank flash file
-      if( current &gt;= total &amp;&amp; total &gt;= 36 ) {
+      if( current &amp;gt;= total &amp;amp;&amp;amp; total &amp;gt;= 36 ) {
         this.stop( );
         this.pane.refreshPane( );
         this.pane._visible = true;
@@ -1333,34 +1231,26 @@ var check_loaded:Object = { _frequency: 500,
   }  // ::checkPane(...
 };
 &lt;/pre&gt;
-
-Enough already here’s how you use it with your ScrollPane.
-
+&lt;p&gt;Enough already here’s how you use it with your ScrollPane.&lt;/p&gt;
 &lt;pre&gt;
 theScrollPane.contentPath = &quot;CONTENT.swf&quot;;
 check_loaded.pane = theScrollPane;
 check_loaded.start( );
 &lt;/pre&gt;
-
-It works, but isn’t a clean OO implementation. A better approach is to reorganize the code into a separate ActionScript class.  See &quot;F3MaskPane&quot;:/images/F3MaskPane.as for my implementation. With your new shiny class your code will look like below instead of the two blocks of code above.
-
+&lt;p&gt;It works, but isn’t a clean OO implementation. A better approach is to reorganize the code into a separate ActionScript class.  See &lt;a href=&quot;http://junctionbox.ca/images/F3MaskPane.as&quot;&gt;F3MaskPane&lt;/a&gt; for my implementation. With your new shiny class your code will look like below instead of the two blocks of code above.&lt;/p&gt;
 &lt;pre&gt;
 import F3MaskPane; 
 var check_loaded:F3MaskPane = new F3MaskPane( theScrollPane ); 
 theScrollPane.contentPath = &quot;CONTENT.swf&quot;; 
 check_loaded.start( );
 &lt;/pre&gt;
-
-h3. Notes and limitations on F3MaskPane.
-
-If you depend/expect your border to be visible prior to loading content you’ll need to find another way.
-The visibility of the ScrollPane is turned off to prevent the blink that occurs during the refreshPane call.
-The F3MaskPane must not extend the Object class because of what appears to be a bug with calls to setInterval.
-There is currently no upper limit on the number of iterations that checkPane will be called.
-Audio maybe a problem because of the refreshPane.
-That’s all for now.
-
-</content>
+&lt;h3&gt;Notes and limitations on F3MaskPane.&lt;/h3&gt;
+&lt;p&gt;If you depend/expect your border to be visible prior to loading content you’ll need to find another way.&lt;br /&gt;
+The visibility of the ScrollPane is turned off to prevent the blink that occurs during the refreshPane call.&lt;br /&gt;
+The F3MaskPane must not extend the Object class because of what appears to be a bug with calls to setInterval.&lt;br /&gt;
+There is currently no upper limit on the number of iterations that checkPane will be called.&lt;br /&gt;
+Audio maybe a problem because of the refreshPane.&lt;br /&gt;
+That’s all for now.&lt;/p&gt;</content>
   </entry>
   
   <entry>
@@ -1368,23 +1258,19 @@ That’s all for now.
     <link href="http://junctionbox.ca/2006/04/17/rsync-daily-snapshots/"/>
     <updated>2006-04-17T00:00:00-07:00</updated>
     <id>http://junctionbox.ca/2006/04/17/rsync-daily-snapshots</id>
-    <content type="html">Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n&lt;pre&gt;
-#!/bin/sh
-
-HOST=localhost.localdomain
-BASE=/home/samba/rsync
-DATEDIR=`date +%Y-%m-%d-%a`
-CUR=current
-BAK=&quot;HOME ETC VAR&quot;
-
-for CURVOL in $BAK; do
-rsync -avz --delete --force rsync://$HOST/$CURVOL $BASE/$CUR/$CURVOL
-done
-
-mkdir $BASE/$DATEDIR
-cp -Rl $BASE/$CUR/* $BASE/$DATEDIR/
-&lt;/pre&gt;
-</content>
+    <content type="html">&lt;p&gt;Need to backup in a hurry? Want to create daily snapshots that don&amp;#8217;t take more drive platters than Google? Here&amp;#8217;s a quick and efficient way to back-up data from your &lt;span class=&quot;caps&quot;&gt;RSYNC&lt;/span&gt; server. &lt;strong&gt;Warning&lt;/strong&gt; do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n&lt;pre&gt;&lt;br /&gt;
+#!/bin/sh&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;caps&quot;&gt;HOST&lt;/span&gt;=localhost.localdomain&lt;br /&gt;
+&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;=/home/samba/rsync&lt;br /&gt;
+&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;=`date +%Y-%m-%d-%a`&lt;br /&gt;
+&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;=current&lt;br /&gt;
+&lt;span class=&quot;caps&quot;&gt;BAK&lt;/span&gt;=&amp;#8220;&lt;span class=&quot;caps&quot;&gt;HOME&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;ETC&lt;/span&gt; &lt;span class=&quot;caps&quot;&gt;VAR&lt;/span&gt;&amp;#8221;&lt;/p&gt;
+&lt;p&gt;for &lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt; in $&lt;span class=&quot;caps&quot;&gt;BAK&lt;/span&gt;; do&lt;br /&gt;
+rsync -avz &amp;#8212;delete &amp;#8212;force rsync://$&lt;span class=&quot;caps&quot;&gt;HOST&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt; $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CURVOL&lt;/span&gt;&lt;br /&gt;
+done&lt;/p&gt;
+&lt;p&gt;mkdir $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;&lt;br /&gt;
+cp -Rl $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;CUR&lt;/span&gt;/* $&lt;span class=&quot;caps&quot;&gt;BASE&lt;/span&gt;/$&lt;span class=&quot;caps&quot;&gt;DATEDIR&lt;/span&gt;/&lt;br /&gt;
+&lt;/pre&gt;&lt;/p&gt;</content>
   </entry>
   
 </feed>

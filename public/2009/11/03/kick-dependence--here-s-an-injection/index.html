@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,59 +73,51 @@
   </p>
 </header>
 
-<div class="entry">Recently I have been mulling the benefits of Dependency Injection in relationship to PHP.  I still question it&#8217;s need, but I felt like an experiment for the fun of it.
-
-First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  &#8220;this&#8221;:http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc shamelessly &#8220;php&#8217;ized&#8221; ruby code.
-
+<div class="entry"><p>Recently I have been mulling the benefits of Dependency Injection in relationship to <span class="caps">PHP</span>.  I still question it&#8217;s need, but I felt like an experiment for the fun of it.</p>
+<p>First I laid out the general interface I wanted to work with.  You may recognize it as being very similar to  <a href="http://onestepback.org/index.cgi/Tech/Ruby/DependencyInjectionInRuby.rdoc">this</a> shamelessly &#8220;php&#8217;ized&#8221; ruby code.</p>
 <pre>
 function create_app() {
  $container = new DI_Container( );
- $container->register( 'logfilename', 'logfile.log' );
- $container->register( 'db_user', 'nfisher' );
- $container->register( 'db_pass', 'secret' );
- $container->register( 'dbi_string', 'db:host:and:stuff' );
+ $container-&gt;register( 'logfilename', 'logfile.log' );
+ $container-&gt;register( 'db_user', 'nfisher' );
+ $container-&gt;register( 'db_pass', 'secret' );
+ $container-&gt;register( 'dbi_string', 'db:host:and:stuff' );
 
- $container->register( 'authenticator', function($c) {
-  return new Authenticator( $c->database, $c->logger, $c->error_handler );
+ $container-&gt;register( 'authenticator', function($c) {
+  return new Authenticator( $c-&gt;database, $c-&gt;logger, $c-&gt;error_handler );
 } );
 
- $container->register('error_handler', function($c) {
+ $container-&gt;register('error_handler', function($c) {
   $errh = new ErrorHandler( );
-  $errh->logger = $c->logger;
+  $errh-&gt;logger = $c-&gt;logger;
   return $errh;
 } );
 
- $container->register('logger', function($c) {
-  return new Logger( $c->logfilename );
+ $container-&gt;register('logger', function($c) {
+  return new Logger( $c-&gt;logfilename );
 } );
 
- $container->register('database', function($c) {
-  return new DB( $c->dbi_string, $c->db_user, $c->db_pass );
+ $container-&gt;register('database', function($c) {
+  return new DB( $c-&gt;dbi_string, $c-&gt;db_user, $c-&gt;db_pass );
 } );
 
- $container->register('quotes', function($c) {
-  return new StockQuotes( $c->error_handler, $c->logger );
+ $container-&gt;register('quotes', function($c) {
+  return new StockQuotes( $c-&gt;error_handler, $c-&gt;logger );
 } );
 
- $container->register('webapp', function($c) { 
-  $app = new WebApp( $c->quotes, $c->authenticator, $c->database );
-  $app->logger = $c->logger;
-  $app->set_error_handler( $c->error_handler );
+ $container-&gt;register('webapp', function($c) { 
+  $app = new WebApp( $c-&gt;quotes, $c-&gt;authenticator, $c-&gt;database );
+  $app-&gt;logger = $c-&gt;logger;
+  $app-&gt;set_error_handler( $c-&gt;error_handler );
   return $app;
 } );
 }
-</pre>\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.
-
-h3. String Constants Aren&#8217;t Unknown Objects
-
-The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).
-
-h3. Absence of Anonymous Functions
-
-Unfortunately my production environment is php 5.2, anonymous functions&#8230;5.3 so its a simple problem of what&#8217;s more important&#8230; existing well tested env won out on that one.
-
-So I created a simple function binder with the following interface;
-
+</pre><p>\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.</p>
+<h3>String Constants Aren&#8217;t Unknown Objects</h3>
+<p>The DB/logfile config are not really dependencies.  It seems better to decouple them into a configuration class that can be initialized based on environment (ie/ dev, test, prod).</p>
+<h3>Absence of Anonymous Functions</h3>
+<p>Unfortunately my production environment is php 5.2, anonymous functions&#8230;5.3 so its a simple problem of what&#8217;s more important&#8230; existing well tested env won out on that one.</p>
+<p>So I created a simple function binder with the following interface;</p>
 <pre>
 interface Applyable {
  public function each( $o );
@@ -134,66 +127,43 @@ class FunctionBinder implements Applyable {
   private $_f_name;
 
   public function __construct( $f_name ) {
-    $this->_f_name;
+    $this-&gt;_f_name;
   }
 
   /** each: Calls the stored function by name and passes the DI container as a reference. 
    */
   public function each( $c ) {
-    return call_user_func( $this->_f_name, $c );
+    return call_user_func( $this-&gt;_f_name, $c );
   }
 }
 </pre>
-
-The anonymous function became named;
-
+<p>The anonymous function became named;</p>
 <pre>
 function create_logger( $c ) {
-  return new Logger( $c->logfilename );
+  return new Logger( $c-&gt;logfilename );
 }
 </pre>
-
-And the register became;
-
-
-@$container->register(&#8216;logger&#8217;, new FunctionBinder(&#8216;create_logger&#8217;) );@
-
-
-h3. Code check in aisle 3&#8230; code check
-
-Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler&#8230;okay it&#8217;ll work, but it ain&#8217;t gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.
-
-h3. Testing 1.. 2
-
-The next thought that occurred to me was why not include the dependencies with the registration process?
-
-
-@$container->register( &#8216;logger&#8217;, new FunctionBinder(&#8216;create_logger&#8217;), &#8216;logfilename&#8217; );@
-
-
-It seemed simple, but I didn&#8217;t like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.
-
-h3. Put on trial and Execute
-
-While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!
-
+<p>And the register became;</p>
+<p><code>$container-&gt;register('logger', new FunctionBinder('create_logger') );</code></p>
+<h3>Code check in aisle 3&#8230; code check</h3>
+<p>Trying to be a good little coder I built my tests first for the container.  I decided I would use the __get method to build the graphs the question was how!  My first naive approach was to throw exceptions from the __get method for currently incomplete objects.  As exceptions were thrown an immediate depth of dependencies would be identified through the exception handler&#8230;okay it&#8217;ll work, but it ain&#8217;t gonna be pretty.  If your dependencies are spectacularly out of order it seems like an excessive unwinding of the call stack will occur just to keep the code down.</p>
+<h3>Testing 1.. 2</h3>
+<p>The next thought that occurred to me was why not include the dependencies with the registration process?</p>
+<p><code>$container-&gt;register( 'logger', new FunctionBinder('create_logger'), 'logfilename' );</code></p>
+<p>It seemed simple, but I didn&#8217;t like it.  My dependencies were clearly defined inside of the create_logger function. Why duplicate effort, especially when it could potentially lead to an error.</p>
+<h3>Put on trial and Execute</h3>
+<p>While cooking dinner it dawned on me, why should the objects be instantiated directly? After all the goal is to minimize the usage of the new operator?  Factories to the rescue!</p>
 <pre>
 function create_logger( $c ) {
- return $c->build( Logger, $c->logfilename );
+ return $c-&gt;build( Logger, $c-&gt;logfilename );
 }
 </pre>
-
-How does that change things?  Well it allows for a 2 phase process;
-
-Phase 1: Evaluate dependencies.
-Phase 2: Instantiate objects.
-
-During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.
-Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it&#8217;s time.
-
-I have a direction, stay tuned for the final product!
-
-</div>
+<p>How does that change things?  Well it allows for a 2 phase process;</p>
+<p>Phase 1: Evaluate dependencies.<br />
+Phase 2: Instantiate objects.</p>
+<p>During Phase 1 no objects are actually built.  Instead evaluate the object requests and associate their dependencies.<br />
+Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it&#8217;s time.</p>
+<p>I have a direction, stay tuned for the final product!</p></div>
 
 
   
@@ -210,15 +180,17 @@ I have a direction, stay tuned for the final product!
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -273,10 +245,24 @@ I have a direction, stay tuned for the final product!
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -301,6 +287,7 @@ I have a direction, stay tuned for the final product!
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

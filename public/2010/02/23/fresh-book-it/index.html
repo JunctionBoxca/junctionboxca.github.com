@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,26 +73,16 @@
   </p>
 </header>
 
-<div class="entry">A few years ago I signed up for a &#8220;Freshbooks&#8221;:http://www.freshbooks.com/ account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.
-
-We&#8217;re now close to 100 people, and over 200 projects.  Freshbooks project selection just isn&#8217;t cutting it anymore, but I was sure there was a solution, namely a project selector with type ahead search.
-
-One late night at work, waiting for a *large* db dump to load, I decided to do a little hacking.  I cracked open the page source to see what JS framework was used.  JQuery was available and I was elated!  Firebug was up next.  I was pretty certain I could pull the data I wanted from the Project selection box.  I got the id from the inspector, fired up the console and started poking around.
-
-I came up with some code that worked in the console and turned it into a one-liner for a bookmarklet&#8230; and presto&#8230;fizzo.  No dice, no workie&#8230; just rendered [Object object].
-
-Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;
-
-@(function(){})()@\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.
-
-Now I know when you look at the code you&#8217;ll scream &#8220;GLOBALS ARE BAD&#8221;, but its a bookmarklet and I was just having fun with javascript.
-
-Turns out my solution was to wrap the variable initialization in void().
-
-@void(project_list = null)@
-
-Hold the applause, but here&#8217;s the final code (for now :).
-
+<div class="entry"><p>A few years ago I signed up for a <a href="http://www.freshbooks.com/">Freshbooks</a> account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.</p>
+<p>We&#8217;re now close to 100 people, and over 200 projects.  Freshbooks project selection just isn&#8217;t cutting it anymore, but I was sure there was a solution, namely a project selector with type ahead search.</p>
+<p>One late night at work, waiting for a <strong>large</strong> db dump to load, I decided to do a little hacking.  I cracked open the page source to see what JS framework was used.  JQuery was available and I was elated!  Firebug was up next.  I was pretty certain I could pull the data I wanted from the Project selection box.  I got the id from the inspector, fired up the console and started poking around.</p>
+<p>I came up with some code that worked in the console and turned it into a one-liner for a bookmarklet&#8230; and presto&#8230;fizzo.  No dice, no workie&#8230; just rendered [Object object].</p>
+<p>Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;</p>
+<p><code>(function(){})()</code>\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.</p>
+<p>Now I know when you look at the code you&#8217;ll scream &#8220;<span class="caps">GLOBALS</span> <span class="caps">ARE</span> <span class="caps">BAD</span>&#8221;, but its a bookmarklet and I was just having fun with javascript.</p>
+<p>Turns out my solution was to wrap the variable initialization in void().</p>
+<p><code>void(project_list = null)</code></p>
+<p>Hold the applause, but here&#8217;s the final code (for now :).</p>
 <pre>
 javascript:
 void(project_list = null);
@@ -100,7 +91,7 @@ void(project_select = null);
 function init( ) {
         project_list = $('#projectid option');
         project_select = $('#projectid');
-        search_box = '<input type="text" onkeyup="projectSearch(this);" style="width:200px" id="search_entry"/><div id="search_results" style="position:absolute;width:22em;overflow:auto;max-height:12em;"></div>';
+        search_box = '&lt;input type="text" onkeyup="projectSearch(this);" style="width:200px" id="search_entry"/&gt;&lt;div id="search_results" style="position:absolute;width:22em;overflow:auto;max-height:12em;"&gt;&lt;/div&gt;';
         project_select.css('visibility','hidden');
         project_select.after(search_box);
 }
@@ -111,7 +102,7 @@ function projectSearch($target) {
         var links = '';
         search_results.empty();
         project_list.each( function($index, $element) {
-            if( $element.text.match(re) && parseInt($element.value) > 0 ) {links += projectLink( $element.value, $element.text );}
+            if( $element.text.match(re) &amp;&amp; parseInt($element.value) &gt; 0 ) {links += projectLink( $element.value, $element.text );}
           });
         search_results.prepend(links);
 }
@@ -124,13 +115,11 @@ function updateSelection( $id, $label ) {
 }
 
 function projectLink( $id, $label ) {
-        return '<a href="#" style="display:block;clear:both;background-color:#ccc;border-bottom:1px solid #999;padding:4px 2px;" onclick="updateSelection(\''+ $id + '\',\'' + $label +'\');return false;">' + $label + '</a>';
+        return '&lt;a href="#" style="display:block;clear:both;background-color:#ccc;border-bottom:1px solid #999;padding:4px 2px;" onclick="updateSelection(\''+ $id + '\',\'' + $label +'\');return false;"&gt;' + $label + '&lt;/a&gt;';
 }
 
 init();
-</pre>
-
-</div>
+</pre></div>
 
 
   
@@ -147,15 +136,17 @@ init();
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -210,10 +201,24 @@ init();
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -238,6 +243,7 @@ init();
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

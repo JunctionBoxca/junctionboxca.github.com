@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,25 +73,18 @@
   </p>
 </header>
 
-<div class="entry">This is a quick post with notes on the &#8220;SWF format&#8221;:http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf.  Well so far it&#8217;s only one really, and it is in reference to compression.
-
-From page 13, 3rd paragraph in the documentation;
-
-p(quote). &#8220;The FileLength field is the total length of the SWF file, including the header. If this is an
-uncompressed SWF file (FWS signature), the FileLength field should exactly match the file
-size. If this is a compressed SWF file (CWS signature), the FileLength field indicates the total
-length of the file after decompression, and thus generally does not match the file size. Having
-the uncompressed size available can make the decompression process more efficient.&#8221;
-\nSeems pretty clear and straight forward, but it doesn&#8217;t really reference where the compression starts.  I initially assumed, that it starts at the end of the SWF header.  The end of the header seemed like a logical boundary to me. What I quickly found with &#8220;0xED&#8221;:http://www.suavetech.com/0xed/0xed.html is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?
-
-h3. Toes to the edge, and wait for the gun.
-
-Okay so we know that the compression starts *after* the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;
-
-@require &#8216;zlib&#8217;@
-
-And requires the compressed contents in a string buffer like so;
-
+<div class="entry"><p>This is a quick post with notes on the <a href="http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf"><span class="caps">SWF</span> format</a>.  Well so far it&#8217;s only one really, and it is in reference to compression.</p>
+<p>From page 13, 3rd paragraph in the documentation;</p>
+<p class="quote">&#8220;The FileLength field is the total length of the <span class="caps">SWF</span> file, including the header. If this is an<br />
+uncompressed <span class="caps">SWF</span> file (<span class="caps">FWS</span> signature), the FileLength field should exactly match the file<br />
+size. If this is a compressed <span class="caps">SWF</span> file (<span class="caps">CWS</span> signature), the FileLength field indicates the total<br />
+length of the file after decompression, and thus generally does not match the file size. Having<br />
+the uncompressed size available can make the decompression process more efficient.&#8221;<br />
+\nSeems pretty clear and straight forward, but it doesn&#8217;t really reference where the compression starts.  I initially assumed, that it starts at the end of the <span class="caps">SWF</span> header.  The end of the header seemed like a logical boundary to me. What I quickly found with <a href="http://www.suavetech.com/0xed/0xed.html">0xED</a> is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?</p>
+<h3>Toes to the edge, and wait for the gun.</h3>
+<p>Okay so we know that the compression starts <strong>after</strong> the length. How do we decompress it? Enter the standard Zlib library built-in to Ruby. It starts with a simple;</p>
+<p><code>require 'zlib'</code></p>
+<p>And requires the compressed contents in a string buffer like so;</p>
 <pre>
 def read_remaining_bytes
 	pos = @file.tell
@@ -100,13 +94,9 @@ def read_remaining_bytes
 	@file.read( end_pos - pos )
 end
 </pre>
-
-Note: @file is a file handle using File.new( filename, &#8216;r&#8217; ), it is assumed the position in the file is the first byte immediately after the SWF length attribute.  See SwfReader in &#8220;Ruby-Swfer&#8221;:http://junctionbox.ca/projects/ruby-swfer/ for further details.
-
-h3. Inflate those water wings and kick!
-
-Okay we have our compressed content now lets inflate it!
-
+<p>Note: @file is a file handle using File.new( filename, &#8216;r&#8217; ), it is assumed the position in the file is the first byte immediately after the <span class="caps">SWF</span> length attribute.  See SwfReader in <a href="http://junctionbox.ca/projects/ruby-swfer/">Ruby-Swfer</a> for further details.</p>
+<h3>Inflate those water wings and kick!</h3>
+<p>Okay we have our compressed content now lets inflate it!</p>
 <pre>
 def decompress( compressed_contents )
 	zstream = Zlib::Inflate.new
@@ -116,10 +106,7 @@ def decompress( compressed_contents )
 	decompressed_contents
 end
 </pre>
-
-And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.
-
-</div>
+<p>And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.</p></div>
 
 
   
@@ -136,15 +123,17 @@ And voila, you should have all your bytes in a nice little (big) string. All you
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -199,10 +188,24 @@ And voila, you should have all your bytes in a nice little (big) string. All you
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -227,6 +230,7 @@ And voila, you should have all your bytes in a nice little (big) string. All you
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,26 +73,15 @@
   </p>
 </header>
 
-<div class="entry">Today was another day like any other, but then I stopped and said hey &#8220;GO team!!&#8221;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster&#8230; the labour wasn&#8217;t in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. &#8220;Camping is a micro framework&#8221;:http://redhanded.hobix.com/bits/campingAMicroframework.html that was the perfect fit for the task. Maybe PHP was more appropriate for the problem domain.  However, much like the previous sentence it wasn&#8217;t how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It&#8217;s painful to watch, but given my current server environment it is a necessary evil. Understand I&#8217;m well familiar with the configure install shuffle (./configure && make && sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.
-
-The first thing I did was &#8220;gem update &#8211;system&#8221;.  Version 0.9.4, the default for Centos 5, sucks on small VPS&#8217;s (mostly because it&#8217;ll crash from resource constraints).  I&#8217;ve been keeping up to date on Ruby so that&#8217;s no worry, you may have to do the same.
-
-So I can pull gems down to my hearts content, or can I?  First up was RedCloth&#8230; long story short the gem uses Ragel and Centos 5 only provides version 5.x as an RPM. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;
-
-@gem install camping  # nuff said, installs 1.5 with ease@
-
-Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route&#8230; interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine&#8230; and then it hit I tried to login. Hmm curious the login doesn&#8217;t work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB&#8230; that&#8217;s curious no entries or tables.  So on with the search for my apps apparent lack of state.
-
-h3. Active Campers lose weight when they&#8217;ve got state!
-
-So ActiveRecord 2.1.0 doesn&#8217;t play nicely with camping&#8217;s session model out of the box. Found in a thread that you need to turn off partial updates;
-
-
-@AppName::Models::Base.partial_updates = false@
-
-Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&#8217;m quite happy to have found a lovely new tool!
-
-</div>
+<div class="entry"><p>Today was another day like any other, but then I stopped and said hey &#8220;GO team!!&#8221;.  Okay not really, but it was a nice thought in retrospect.  Anyway I gave birth to a little app called SvnMaster&#8230; the labour wasn&#8217;t in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. <a href="http://redhanded.hobix.com/bits/campingAMicroframework.html">Camping is a micro framework</a> that was the perfect fit for the task. Maybe <span class="caps">PHP</span> was more appropriate for the problem domain.  However, much like the previous sentence it wasn&#8217;t how I wanted to express myself.\nWorking with Centos 5 and ruby feels like watching a cute fuzzy thing being hunted by predators. It&#8217;s painful to watch, but given my current server environment it is a necessary evil. Understand I&#8217;m well familiar with the configure install shuffle (./configure &amp;&amp; make &amp;&amp; sudo make install), but it sure is a pain when it takes a couple of hours to get everything up to snuff.</p>
+<p>The first thing I did was &#8220;gem update &#8212;system&#8221;.  Version 0.9.4, the default for Centos 5, sucks on small VPS&#8217;s (mostly because it&#8217;ll crash from resource constraints).  I&#8217;ve been keeping up to date on Ruby so that&#8217;s no worry, you may have to do the same.</p>
+<p>So I can pull gems down to my hearts content, or can I?  First up was RedCloth&#8230; long story short the gem uses Ragel and Centos 5 only provides version 5.x as an <span class="caps">RPM</span>. So a dependency hunting we will go. Building Ragel from source is pretty simple just follow the docs that are included. After Ragel was installed, RedCloth updated without any real complaints via gem install.  Next was installing camping;</p>
+<p><code>gem install camping  # nuff said, installs 1.5 with ease</code></p>
+<p>Once installed I started with some of the examples. I created the blog first just to wrap my head around the differences from Rails.  Each class is a route&#8230; interesting.  Anyway I started up the app (camping blog.rb) and all seemed fine&#8230; and then it hit I tried to login. Hmm curious the login doesn&#8217;t work. I thought maybe there was a change with the way sessions worked so started reviewing the documentation on sessions.  Everything seemed in order so what was happening, I wrote a boiled down session test and checked the logs and opened the DB&#8230; that&#8217;s curious no entries or tables.  So on with the search for my apps apparent lack of state.</p>
+<h3>Active Campers lose weight when they&#8217;ve got state!</h3>
+<p>So ActiveRecord 2.1.0 doesn&#8217;t play nicely with camping&#8217;s session model out of the box. Found in a thread that you need to turn off partial updates;</p>
+<p><code>AppName::Models::Base.partial_updates = false</code></p>
+<p>Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&#8217;m quite happy to have found a lovely new tool!</p></div>
 
 
   
@@ -108,15 +98,17 @@ Booyah sessions work now! Well ActiveRecord in general does.  After spending the
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -171,10 +163,24 @@ Booyah sessions work now! Well ActiveRecord in general does.  After spending the
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -199,6 +205,7 @@ Booyah sessions work now! Well ActiveRecord in general does.  After spending the
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,60 +73,53 @@
   </p>
 </header>
 
-<div class="entry">The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I&#8217;m not liable.  Also if you don&#8217;t know what subversion is this article is not a good place to start.\nh3. Ingredients
-
-* Wildcard DNS
-* Apache 2.2
-* Subversion 1.4.x (SVN)
-* Your favourite scripting language
-* Back-ups, back-ups, back-ups!!!!!
-* Couple of hours
-
-Okay so how is all of this going to look? Well lets say you have a client named Example and their website is located at example.com.  The goal is to achieve a test site located at http://example.com.projects.myhost.ca/, it&#8217;s a doozy to type, but it&#8217;ll create consistency. Besides the amount of time spent typing will be more than offset by the time it saves you once configured properly.
-
-h3. Initial Imports Insulate Against Insolence
-
-Okay so lets say you&#8217;ve used svnadmin and created a webdav accessible repository at http://myhost.ca/svn/example.com/, how should the initial import look?
-
-* branches
-* tags
-* trunk
-** site
-** src
-
-As you&#8217;ll note it&#8217;s a pretty vanilla setup for subversion.  So moving forward we&#8217;ll assume that trunk/site contains the latest and greatest of your clients website and trunk src is a dumping ground for your Illustrator, Photoshop, Actionscript and FLA&#8217;s, etc.
-
-h3. We Hosts Da Vhosts
-
-So what&#8217;s next? Lets get ready to rumble cuz we&#8217;re going to create our vhost configuration. Pick your poison, but you can either append the following setup to your httpd.conf or add a new file named vhosts.conf in your conf.d folder.
-
+<div class="entry"><p>The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I&#8217;m not liable.  Also if you don&#8217;t know what subversion is this article is not a good place to start.\nh3. Ingredients</p>
+<ul>
+	<li>Wildcard <span class="caps">DNS</span></li>
+	<li>Apache 2.2</li>
+	<li>Subversion 1.4.x (<span class="caps">SVN</span>)</li>
+	<li>Your favourite scripting language</li>
+	<li>Back-ups, back-ups, back-ups!!!!!</li>
+	<li>Couple of hours</li>
+</ul>
+<p>Okay so how is all of this going to look? Well lets say you have a client named Example and their website is located at example.com.  The goal is to achieve a test site located at http://example.com.projects.myhost.ca/, it&#8217;s a doozy to type, but it&#8217;ll create consistency. Besides the amount of time spent typing will be more than offset by the time it saves you once configured properly.</p>
+<h3>Initial Imports Insulate Against Insolence</h3>
+<p>Okay so lets say you&#8217;ve used svnadmin and created a webdav accessible repository at http://myhost.ca/svn/example.com/, how should the initial import look?</p>
+<ul>
+	<li>branches</li>
+	<li>tags</li>
+	<li>trunk
+	<ul>
+		<li>site</li>
+		<li>src</li>
+	</ul></li>
+</ul>
+<p>As you&#8217;ll note it&#8217;s a pretty vanilla setup for subversion.  So moving forward we&#8217;ll assume that trunk/site contains the latest and greatest of your clients website and trunk src is a dumping ground for your Illustrator, Photoshop, Actionscript and FLA&#8217;s, etc.</p>
+<h3>We Hosts Da Vhosts</h3>
+<p>So what&#8217;s next? Lets get ready to rumble cuz we&#8217;re going to create our vhost configuration. Pick your poison, but you can either append the following setup to your httpd.conf or add a new file named vhosts.conf in your conf.d folder.</p>
 <pre>
 LogFormat "%V %h %l %u %t \"%r\" %s %b" vcommon
 
-<Directory /var/www/vhosts/project>
+&lt;Directory /var/www/vhosts/project&gt;
 # adjust override as you see fit
 AllowOverride All
-</Directory>
+&lt;/Directory&gt;
 
-<virtualhost *:80>
+&lt;virtualhost *:80&gt;
 ServerName *.projects.myhost.ca
 
 VirtualDocumentRoot /var/www/vhosts/projects/%-4+
 
 ErrorLog logs/projects.myhost.ca-error_log
 CustomLog logs/projects.myhost.ca-access_log vcommon
-</virtualhost>
+&lt;/virtualhost&gt;
 </pre>
-
-h3. Sweet Script O&#8217;Mine
-
-Where do we go now&#8230; GNR flashback&#8230; I think not! So we&#8217;ve got a repository and vhost now what? You&#8217;ve got 2 options here;
-write a script that updates an existing checkout.
-write a script that creates a checkout if it does not exist or updates if it does.
-Option 1 is what I&#8217;ve gone with as I&#8217;ve placed the checkout in a script for the creation of my repository. The benefit to Option 2 is that it ensures you&#8217;re checkout environment will have the right permissions for svn updates.
-
-My script looks a little like the following;
-
+<h3>Sweet Script O&#8217;Mine</h3>
+<p>Where do we go now&#8230; <span class="caps">GNR</span> flashback&#8230; I think not! So we&#8217;ve got a repository and vhost now what? You&#8217;ve got 2 options here;<br />
+write a script that updates an existing checkout.<br />
+write a script that creates a checkout if it does not exist or updates if it does.<br />
+Option 1 is what I&#8217;ve gone with as I&#8217;ve placed the checkout in a script for the creation of my repository. The benefit to Option 2 is that it ensures you&#8217;re checkout environment will have the right permissions for svn updates.</p>
+<p>My script looks a little like the following;</p>
 <pre>
 #!/usr/bin/ruby -w
 #
@@ -149,20 +143,12 @@ rescue
  # pick a error notification method log it, email it wuteva you want
 end
 </pre>
-
-Now add this to the end of your post-commit hook as follows;
-
-@/somepath/update.rb &#8220;$REPOS&#8221;@
-
-Everytime you commit, it will automatically update a test copy of the site located at;
-
-@http://example.com.projects.myhost.ca/@
-
-h3. Conclusion
-
-This is a simple way to give the whole family access to test websites without the clutter and extra time of using FTP.
-
-</div>
+<p>Now add this to the end of your post-commit hook as follows;</p>
+<p><code>/somepath/update.rb "$REPOS"</code></p>
+<p>Everytime you commit, it will automatically update a test copy of the site located at;</p>
+<p><code>http://example.com.projects.myhost.ca/</code></p>
+<h3>Conclusion</h3>
+<p>This is a simple way to give the whole family access to test websites without the clutter and extra time of using <span class="caps">FTP</span>.</p></div>
 
 
   
@@ -179,15 +165,17 @@ This is a simple way to give the whole family access to test websites without th
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -242,10 +230,24 @@ This is a simple way to give the whole family access to test websites without th
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -270,6 +272,7 @@ This is a simple way to give the whole family access to test websites without th
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

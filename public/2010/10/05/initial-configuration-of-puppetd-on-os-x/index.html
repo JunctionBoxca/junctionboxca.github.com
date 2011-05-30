@@ -54,6 +54,7 @@
   <li><a href="/?s=nav">Home</a></li>
   <li><a href="/nathan-fisher.html?s=nav">About</a></li>
   <li><a href="/archive/?s=nav">Archive</a></li>
+  <li><a href="/resources/?s=nav">Resources</a></li>
 </ul>
 </div></nav>
   <div>
@@ -72,10 +73,8 @@
   </p>
 </header>
 
-<div class="entry">Configuring puppetd on OS X
-
-Create the User and Group accounts;
-
+<div class="entry"><p>Configuring puppetd on OS X</p>
+<p>Create the User and Group accounts;</p>
 <pre>
 sudo dscl . -create /Groups/puppet
 sudo dscl . -create /Groups/puppet PrimaryGroupID 300
@@ -85,39 +84,27 @@ sudo dscl . -create /Users/puppet PrimaryGroupID 300
 sudo dscl . -create /Users/puppet UniqueID 300
 sudo dscl . -create /Users/puppet UserShell /usr/bin/false
 </pre>
-
-Create the folders
-
+<p>Create the folders</p>
 <pre>
 sudo mkdir /etc/puppet
 sudo mkdir -p /var/puppet/log
 sudo chown -R puppet:puppet /var/puppet
 sudo chown -R puppet:puppet /etc/puppet
 </pre>
-
-Create the config file.
-
+<p>Create the config file.</p>
 <pre>
-sudo puppetd --genconfig > /etc/puppet/puppet.conf
+sudo puppetd --genconfig &gt; /etc/puppet/puppet.conf
 </pre>
-
-Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&#8217;s).
-
-If you run into issues with your certificates;
-
-h4. Client
-
+<p>Modify your /etc/hosts file with an entry for puppet (setting the server in the puppet.conf offers more flexibility should you move servers or change IP&#8217;s).</p>
+<p>If you run into issues with your certificates;</p>
+<h4>Client</h4>
 <pre>
 rm -rf /etc/puppet/ssl
 </pre>
-
-h4. Server
-
+<h4>Server</h4>
 <pre>
 puppetca --clean CERT_ID
-</pre>
-
-</div>
+</pre></div>
 
 
   
@@ -134,15 +121,17 @@ puppetca --clean CERT_ID
 </div>
       
         <aside><section>
-<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher"/>
+<img src="http://www.myopenid.com/image?id=142724" alt="Nathan Fisher" width="170" height="95"/>
 <h2>JunctionBox.ca</h2> 
 <h3>Nathan Fisher - DevOp</h3>
  
 <p class="quiet">DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The name is derived from the curious union of development and operations and is most commonly described as a "bridge of communication" between developers and operations. Criticise if you will, but when people have their head in code they sometimes don't take into account the bigger picture. Ultimately that's what it's all about. Common tools of the trade include: virtualization, configuration management, CI, and automation of as much as reasonable. If you're interested in knowing more take a look at Jez Humbles book <a href="http://continuousdelivery.com/">Continuous Delivery</a>.</p>
 </section>
 
+
+
 <section>
-  <h1>Recent Posts</h1>
+  <h3>Recent Posts</h3>
   <ul id="recent_posts">
     
       <li class="post">
@@ -197,10 +186,24 @@ puppetca --clean CERT_ID
     
   </ul>
 	<p><a href="/archive/?s=sidebar">More Articles</a></p>
-  </section>
+</section>
 
 
-  <section><h1>Latest Tweets</h1>
+<section>
+<h3>Blog Roll</h3>
+<ul>
+      <li><a href="http://dailyinteractive.ca/">DailyInteractive.ca</a></li>
+      <li><a href="http://migz.ca/">Migz.ca</a></li>
+      <li><a href="http://etlgfx.com/">ETL gfx</a></li>
+      <li><a href="http://littlekitchen.ca/">Little Kitchen</a></li>
+      <li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+      <li><a href="http://continuousdelivery.com/">Continous Delivery - Jez Humble</a></li>
+      <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+      </ul>
+</section>
+
+
+  <section><h3>Latest Tweets</h3>
 <ul id="tweets">
   Status updating...
 </ul>
@@ -225,6 +228,7 @@ puppetca --clean CERT_ID
 	<a href="/?s=footer">Home</a> |
 	<a href="/nathan-fisher.html?s=footer">About</a> |
 	<a href="/archive/?s=footer">Archive</a> |
+	<a href="/resources/?s=footer">Resources</a> |
   Copyright &copy; 2011 - Nathan Fisher -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
