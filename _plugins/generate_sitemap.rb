@@ -117,6 +117,7 @@ module Jekyll
     #  +path+ is the URL path to the page.
     #  +date+ is the date the file was modified (in the case of regular pages), or published (for blog posts).
     def entry(base_url, path, date)
+				return "" if path == '/404.haml'
         # Force extensions to .html from markdown, textile.
         path = path.gsub(/\.(markdown|textile)$/i, '.html')
       "

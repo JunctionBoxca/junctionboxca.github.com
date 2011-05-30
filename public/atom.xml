@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://junctionbox.ca/atom.xml" rel="self"/>
   <link href="http://junctionbox.ca/"/>
-  <updated>2011-05-29T20:52:27-07:00</updated>
+  <updated>2011-05-29T21:14:35-07:00</updated>
   <id>http://junctionbox.ca/</id>
   <author>
     <name>Nathan Fisher</name>
@@ -14,6 +14,7 @@
   </author>
 
   
+	
   <entry>
     <title>Branching by Abstraction 101</title>
     <link href="http://junctionbox.ca/2011/05/28/branching-by-abstraction-101/"/>
@@ -44,7 +45,9 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;&lt;p&gt;I leave the implementation details for the feature manager up to the user. Here are a few thoughts to consider during it&amp;#8217;s implementation; How many application servers do you have? Do you want to control your features during release or live? How do you want to manage the configuration of those features? Are you interested in canary releases? How should the features be stored and how will queries to the storage medium affect performance?&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Bootstrapping Windows</title>
     <link href="http://junctionbox.ca/2011/02/10/bootstrapping-windows/"/>
@@ -99,7 +102,9 @@ Function download_file(src, dest)
 End Function
 &lt;/pre&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Initial Configuration of Puppetd on OS X</title>
     <link href="http://junctionbox.ca/2010/10/05/initial-configuration-of-puppetd-on-os-x/"/>
@@ -134,7 +139,9 @@ sudo chown -R puppet:puppet /etc/puppet
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Dance and Pivot SQL Style</title>
     <link href="http://junctionbox.ca/2010/08/01/dance-and-pivot-sql-style/"/>
@@ -209,7 +216,9 @@ sudo chown -R puppet:puppet /etc/puppet
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;&lt;p&gt;What are your thoughts? Any similar implementations how did you handle it?&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Simplified TDD with Sinatra autotest</title>
     <link href="http://junctionbox.ca/2010/04/17/simplified-tdd-with-sinatra-autotest/"/>
@@ -313,7 +322,9 @@ autotest
 &lt;p&gt;For the source see;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;git://github.com/nfisher/Sinatra-Skeleton.git&quot;&gt;git://github.com/nfisher/Sinatra-Skeleton.git&lt;/a&gt;&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Dom A Regato, My Tests Are Auto</title>
     <link href="http://junctionbox.ca/2010/03/24/dom-a-regato--my-tests-are-auto/"/>
@@ -341,7 +352,9 @@ autotest
 	&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Fresh Book It</title>
     <link href="http://junctionbox.ca/2010/02/23/fresh-book-it/"/>
@@ -395,7 +408,9 @@ function projectLink( $id, $label ) {
 init();
 &lt;/pre&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Approaching bliss; TDD+PHP+MVC</title>
     <link href="http://junctionbox.ca/2009/12/12/approaching-bliss--tdd%2Bphp%2Bmvc/"/>
@@ -631,7 +646,9 @@ $test_suite-&amp;gt;run(new HtmlReporter());
 /* Location: ./test.php */
 &lt;/pre&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Kick dependence, here's an injection</title>
     <link href="http://junctionbox.ca/2009/11/03/kick-dependence--here-s-an-injection/"/>
@@ -729,7 +746,9 @@ Phase 2: Instantiate objects.&lt;/p&gt;
 Phase 2 is executed as soon as each objects dependencies are fulfilled. If an object has all of its dependencies fulfilled immediately then it is instantiated, otherwise it sits on the back burner waiting for it&amp;#8217;s time.&lt;/p&gt;
 &lt;p&gt;I have a direction, stay tuned for the final product!&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Tripping over Rubies while Camping</title>
     <link href="http://junctionbox.ca/2009/06/17/tripping-over-rubies-while-camping/"/>
@@ -745,7 +764,9 @@ Phase 2 is executed as soon as each objects dependencies are fulfilled. If an ob
 &lt;p&gt;&lt;code&gt;AppName::Models::Base.partial_updates = false&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Booyah sessions work now! Well ActiveRecord in general does.  After spending the better part of a rainy Saturday updating and debugging I finally had a working blog&amp;#8230; on to my app!  The app was really simple a form to provide the name of new repositories, an output listing of existing svn repositories, and some backend processing which created the repository from a template directory structure.  The general idea was to provide an interface for the people I work with that would be quick, simple and consistent.  All in all it came together rather quickly and I&amp;#8217;m quite happy to have found a lovely new tool!&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>REST + less weekend while Camping</title>
     <link href="http://junctionbox.ca/2008/09/23/rest-%2B-less-weekend-while-camping/"/>
@@ -852,7 +873,9 @@ Phase 2 is executed as soon as each objects dependencies are fulfilled. If an ob
 	&lt;/tr&gt;
 &lt;/table&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Sprout an AsWing</title>
     <link href="http://junctionbox.ca/2008/09/19/sprout-an-aswing/"/>
@@ -875,7 +898,9 @@ debug :debug do |t|
 end
 &lt;/pre&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Ruby be nimble, Ruby be SWF...</title>
     <link href="http://junctionbox.ca/2008/09/04/ruby-be-nimble--ruby-be-swf---/"/>
@@ -916,7 +941,9 @@ end
 &lt;/pre&gt;
 &lt;p&gt;And voila, you should have all your bytes in a nice little (big) string. All you have left is to run through each byte and decode to your hearts content.&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Watch for Flying Bitmaps</title>
     <link href="http://junctionbox.ca/2008/08/26/watch-for-flying-bitmaps/"/>
@@ -1044,7 +1071,9 @@ package {
 &lt;p&gt;The class can be refined much further including a setter for the bitmap data. Like all things in life there is always room for improvement.&lt;/p&gt;
 &lt;p&gt;The included photo was provided by &lt;a href=&quot;http://www.tessierpools.com/&quot;&gt;Tessier Pools&lt;/a&gt; and is a &lt;a href=&quot;http://www.questarpools.com/&quot;&gt;Skip Phillips&lt;/a&gt; design.&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Beware the Garbage Man's Scope</title>
     <link href="http://junctionbox.ca/2008/07/25/beware-the-garbage-man-s-scope/"/>
@@ -1064,7 +1093,9 @@ public function rotatePage( dest ):void {
 }
 &lt;/pre&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Regular Expression & Parsed Elation</title>
     <link href="http://junctionbox.ca/2008/07/04/regular-expression---parsed-elation/"/>
@@ -1075,7 +1106,9 @@ public function rotatePage( dest ):void {
 &lt;param name=&quot;movie&quot; value=&quot;/images/as3regex.swf&quot; /&gt;&lt;br /&gt;
 &lt;/object&gt;&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Subversive Lyrics with Subversion</title>
     <link href="http://junctionbox.ca/2008/06/26/subversive-lyrics-with-subversion/"/>
@@ -1158,7 +1191,9 @@ end
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;This is a simple way to give the whole family access to test websites without the clutter and extra time of using &lt;span class=&quot;caps&quot;&gt;FTP&lt;/span&gt;.&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Scrollpane Woes to Fix the Flow</title>
     <link href="http://junctionbox.ca/2008/06/26/scrollpane-woes-to-fix-the-flow/"/>
@@ -1229,7 +1264,9 @@ There is currently no upper limit on the number of iterations that checkPane wil
 Audio maybe a problem because of the refreshPane.&lt;br /&gt;
 That’s all for now.&lt;/p&gt;</content>
   </entry>
+	
   
+	
   <entry>
     <title>Rsync Daily Snapshots</title>
     <link href="http://junctionbox.ca/2006/04/17/rsync-daily-snapshots/"/>
@@ -1253,5 +1290,6 @@ cp -Rl &lt;span class=&quot;nv&quot;&gt;$BASE&lt;/span&gt;/&lt;span class=&quot;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</content>
   </entry>
+	
   
 </feed>
