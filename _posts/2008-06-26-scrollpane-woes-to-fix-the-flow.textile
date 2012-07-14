@@ -4,7 +4,7 @@ created_at: 2008-06-26 12:00:00 +00:00
 filter:
   - erb
   - textile
-layout:     post
+layout:     default
 ---
 Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.
 

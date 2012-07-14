@@ -4,7 +4,7 @@ created_at: 2008-06-26 12:00:00 +00:00
 filter:
   - erb
   - textile
-layout:     post
+layout:     default
 ---
 The plan for today is to build an automated test environment (static websites only) that updates with each commit. Now I should forewarn you if you play this article backwards the devil will steal your dog, and wife, and leave you with nothing more than a crappy country song. Should that or anything else bad happen be an adult and take responsibility for your own actions, aka I'm not liable.  Also if you don't know what subversion is this article is not a good place to start.\nh3. Ingredients
 
