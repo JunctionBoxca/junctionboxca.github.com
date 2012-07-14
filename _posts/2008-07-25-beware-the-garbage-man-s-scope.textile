@@ -1,0 +1,28 @@
+---
+title:      Beware the Garbage Man's Scope
+created_at: 2008-07-25 12:00:00 +00:00
+layout:     default
+---
+h2. {{page.title}}
+
+Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I'll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don't assume anything and clean up after yourself. Unless you're trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;
+
+@new Tween( pages, "rotation", Elastic.easeOut, src, dest, duration, true );@
+
+You can only guess how dirty I felt typing it, looking at it, breathing it in and digesting it.  It was wrong and I knew it. Its only reason for existence was laziness coupled with a 3am sugar buzz.  I figured, "Why create a member variable? I don't care what happens to it after its done its deed."
+
+Unfortunately I didn't realize how wrong it was until seemingly at random its expected effect would get tossed like "Marla's bridesmaid dress":http://www.foxmovies.com/fightclub/.  Intensely loved for a moment, and unwittingly thrown to the curbside the second the garbage collector came along. I did a whole lot of _unnecessary_ dancing around to debug why something so foolish wasn't working 20% of the time. It was random, I wanted to pull out my hair.  I think there were brief moments where I actually did.  I finally gave it a big b-tch slap and applied some brute force using a "watchdog" timer that snapped it into the destination angle.  The timer was jarring to the user, it was a defeat for me, but it ensured the content was accessible instead of periodically ending in a rotation somewhere between here and Timbuktu.
+
+I published the site only to shortly after find my salvation in the comments on Adobe's Flash 9 Livedocs.  I cursed myself immensely at its simplicity, and my foolishness.  The simple fact of the matter is I didn't take into account scope. I applied C++ assumptions of variable life time, whilst at the same time discarding the method for proper clean-up, a reference to the original object.
+
+h3. Conclusion
+
+In the future kids don't play with matches, and if you want an object to last beyond a methods or functions scope make sure it is referenced outside of that method.
+
+<pre>
+private var _rotation_tween:Tween;
+public function rotatePage( dest ):void {
+ _rotation_tween = new Tween( pages, "rotation", Elastic.easeOut, src, dest, duration, true );
+}
+</pre>
+
