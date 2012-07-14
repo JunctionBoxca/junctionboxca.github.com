@@ -24,9 +24,9 @@
     <aside>
     <h3>Recent Articles</h3>
     <ul>
-      {% for p in site.posts %}
-      <li><a href="{{p.url}}">
-        {{p.title}}
+      {% for post in site.posts limit:7 %}
+      <li><a href="{{post.url}}">
+        {{post.title}}
       </a>
       {% endfor %}
     </ul>
