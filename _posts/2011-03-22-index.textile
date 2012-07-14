@@ -2,9 +2,6 @@
 dirty:      true
 title:      Article Index
 created_at: 2011-03-22 08:16:58.063825 +00:00
-filter:
-  - erb
----
 <p class="title"><%= h(@page.title) %></a></p>
 
 <% @pages.find(:limit => :all, :in_directory => 'articles', :sort_by => 'created_at', :reverse => true, :recursive => true).each do |page| -%>
