@@ -3,6 +3,8 @@ title:      Scrollpane Woes to Fix the Flow
 created_at: 2008-06-26 12:00:00 +00:00
 layout:     default
 ---
+h2. {{page.title}}
+
 Using the V2 ScrollPane component, externally loaded SWF’s may visually overflow outside of the defined ScrollPane area. Quite often the scrolling will still work, however the masking does not do its job as expected. In trying to solve the problem we have used everything from overloading the Loader class methods to simply calling invalidate briefly after the data loads.\nh3. Coming to an understanding is part of the problem.
 
 To fully understand the problem you need to go into the interaction between the Flash player, V2 components, and MovieClips. First off you will rarely, if ever, experience this problem in the Flash Developer environment. Why? The problem appears to be timing, and local files generally have no measurable load time relative to their web based counterparts. In your browser once the SWF has been cached the next refresh of the page generally works fine. Wipe your cache and watch the problem return.
