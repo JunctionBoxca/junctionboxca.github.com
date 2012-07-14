@@ -1,3 +1,12 @@
+/*
+ Thanks to Eric Meyer for the reset, and Enrique 
+ blue: rgb(4,135,192)
+ dkblue: rgb(2,64,89)
+ ltblue: rgb(108,186,217)
+ blgreen: rgb(2,81,89)
+ brown: rgb(140,107,79)
+ grey: rgb(197,209,217)
+*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -8,7 +17,7 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+figure, figcaption, #extras, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -20,14 +29,19 @@ time, mark, audio, video {
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+#extras, header, hgroup, menu, nav, section {
 	display: block;
 }
-body {
-	line-height: 1;
+html {
+  background:rgb(197,209,217);
 }
-ol, ul {
-	list-style: none;
+body {
+  clear:both;
+	line-height:1;
+  margin:0 auto;
+  overflow:none;
+  padding-right:210px; /* 960 - 710 = 250 */
+  width: 710px;
 }
 blockquote, q {
 	quotes: none;
@@ -41,3 +55,203 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+/* END reset */
+
+h1,h2,h3,h4,h5,h6 {
+  color:rgb(108,186,217);
+  line-height:1.618em;
+}
+h1 {
+  font-size:3.57em;
+}
+h2 {
+  font-size:2.21em;
+}
+h3 {
+  font-size:1.36em;
+}
+h4,h5,h6 {
+  font-size:1em;
+}
+p {
+line-height:1.618em;
+margin-bottom:1.618em;
+}
+a {
+  color:rgb(140,107,79);
+}
+a:hover, a:active {
+	background-color: rgb(4,135,192);
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #333;
+}
+hr {
+border:0 none;
+border-top:1px solid rgb(197,209,217);
+}
+ul, ol {
+  margin:0 1.25em 1.618em;
+}
+img.right {
+  float:right;
+  margin-top:0.309em;
+  margin-bottom:1em;
+  margin-left:1em;
+}
+pre {
+  border:1px solid rgb(197,209,217);
+  background:#ddd;
+  overflow:auto;
+  padding:1em;
+  margin-bottom:1.618em;
+}
+
+
+header h1 {
+  color:rgb(108,186,217);
+  margin:0;
+  line-height:0.6;
+}
+header nav {
+  -moz-box-shadow: 3px 3px 5px #888;
+  -webkit-box-shadow: 3px 3px 5px #888;
+  box-shadow: 3px 3px 5px #888;
+  background: rgb(2,64,89);
+  height: 40px;
+  line-height: 30px;
+  margin:0 0 1px;
+  padding:0 40px 0 0;
+  text-align: center;
+  width:100%;
+}
+header nav ul {
+  clear:both;
+  font-size: 1.143em;
+  height:40px;
+  list-style: none;
+  margin:0;
+  width: 670px;
+}
+header nav li {
+  float: left;
+  display: inline;
+  margin: 0;
+}
+header nav a:link, header nav a:visited {
+  color: #fff;
+  display: inline-block;
+  height: 30px;
+  padding: 5px 20px;
+  text-decoration: none;
+}
+header nav a:hover, header nav a:active, header nav .active a:link, header nav .active a:visited {
+  background: rgb(4,135,192);
+  color: #fff;
+  text-shadow: none !important;
+}
+article {
+  -moz-box-shadow: 3px 3px 5px #888;
+  -webkit-box-shadow: 3px 3px 5px #888;
+  box-shadow: 3px 3px 5px #888;
+  background:white url(/images/great_ocean_road.jpg) no-repeat;
+  float:left;
+  padding:20px;
+  padding-top:381px;
+  margin-bottom:20px;
+  width:100%;
+}
+aside {
+  float:left;
+  margin-right:-100%;
+  padding-left:20px;
+  position:relative;
+  width:230px;
+}
+aside ul {
+  list-style:none;
+  margin-left:0;
+}
+aside a {
+  text-decoration:none;
+}
+
+#extras {clear:both; margin:0 auto 20px; overflow: hidden; }
+
+#extras ul {list-style: none; margin: 0;}
+#extras h2 {
+	color: rgb(4,135,192);
+	font-size: 1.429em;
+	margin-bottom: .25em;
+	padding: 0 3px;
+}
+
+#extras a:link, #extras a:visited, aside a:link, aside a:visited {
+	color: #444;
+	display: block;
+	border-bottom: 1px solid #F4E3E3;
+	text-decoration: none;
+	padding: .3em .25em;
+}
+
+#extras li:last-child,
+#extras li:last-child a {border: 0}
+
+#extras .blogroll li:nth-last-child(2),
+#extras .blogroll li:nth-last-child(3),
+#extras .blogroll li:nth-last-child(2) a,
+#extras .blogroll li:nth-last-child(3) a {border: 0;}
+
+#extras a:hover, #extras a:active, 
+aside a:hover, aside:active
+{color: #fff;}
+
+#extras .blogroll {
+  float: left;
+  padding:0 20px;
+  width: 615px;
+}
+
+#extras .blogroll li {float: left; margin: 0 20px 0 0; width: 185px;}
+
+#extras .social {
+  float: right;
+  width: 175px;
+}
+
+#extras div[class='social'] a {
+  background-repeat: no-repeat;
+  background-position: 3px 6px;
+  padding-left: 25px;
+}
+
+.social a[href*='delicious.com'] {background-image: url('../images/icons/delicious.png');}
+.social a[href*='digg.com'] {background-image: url('../images/icons/digg.png');}
+.social a[href*='facebook.com'] {background-image: url('../images/icons/facebook.png');}
+.social a[href*='last.fm'], .social a[href*='lastfm.'] {background-image: url('../images/icons/lastfm.png');}
+.social a[href*='/feed/'] {background-image: url('../images/icons/rss.png');}
+.social a[href*='twitter.com'] {background-image: url('../images/icons/twitter.png');}
+
+#about {
+  background: #fff;
+  -moz-box-shadow: 3px 3px 5px #888;
+  -webkit-box-shadow: 3px 3px 5px #888;
+  box-shadow: 3px 3px 5px #888;
+  font-style: normal;
+  overflow: hidden;
+  padding:25px 20px;
+  text-align: left;
+  width: 100%;
+}
+
+#about .primary {float: left; width: 165px;}
+#about .primary strong {color: #C64350; display: block; font-size: 1.286em;}
+#about .photo {float: left; margin: 0 1.618em 0 0;}
+
+#about .url:link, #about .url:visited {text-decoration: none;}
+
+#about .bio {float: left; width:310px;}
+
+footer { clear:both; }
+footer .copy {padding: 1.618em; text-align: right; width:100%;}
+
