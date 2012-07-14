@@ -15,7 +15,8 @@ What I will illustrate here is just a simple sliding door effect.  As seen in th
 * flash.display.Bitmap
 * flash.display.BitmapData
 * flash.geom.Point
-* flash.geom.Rectangle\nOtay so lets layout what we need and what we generally want to do.
+* flash.geom.Rectangle
+Otay so lets layout what we need and what we generally want to do.
 
 h3. Halves Too #Include
 

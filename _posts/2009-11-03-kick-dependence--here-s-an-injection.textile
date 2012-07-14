@@ -46,7 +46,8 @@ function create_app() {
   return $app;
 } );
 }
-</pre>\nNow I had a couple issues with the above implementation; string constants, and anonymous functions.
+</pre>
+Now I had a couple issues with the above implementation; string constants, and anonymous functions.
 
 h3. String Constants Aren't Unknown Objects
 

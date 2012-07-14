@@ -15,7 +15,8 @@ I came up with some code that worked in the console and turned it into a one-lin
 
 Hmmm so I did a little research and found that var assignments act like a return which explains the [Object object].  A little googling and I found what I hoped to be the solution;
 
-@(function(){})()@\nOkay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.
+@(function(){})()@
+Okay that dealt with the [Object object] problem, but sadly not the solution I was looking for.  The javascript errors were coming on fast and furious because of variable scope.
 
 Now I know when you look at the code you'll scream "GLOBALS ARE BAD", but its a bookmarklet and I was just having fun with javascript.
 

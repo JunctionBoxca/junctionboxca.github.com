@@ -58,7 +58,8 @@ p. Once saved your test should kick to life with one failure:
 test_fail(AppTest) [./test/test_app.rb:8]:
 Write your App tests!.
 
-</pre>\nHugely simplified test suite, but it gets you going and doesn't contain reams of mystical cruft to debug.
+</pre>
+Hugely simplified test suite, but it gets you going and doesn't contain reams of mystical cruft to debug.
 
 Next up is introducing rack's test suite, modify your test_app.rb to look like the following;
 

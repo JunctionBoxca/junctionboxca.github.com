@@ -5,7 +5,8 @@ layout:     default
 ---
 h2. {{page.title}}
 
-Here's a little app I wrote during a project to test ActionScript 3's regular expressions.\n<object type="application/x-shockwave-flash" data="/images/as3regex.swf" width="760" height="422">
+Here's a little app I wrote during a project to test ActionScript 3's regular expressions.
+<object type="application/x-shockwave-flash" data="/images/as3regex.swf" width="760" height="422">
 <param name="movie" value="/images/as3regex.swf" />
 </object>
 

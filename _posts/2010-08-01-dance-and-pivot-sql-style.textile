@@ -14,7 +14,8 @@ I wanted to create a table like the following:
 
 | page | monday | tuesday | wednesday | thursday | friday | saturday | sunday |
 | index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
-| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |\nMy first though was just do a simple GROUP BY and pivot the table through code.
+| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |
+My first though was just do a simple GROUP BY and pivot the table through code.
 
 <pre>
 SELECT page, DATE(created_at), COUNT(*) AS hits 

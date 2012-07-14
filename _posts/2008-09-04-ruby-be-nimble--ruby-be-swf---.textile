@@ -14,7 +14,8 @@ uncompressed SWF file (FWS signature), the FileLength field should exactly match
 size. If this is a compressed SWF file (CWS signature), the FileLength field indicates the total
 length of the file after decompression, and thus generally does not match the file size. Having
 the uncompressed size available can make the decompression process more efficient."
-\nSeems pretty clear and straight forward, but it doesn't really reference where the compression starts.  I initially assumed, that it starts at the end of the SWF header.  The end of the header seemed like a logical boundary to me. What I quickly found with "0xED":http://www.suavetech.com/0xed/0xed.html is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?
+
+Seems pretty clear and straight forward, but it doesn't really reference where the compression starts.  I initially assumed, that it starts at the end of the SWF header.  The end of the header seemed like a logical boundary to me. What I quickly found with "0xED":http://www.suavetech.com/0xed/0xed.html is that compression starts immediately after the 32-bit FileLength.  Okay so now we know, and knowing is half the battle! What next?
 
 h3. Toes to the edge, and wait for the gun.
 

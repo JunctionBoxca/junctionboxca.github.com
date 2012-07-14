@@ -5,7 +5,8 @@ layout:     default
 ---
 h2. {{page.title}}
 
-Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).\n<pre>
+Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. *Warning* do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).
+<pre>
 #!/bin/sh
 
 HOST=localhost.localdomain
