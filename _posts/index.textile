@@ -1,0 +1,12 @@
+---
+title:      Article Index
+created_at: 2011-03-22 08:16:58.063825 +00:00
+layout:     default
+---
+h2. {{page.title}}
+
+<ul>
+{% for post in site.posts %}
+  <li><a href="{{post.url}}">{{post.title}}</a>
+{% endfor %}
+</ul>
