@@ -3,3 +3,4 @@ lsi:        false
 pygments:   true
 exclude:    Gemfile, Gemfile.lock, README.md
 permalink:  /archive/:year/:month/:day/:title
+paginate: 3
