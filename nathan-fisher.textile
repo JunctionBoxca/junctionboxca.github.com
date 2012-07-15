@@ -4,6 +4,7 @@ layout: default
 ---
 h2. {{page.title}}
 
+Nathan Fisher’s online blog where you’ll find me mostly posting about geeky IT stuff.
 
 h3. What the heck is DevOps?
 
