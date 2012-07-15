@@ -1,6 +1,7 @@
 ---
 title: Nathan Fisher
 layout: default
+created_at: 2012-07-15 12:00:00 +00:00
 ---
 h2. {{page.title}}
 
