@@ -26,11 +26,11 @@ I pulled up the descriptions for each of the status codes, and made a short comm
 
 <pre>
 <code>
-# Event GET			200,301,410
-# Event PUT			200,301,400,410
-# Event DELETE	200,204
-# Events GET		200,301
-# Events POST		201,400
+# Event GET      200,301,410
+# Event PUT      200,301,400,410
+# Event DELETE   200,204
+# Events GET     200,301
+# Events POST    201,400
 #
 # 200 - OK
 # 201 - Created

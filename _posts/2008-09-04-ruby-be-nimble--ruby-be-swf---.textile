@@ -27,11 +27,11 @@ And requires the compressed contents in a string buffer like so;
 
 <pre>
 def read_remaining_bytes
-	pos = @file.tell
-	@file.seek( 0, IO::SEEK_END )
-	end_pos = @file.tell
-	@file.pos = pos
-	@file.read( end_pos - pos )
+  pos = @file.tell
+  @file.seek( 0, IO::SEEK_END )
+  end_pos = @file.tell
+  @file.pos = pos
+  @file.read( end_pos - pos )
 end
 </pre>
 
@@ -43,11 +43,11 @@ Okay we have our compressed content now lets inflate it!
 
 <pre>
 def decompress( compressed_contents )
-	zstream = Zlib::Inflate.new
-	decompressed_contents = zstream.inflate( compressed_contents )
-	zstream.finish
-	zstream.close
-	decompressed_contents
+  zstream = Zlib::Inflate.new
+  decompressed_contents = zstream.inflate( compressed_contents )
+  zstream.finish
+  zstream.close
+  decompressed_contents
 end
 </pre>
 

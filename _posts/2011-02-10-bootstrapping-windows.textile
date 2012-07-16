@@ -32,27 +32,27 @@ WshShell.Run temp & "jre.exe /s /v ""/qn ADDLOCAL=ALL IEXPLORER=1""", 1, TRUE
 '
 '
 Function download_file(src, dest)
-	' TODO: Add better error handling for http and file handles.
+  ' TODO: Add better error handling for http and file handles.
 
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
+  Set http = CreateObject("MSXML2.ServerXMLHTTP")
 
-	If IsNull(http) Then
-		WScript.Echo "Microsoft.XmlHttp creation failed"
-	End If
+  If IsNull(http) Then
+    WScript.Echo "Microsoft.XmlHttp creation failed"
+  End If
 
-	http.open "GET", src, FALSE
-	http.send
+  http.open "GET", src, FALSE
+  http.send
 
-	Set file_stream = CreateObject("Adodb.Stream")
+  Set file_stream = CreateObject("Adodb.Stream")
 
-	file_stream.type = BINARY
-	file_stream.open
-	file_stream.write http.responseBody
-	file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
-	file_stream.close
+  file_stream.type = BINARY
+  file_stream.open
+  file_stream.write http.responseBody
+  file_stream.saveToFile temp & dest, SAVE_CREATE_OVERWRITE 
+  file_stream.close
 
-	Set file_stream = nothing
-	Set http = nothing
+  Set file_stream = nothing
+  Set http = nothing
 End Function
 </pre>
 

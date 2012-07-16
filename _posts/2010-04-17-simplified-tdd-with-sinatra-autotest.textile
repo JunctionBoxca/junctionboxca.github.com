@@ -38,13 +38,13 @@ autotest
 p. This should output something akin to the following, if you don't get that then somethings amiss that you'll need to investigate further.
 
 <pre>/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- app (LoadError)
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from ./test/test_app.rb:4
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
-	from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
-	from -e:2
-	from -e:2:in `each'
-	from -e:2</pre>
+  from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+  from ./test/test_app.rb:4
+  from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+  from /Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+  from -e:2
+  from -e:2:in `each'
+  from -e:2</pre>
 
 p. Next create a new file named 'lib/app.rb'.
 

@@ -26,8 +26,8 @@ Modify the debug task in TickTock/rakefile.rb as illustrated:
 <pre>
 desc 'Compile and debug the application'
 debug :debug do |t|
-	t.input = 'src/TickTock.as'
-	t.library_path << "lib/AsWing.swc"
+  t.input = 'src/TickTock.as'
+  t.library_path << "lib/AsWing.swc"
 end
 </pre>
 

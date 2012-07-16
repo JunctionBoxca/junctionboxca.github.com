@@ -34,15 +34,15 @@ Notes on Directory structure; where ./ is the root of a fresh CI project.
 
 Changes:
 
-	* Added console writer for test suite.
-	* Moved all of the file scanning into classes.
-	* Fixed a bug where vim swp files are treated as test classes.
-	* Fixed a bug where view files can never exclusively be processed.
+  * Added console writer for test suite.
+  * Moved all of the file scanning into classes.
+  * Fixed a bug where vim swp files are treated as test classes.
+  * Fixed a bug where view files can never exclusively be processed.
 
 Todo:
 
-	* Unit Tests - how ironic :(
-	* Fix potential problem if test folders do not exist.
+  * Unit Tests - how ironic :(
+  * Fix potential problem if test folders do not exist.
 
 License:
 
@@ -60,34 +60,34 @@ require_once ROOT . 'system/test/web_tester.php';
 require_once ROOT . 'system/test/reporter.php';
 
 class CodeIgniterUnitTestCase extends UnitTestCase {
-	protected $ci;
-	 
-	public function __construct() {
-		parent::UnitTestCase();
-		$this->ci =& get_instance();
-	}
+  protected $ci;
+   
+  public function __construct() {
+    parent::UnitTestCase();
+    $this->ci =& get_instance();
+  }
 }
  
 class CodeIgniterWebTestCase extends WebTestCase {
-	protected $ci;
+  protected $ci;
  
-	public function __construct() {
-		parent::WebTestCase();
-		$this->ci =& get_instance();
-	}
+  public function __construct() {
+    parent::WebTestCase();
+    $this->ci =& get_instance();
+  }
 }
 
 function add_full_path( &$v, $k, $o ) {
-	$o->addImplementationPath($o->getImplementationPath($v));
-	$v = $o->getTestPath() . '/' . $v;
+  $o->addImplementationPath($o->getImplementationPath($v));
+  $v = $o->getTestPath() . '/' . $v;
 }
 
 function filter_hidden( $v ) {
-	if( preg_match('/^\./', $v) ) {
-		return FALSE;
-	}
+  if( preg_match('/^\./', $v) ) {
+    return FALSE;
+  }
 
-	return TRUE;
+  return TRUE;
 }
 
 
@@ -96,50 +96,50 @@ function filter_hidden( $v ) {
  *
  */
 abstract class BaseTestPath {
-	abstract function getTestPath();
-	abstract function getImplementationPath($test);
+  abstract function getTestPath();
+  abstract function getImplementationPath($test);
 
-	var $is_fullpath = FALSE;
-	var $filenames = null;
-	var $impl_filenames = array();
+  var $is_fullpath = FALSE;
+  var $filenames = null;
+  var $impl_filenames = array();
 
-	function getFilenames() {
-		if( $this->filenames === null ) {
-			$this->filenames = @scandir($this->getTestPath());
-			$this->filenames = array_filter( $this->filenames, 'filter_hidden' );
-		}
-		return $this->filenames;
-	}
+  function getFilenames() {
+    if( $this->filenames === null ) {
+      $this->filenames = @scandir($this->getTestPath());
+      $this->filenames = array_filter( $this->filenames, 'filter_hidden' );
+    }
+    return $this->filenames;
+  }
 
-	function addToTestSuite( &$test ) {
-		$this->loadImplementations();
-		foreach( $this->getFilenamesWithFullPath() as $test_file ) {
-			$test->addFile( $test_file );
-		}
-	}
+  function addToTestSuite( &$test ) {
+    $this->loadImplementations();
+    foreach( $this->getFilenamesWithFullPath() as $test_file ) {
+      $test->addFile( $test_file );
+    }
+  }
 
-	function loadImplementations() {
-		$this->getFilenamesWithFullPath();
-		foreach( $this->impl_filenames as $impl ) {
-			if( file_exists($impl) ) {
-				require_once($impl);
-			}
-		}
-	}
+  function loadImplementations() {
+    $this->getFilenamesWithFullPath();
+    foreach( $this->impl_filenames as $impl ) {
+      if( file_exists($impl) ) {
+        require_once($impl);
+      }
+    }
+  }
 
-	function getFilenamesWithFullPath() {
-		if( $this->is_fullpath == FALSE ) {
-			$this->getFilenames();
-			array_walk( $this->filenames, 'add_full_path', $this );
-			$this->is_fullpath = TRUE;
-		}
+  function getFilenamesWithFullPath() {
+    if( $this->is_fullpath == FALSE ) {
+      $this->getFilenames();
+      array_walk( $this->filenames, 'add_full_path', $this );
+      $this->is_fullpath = TRUE;
+    }
 
-		return $this->filenames;
-	}
+    return $this->filenames;
+  }
 
-	function addImplementationPath( $impl_path ) {
-		array_push($this->impl_filenames, $impl_path);
-	}
+  function addImplementationPath( $impl_path ) {
+    array_push($this->impl_filenames, $impl_path);
+  }
 }
 
 
@@ -148,14 +148,14 @@ abstract class BaseTestPath {
  *
  */
 class ControllerTestPath extends BaseTestPath {
-	function getTestPath() {
-		return APP_ROOT . 'tests/controllers';
-	}
+  function getTestPath() {
+    return APP_ROOT . 'tests/controllers';
+  }
 
-	function getImplementationPath( $test_filename ) {
-		$controller = preg_replace( '#.*?([a-zA-Z0-9_\-]+)_controller_test.php$#', '$1.php', $test_filename );
-		return APP_ROOT . 'controller/' . $controller;
-	}
+  function getImplementationPath( $test_filename ) {
+    $controller = preg_replace( '#.*?([a-zA-Z0-9_\-]+)_controller_test.php$#', '$1.php', $test_filename );
+    return APP_ROOT . 'controller/' . $controller;
+  }
 }
 
 
@@ -164,14 +164,14 @@ class ControllerTestPath extends BaseTestPath {
  *
  */
 class ModelTestPath extends BaseTestPath {
-	function getTestPath() {
-		return APP_ROOT . 'tests/models';
-	}
+  function getTestPath() {
+    return APP_ROOT . 'tests/models';
+  }
 
-	function getImplementationPath($test_filename) {
-		$model = preg_replace('#.*?([a-zA-Z0-9_\-]+_model)_test.php$#', '$1.php', $test_filename);
-		return APP_ROOT . 'models/' . $model;
-	}
+  function getImplementationPath($test_filename) {
+    $model = preg_replace('#.*?([a-zA-Z0-9_\-]+_model)_test.php$#', '$1.php', $test_filename);
+    return APP_ROOT . 'models/' . $model;
+  }
 }
 
 
@@ -180,15 +180,15 @@ class ModelTestPath extends BaseTestPath {
  *
  */
 class ViewTestPath extends BaseTestPath {
-	function getTestPath() {
-		return APP_ROOT . 'tests/views';
-	}
+  function getTestPath() {
+    return APP_ROOT . 'tests/views';
+  }
 
-	function getImplementationPath( $test_filename ) {
-		$view = preg_replace('#.*?([a-zA-Z0-9_\-]+)_view_test.php$#', '$1.php', $test_filename);
-		$view = implode( '/', explode('_',$view) );
-		return APP_ROOT . 'views/' . $view;
-	}
+  function getImplementationPath( $test_filename ) {
+    $view = preg_replace('#.*?([a-zA-Z0-9_\-]+)_view_test.php$#', '$1.php', $test_filename);
+    $view = implode( '/', explode('_',$view) );
+    return APP_ROOT . 'views/' . $view;
+  }
 }
 
 
@@ -208,28 +208,28 @@ $view_tests = new ViewTestPath();
 $tests = array();
 
 if( isset($_GET['controllers']) ) {
-	array_push( $tests, $controller_tests );
+  array_push( $tests, $controller_tests );
 }
 
 if( isset($_GET['models']) ) {
-	array_push( $tests, $model_tests );
+  array_push( $tests, $model_tests );
 }
 
 if( isset($_GET['views']) ) {
-	array_push( $tests, $view_tests );
+  array_push( $tests, $view_tests );
 }
 
 if( sizeof($tests) == 0 ) {
-	$tests = array( $model_tests, $view_tests, $controller_tests );
+  $tests = array( $model_tests, $view_tests, $controller_tests );
 }
 
 foreach( $tests as $test ) {
-	$test->addToTestSuite( &$test_suite );
+  $test->addToTestSuite( &$test_suite );
 }
 
 //Run tests!
 if (TextReporter::inCli()) {
-	exit ($test_suite->run(new TextReporter()) ? 0 : 1);
+  exit ($test_suite->run(new TextReporter()) ? 0 : 1);
 }
 $test_suite->run(new HtmlReporter());
 
