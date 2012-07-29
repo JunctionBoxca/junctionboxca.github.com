@@ -252,13 +252,13 @@ aside a:hover, aside:active
   width: 100%;
 }
 
-#about .primary {float: left; width: 165px;}
+#about .primary {float: left; margin-right:1.618em;}
 #about .primary strong {color: #C64350; display: block; font-size: 1.286em;}
 #about .photo {float: left; margin: 0 1.618em 0 0;}
 
 #about .url:link, #about .url:visited {text-decoration: none;}
 
-#about .bio {float: left; width:310px;}
+#about .bio {float: left; width:400px;}
 
 footer { clear:both; }
 footer .copy {padding: 1.618em; text-align: right; width:100%;}
