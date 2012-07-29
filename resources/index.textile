@@ -6,11 +6,11 @@ layout: default
 
 h2. JunctionBox.ca's Resource Links
 
-"Java":/resources/java.html
-"GIT":/resources/git.html
-"Infrastructure":/resources/infrastructure.html
-".NET":/resources/dotnet.html
-"OS X":/resources/osx.html
-"Release Engineering/DevOps":/resources/release.html
-"SVN":/resources/svn.html
-"Testing":/resources/testing.html
+"Java":/resources/java/
+"GIT":/resources/git/
+"Infrastructure":/resources/infrastructure/
+".NET":/resources/dotnet/
+"OS X":/resources/osx/
+"Release Engineering/DevOps":/resources/release/
+"SVN":/resources/svn/
+"Testing":/resources/testing/
