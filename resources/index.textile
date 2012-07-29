@@ -1,12 +1,16 @@
 ---
 title:      Nathan Fisher's Resources
-created_at: 2011-03-21 08:52:45.239659 +00:00
-layout:     default
+created_at: 2011-03-21
+layout: default
 ---
-h2. {{page.title}}
 
-<ul>
-{% for post in site.posts %}
-  <li>{{ post.title }}
-{% endfor %}
-</ul>
+h2. JunctionBox.ca's Resource Links
+
+"Java":/resources/java.html
+"GIT":/resources/git.html
+"Infrastructure":/resources/infrastructure.html
+".NET":/resources/dotnet.html
+"OS X":/resources/osx.html
+"Release Engineering/DevOps":/resources/release.html
+"SVN":/resources/svn.html
+"Testing":/resources/testing.html

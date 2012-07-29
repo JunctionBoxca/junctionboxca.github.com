@@ -1,11 +1,8 @@
 ---
 title:      SVN
-created_at: 2011-03-21 08:58:03.403858 +00:00
-filter:
-  - erb
-  - textile
+created_at: 2011-03-21
+layout: default
 ---
-p(title). <%= h(@page.title) %>
 
 h3. Dry run next update
 

@@ -1,11 +1,8 @@
 ---
 title:      OS X
-created_at: 2011-03-21 19:26:43.694293 +00:00
-filter:
-  - erb
-  - textile
+created_at: 2011-03-21
+layout: default
 ---
-p(title). <%= h(@page.title) %>
 
 h3. Turn off spotlight indexing
 

@@ -1,11 +1,8 @@
 ---
 title:      Git
-created_at: 2011-03-21 08:34:44.214963 +00:00
-filter:
-  - erb
-  - textile
+created_at: 2011-03-21
+layout: default
 ---
-p(title). <%= h(@page.title) %>
 
 h3. Empty server repo
 
@@ -46,3 +43,4 @@ git branch --track $BRANCH $REMOTE/$BRANCH
 h2. Reference Material
 
 "Err the Blog":http://cheat.errtheblog.com/s/git/ - good list of commonly used git commands.
+"Git Community Book":http://book.git-scm.com/ - fairly good coverage of common workflows from beginner to advanced.

@@ -1,0 +1,18 @@
+---
+title: Java
+created_at: 2011-05-19
+layout: default
+---
+
+h3. Dependency Management
+
+* "Maven":http://maven.apache.org/
+* "Ivy":http://ant.apache.org/ivy/
+
+h3. Build Tools
+
+* "Buildr":http://buildr.apache.org/
+
+h3. Coverage
+
+* "Jester":http://sourceforge.net/projects/jester/

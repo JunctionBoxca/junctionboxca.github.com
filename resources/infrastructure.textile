@@ -1,0 +1,27 @@
+---
+title:    Infrastructure
+created_at: 2011-05-29
+layout: default
+---
+
+h3. Cloud Providers
+
+* "Amazon Web Services":http://aws.amazon.com/
+* "Rackspace":http://www.rackspace.com/cloud/
+
+h3. Virtual Machine Software
+
+* "Vagrant":http://vagrantup.com/
+* "VirtualBox":http://www.virtualbox.org/
+
+h3. OS's
+
+* "FreeBSD":http://www.freebsd.org/
+* "OpenBSD":http://www.openbsd.org/
+* "CentOS":http://centos.org/
+
+h3. Monitoring
+
+* "Cacti":http://www.cacti.net/
+* "Net-SNMP":http://net-snmp.sourceforge.net/
+* "Nagios":http://www.nagios.org/
