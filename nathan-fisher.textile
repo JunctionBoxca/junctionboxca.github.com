@@ -1,9 +1,0 @@
----
-title: Nathan Fisher
-layout: default
-created_at: 2012-07-15 12:00:00 +00:00
-nocomment:  true
----
-h2. {{page.title}}
-
-!(right)./images/climbing.jpg! The names Fisher, Nathan Fisher. I'm not into secrets but, I do think everyone is entitled to their "privacy":http://www.eff.org/. I am logically illogical but, aren't we all? I believe in being conscientous to the "planet":http://www.ted.com/talks/graham_hill_weekday_vegetarian.html we live on but, am not opposed to abusing it's "rock":http://en.wikipedia.org/wiki/Rock_climbing on occassion (perhaps "abused by" is more accurate).  I have a love-hate relationship with technology; I feel it is simultaneously humanities greatest success and failing (viagra spam, infomercials, and strip mining anyone?!?!?).  The scientific method is great but, science lost it's innocence sometime ago.  The pyramids and most other man-made wonders provide me with simultaneous awe and intense fury; their damned amazing but, represent a permanence of exploitation and enslavement.  I have an inate fear of anything labelled "enterprise", unless it's affiliated with Star Trek or the sea.  Speaking of sea being on a boat with the wind in your hair is pretty awesome, as long as it's one of the "wind":http://www.jboats.com/j133/ and not one of these (actully, I won't dignify a powerboat with a link).
