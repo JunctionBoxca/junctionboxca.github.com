@@ -17,7 +17,7 @@
     })();
     </script>
   </head>
-  <body>
+  {% if page.url == '/index.html' -%}<body class="home">{% else -%}<body>{% endif -%}
     <header>
       <h1>JunctionBox.ca</h1>
       <nav>

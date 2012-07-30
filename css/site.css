@@ -157,17 +157,15 @@ article {
   -moz-box-shadow: 3px 3px 5px #888;
   -webkit-box-shadow: 3px 3px 5px #888;
   box-shadow: 3px 3px 5px #888;
-  /*
-  background:white url(/images/great_ocean_road.jpg) no-repeat;
-  */
   background:white;
   float:left;
   padding:20px;
-  /*
-  padding-top:381px;
-  */
   margin-bottom:20px;
   width:100%;
+}
+body.home article {
+  background:white url(/images/great_ocean_road.jpg) no-repeat;
+  padding-top:401px;
 }
 article li {
 line-height:1.618em;
