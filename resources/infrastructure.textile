@@ -8,6 +8,7 @@ permalink: infrastructure/
 h3. High Availability
 
 * "DR:DB":http://www.drbd.org/
+* "Load Balancer Methods":http://uk.loadbalancer.org/load_balancing_methods.php
 
 h3. Cloud Providers
 
