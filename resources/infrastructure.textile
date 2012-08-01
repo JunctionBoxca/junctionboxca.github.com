@@ -5,6 +5,10 @@ layout: default
 permalink: infrastructure/
 ---
 
+h3. High Availability
+
+"DR:DB":http://www.drbd.org/
+
 h3. Cloud Providers
 
 * "Amazon Web Services":http://aws.amazon.com/
