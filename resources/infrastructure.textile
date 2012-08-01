@@ -7,7 +7,7 @@ permalink: infrastructure/
 
 h3. High Availability
 
-"DR:DB":http://www.drbd.org/
+* "DR:DB":http://www.drbd.org/
 
 h3. Cloud Providers
 
