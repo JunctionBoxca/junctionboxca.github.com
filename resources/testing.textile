@@ -10,6 +10,7 @@ h3. BDD
 * "Twist":http://www.thoughtworks-studios.com/agile-test-automation ("java":/resources/java/)
 * "Cucumber":http://cukes.info/
 * "Rspec":http://rspec.info/
+* "Page Objects":http://code.google.com/p/selenium/wiki/PageObjects
 
 h3. Browser Drivers
 
