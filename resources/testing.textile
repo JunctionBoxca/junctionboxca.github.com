@@ -5,6 +5,10 @@ layout: default
 permalink: testing/
 ---
 
+h3. Katas
+
+* "TDD Problems":https://sites.google.com/site/tddproblems/all-problems-1
+
 h3. BDD
 
 * "Twist":http://www.thoughtworks-studios.com/agile-test-automation ("java":/resources/java/)
