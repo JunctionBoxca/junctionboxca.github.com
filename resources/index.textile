@@ -14,6 +14,7 @@ h2. JunctionBox.ca's Resource Links
 "Release Engineering/DevOps":/resources/release/
 "SVN":/resources/svn/
 "Testing":/resources/testing/
+"Vim":/resources/vim/
 
 h2. Misc
 
