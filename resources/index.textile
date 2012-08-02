@@ -14,3 +14,7 @@ h2. JunctionBox.ca's Resource Links
 "Release Engineering/DevOps":/resources/release/
 "SVN":/resources/svn/
 "Testing":/resources/testing/
+
+h2. Misc
+
+* "Functional Programming Book Reference":http://alexott.net/en/fp/books/
