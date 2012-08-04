@@ -7,14 +7,15 @@ h2. {{page.title}}
 
 Found myself looking at Open Flash Charts for a reporting system.  I wanted to create page views broken down by day.  A simplified schema is as follows:
 
-| id | created_at | page |
+|_. id |_. created_at |_. page |
 | Integer | DateTime | Varchar(255) |
 
 I wanted to create a table like the following:
 
-| page | monday | tuesday | wednesday | thursday | friday | saturday | sunday |
-| index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
-| contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |
+|_. page |_. monday |_. tuesday |_. wednesday |_. thursday |_. friday |_. saturday |_. sunday |
+|_. index | 3 | 5 | 2 | 8 | 9 | 30 | 32 |
+|_. contact | 2 | 1 | 4 | 3 | 7 | 12 | 16 |
+
 My first though was just do a simple GROUP BY and pivot the table through code.
 
 <pre>

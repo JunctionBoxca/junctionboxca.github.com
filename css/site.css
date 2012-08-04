@@ -110,6 +110,20 @@ pre {
   margin-bottom:1.618em;
 }
 
+table {
+  border-bottom:1px solid rgb(108,186,217);
+  border-top:1px solid rgb(108,186,217);
+  margin-bottom:1.618em;
+}
+th {
+font-weight: bold;
+text-align:left;
+}
+th, td {
+  line-height:1.618em;
+padding-right:0.809em;
+}
+
 
 header h1 {
   color:rgb(108,186,217);
