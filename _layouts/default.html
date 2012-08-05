@@ -33,7 +33,7 @@
     <article>
     {{ content }}
     <hr/>
-    <p>Posted by Nathan Fisher on {{page.created_at | date_to_string}}</p>
+    <p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date_to_string}}</p>
     {% if page.nocomment == null %}
     <div id="disqus_thread"></div>
     {% endif %}
@@ -75,7 +75,7 @@
       </span>
       <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior consultant at <a href="http://www.thoughtworks.com/">ThoughtWorks</a> specialising in DevOps, climber, loud mouthed day dreamer.</span>
     </address>
-    <p class="copy">&copy; 2011-2012 - Nathan Fisher.</p>
+    <p class="copy">&copy; 2011-2012 - <a href="/nathan-fisher.html">Nathan Fisher</a></p>
     </footer>
     {% unless page.nocomment %}
     <script type="text/javascript">
