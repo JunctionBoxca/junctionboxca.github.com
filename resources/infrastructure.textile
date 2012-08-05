@@ -15,6 +15,11 @@ h3. Cloud Providers
 * "Amazon Web Services":http://aws.amazon.com/
 * "Rackspace":http://www.rackspace.com/cloud/
 
+h3. Configuration Management
+
+* "Puppet":http://www.puppetlabs.com/
+* "Chef":http://www.opscode.com/
+
 h3. Virtual Machine Software
 
 * "Vagrant":http://vagrantup.com/
