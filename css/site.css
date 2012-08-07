@@ -270,7 +270,7 @@ aside a:hover, aside:active
 
 #about .url:link, #about .url:visited {text-decoration: none;}
 
-#about .bio {float: left; width:400px;}
+#about .bio {float: left; width:440px;}
 
 footer { clear:both; }
 footer .copy {padding: 1.618em; text-align: right; width:100%;}
