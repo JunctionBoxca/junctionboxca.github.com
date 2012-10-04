@@ -5,6 +5,10 @@ layout: default
 permalink: infrastructure/
 ---
 
+h3. Linux and MacBook Goodness
+
+"Fix that trackpad":http://uselessuseofcat.com/?p=74
+
 h3. Byobu/TMUX Sharing
 
 <pre>
@@ -20,6 +24,10 @@ h3. LXC Host NAT
 -A FORWARD -t nat -i eth0   -o lxcbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -t nat -i lxcbr0 -o eth0   -j ACCEPT
 </pre>
+
+h3. LXC Templates
+
+@/usr/lib/lxc/templates@
 
 h3. High Availability
 
