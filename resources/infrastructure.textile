@@ -14,7 +14,7 @@ h3. Byobu/TMUX Sharing
 <pre>
 $ byobu -S /tmp/pair
 $ chmod 777 /tmp/pair
-$ tmux -S /tmp/pair attach -r
+$ tmux -S /tmp/pair attach
 </pre>
 
 h3. LXC Host NAT
