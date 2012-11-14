@@ -1,0 +1,9 @@
+---
+title:      Manchester Geek Night - DevOps Applied
+created_at: 2012-08-18 12:00:00 +00:00
+layout:     default
+---
+h2. {{page.title}}
+
+h3. A 3 step technical redux
+
