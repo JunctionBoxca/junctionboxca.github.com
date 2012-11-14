@@ -7,3 +7,4 @@ h2. {{page.title}}
 
 h3. A 3 step technical redux
 
+Will post more here when the talk is done! :)
