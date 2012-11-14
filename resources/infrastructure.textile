@@ -69,3 +69,6 @@ h3. Monitoring
 * "Net-SNMP":http://net-snmp.sourceforge.net/
 * "Nagios":http://www.nagios.org/
 
+h3. Authorisation and Authentication
+
+* "LDAP Auth for Ubuntu":https://help.ubuntu.com/community/LDAPClientAuthentication
