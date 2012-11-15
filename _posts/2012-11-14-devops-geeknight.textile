@@ -7,4 +7,7 @@ h2. {{page.title}}
 
 h3. A 3 step technical redux
 
-Will post more here when the talk is done! :)
+Will post a list of tools here by next week.
+
+"Slide Deck":/media/pres/2012-11-14-DevopsApplied.pdf
+
