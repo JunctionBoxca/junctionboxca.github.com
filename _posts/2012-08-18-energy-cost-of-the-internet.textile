@@ -8,14 +8,14 @@ h2. {{page.title}}
 It's estimated there are 33m servers in the world [["1":#gigaom]]. So let's do some quick napkin math (there're massive holes here that I'll detail later).  Assuming an average power consumption of 450 watts (W)/server [["2":#opencompute]] this will amount to 14.85 gigawatts of power consumption per hour.  To put that in perspective, the Fukushima power plant had a maximum functional output of 4,696 megawatts (MW) [["3":#fukushima]]. To power all of those servers it would take a little over 3 Fukushima power plants running at peak capacity.  Keep in mind 4,696 MW can service approximately 2,141,376 UK homes (assumming 4 kWh annual consumption [["4":#ukpower]] ).  The mathematical shortcut is to say 1 servers' annual power consumption is roughly equal to 1 homes' average annual consumption. Below is a table of calculations in case I made a mistake somewhere.
 
 |_. Desc |_. Calculation |
-| Servers | 33,000,000 |
-| Server (kWh) | 0.45 |
-| Server Total (MWh) | 33,000,000 * 0.45 = 14,850 |
-| Fukushima peak capacity (kWh) | 4,696,000 |
-| Fukushima Required | 14,850 / 4,696 = 3.16 |
-| Annual UK Household consumption (kWh) | 4000 |
-| Hourly consumption | 4000/365/24 = 0.456kWh |
-| Homes/Fukushima | 4,696,000/0.456 = 2,141,376 |
+| Number of internet servers | 33,000,000 |
+| Power per server (kW) | 0.45 |
+| Total internet server power  (kW) | 33,000,000 * 0.45 = 14,850,000 |
+| Fukushima Daiichi installed capacity (kW) | 4,696,000 |
+| Fukushimas Daiichis required | 14,850,000 / 4,696,000 = 3.16 |
+| Annual UK household consumption consumption (kWh) | 4000 |
+| Avg power per UK household (kW) | 4000/365/24 = 0.456 |
+| Homes/Fukushima | 4,696,000 / 0.456 = 10,298,246 |
 
 Now I said this was back of the napkin math, which makes all of these calculations a gross over-simplification.  Nuclear reactors do not run at peak capicity, nor do servers consume 0.45kWh all the time.  Both are generally lower in their respective power output (~3.4 MWh) and consumption (wildly variable).  However, given there's a whole whack of other things hiding behind the scenes such as network gear, UPS's, line conditioners, duplicate rails of power, disk arrays, power factor (A/C's best friend), the list goes on... basically, I feel confident but not certain that the estimate is on the low end.
 
@@ -29,3 +29,5 @@ h4. References
 #(#opencompute) - "Open Compute Powersupply":http://opencompute.org/projects/power-supply/
 #(#fukushima) - "Fukushima Nuclear Reactor":http://en.wikipedia.org/wiki/Fukushima_I_Nuclear_Power_Plant, Wikipedia
 #(#ukpower) - "Household Electricity Survey Final report":http://randd.defra.gov.uk/Document.aspx?Document=10043_R66141HouseholdElectricitySurveyFinalReportissue4.pdf, Department for Environment Food and Rural Affairs (UK)
+
+Updated: 2013-01-09 - thanks to "Justin Hellings":http://justin.hellings.me.uk for his recommended changes.
