@@ -7,10 +7,58 @@ h2. {{page.title}}
 
 h3. A 3 step technical redux
 
-Will post a list of tools here by next week.
+Apologies folks started a new job and have really been dragging my feet on this. Hope to add more on my train rides home.
 
-h4. Resources
+h3. Build
+
+h4. Code
+
+* Puppet - my preference
+* Chef
+* Pallet
+* cfEngine
+* Ansible
+
+h4. Test
+
+* puppet parse
+* puppet-lint (Ruby Gem)
+* erb syntax check
+* Vagrant
+
+h4. Package
+
+* simple compressed file (zip, tarball)
+* structured compressed file w/ metadata (jar, war, etc)
+* system package (dpkg, rpm, dmg, etc)
+
+h4. Publish
+
+* web-dav
+* maven repository
+* file share
+
+h3. Deploy
+
+h4. Push/Pull Package
+
+h4. Backup
+
+h4. Install
+
+h4. Verify
+
+h3. Monitor
+
+h4. Collect
+
+h4. Analyse
+
+h4. Readjust
+
+h3. Presentation Resources
 
 * "Live Stream Recording":https://new.livestream.com/accounts/1960766/events/1673605
 * "Slide Deck":/media/pres/2012-11-14-DevopsApplied.pdf
 
+Updated: 2013-01-09 - carve out the general sections.
