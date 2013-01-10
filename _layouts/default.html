@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }} - JunctionBox.ca</title>
     <meta name="author" content="Nathan Fisher" />
-    <link rel="stylesheet" href="/css/site.css" type="text/css" />
+    <link rel="stylesheet" href="/css/resp.css" type="text/css" />
     <script type="text/javascript">
     var _gaq = _gaq || []; 
     _gaq.push(['_setAccount', 'UA-713228-10']);
@@ -16,6 +17,9 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); 
     })();
   </script>
+  <!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+  <![endif]-->
   </head>
   {% if page.url == '/index.html' -%}<body class="home">{% else -%}<body>{% endif -%}
     <header>
@@ -39,16 +43,13 @@
     {% endif %}
     </article>
     <aside>
-    <h3>Recent Articles</h3>
-    <ul>
-      {% for post in site.posts limit:7 %}
-      <li><a href="{{post.url}}">{{post.title}}</a>
-      {% endfor %}
-      <li><a href="/archive/">&raquo; All Articles</a>
-    </ul>
-    </aside>
-    <section id="extras">
-    <div class="blogroll">
+      <h3>Recent Articles</h3>
+      <ul>
+        {% for post in site.posts limit:7 %}
+        <li><a href="{{post.url}}">{{post.title}}</a>
+        {% endfor %}
+        <li><a href="/archive/">&raquo; All Articles</a>
+      </ul>
       <h3>Blogroll</h3>
       <ul>
         <li><a href="http://www.jennifersmith.co.uk/">Jennifer Smith</a></li>
@@ -64,16 +65,17 @@
         <li><a href="http://www.samnewman.org/">Sam Newman</a></li>
         <li><a href="http://mechanitis.blogspot.co.uk/">Trisha Gee</a></li>
       </ul>
-    </div>
-    </section>
+    </aside>
     <footer>
     <address id="about" class="vcard body">
+      <!--
       <img src="/images/nathan_in_oz.jpg" class="photo" alt="Nathan in Melbourne, Australia"/>
+      -->
       <span class="primary">
-        <strong><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a></strong>
-        <span class="role">DevOps Consultant</span>
+        <h3><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a></h3>
+        <span class="role">DevOps Engineer</span>
       </span>
-      <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior <a href="/devops.html">DevOps</a> consultant at <a href="http://www.thoughtworks.com/">ThoughtWorks</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, DevOps and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer <br/>(e.g. Nathan Fisher != ThoughtWorks Inc.).</span>
+      <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior <a href="/devops.html">DevOps</a> engineer at <a href="http://www.uswitch.com/">uSwitch.com</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, DevOps and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer <br/>(e.g. Nathan Fisher != ThoughtWorks Inc.).</span>
     </address>
     <p class="copy">&copy; 2011-2012 - <a href="/nathan-fisher.html">Nathan Fisher</a></p>
     </footer>
