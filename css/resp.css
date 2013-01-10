@@ -1,0 +1,119 @@
+body {
+  font-size:87.5%;
+  font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+address {
+  font-size:100%;
+  font-style:normal;
+  font-family:"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+a {
+	color: #669;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+h1 {
+  font-size:36px/100%;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  margin-bottom:0.3em;
+}
+body {
+	padding: 5px;
+	width: 960px;
+	margin: auto;
+}
+header {
+	height: 70px;
+}
+nav ul {
+  margin:0;
+  padding:0;
+}
+nav ul li {
+  float:left;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+nav ul a {
+  display:block;
+  padding:10px 15px;
+}
+article, footer {
+	width: 600px;
+	float: left;
+}
+aside {
+	width: 300px;
+	float: right;
+}
+footer {
+	clear: both;
+}
+footer .role {
+  clear:both;
+  display:block;
+  float:none;
+  margin-bottom:0.6em;
+}
+@media screen and (max-width: 980px) {
+	body {
+		width: 94%;
+	}
+	article, footer {
+		width: 65%;
+	}
+	aside {
+		width: 30%;
+	}
+}
+@media screen and (max-width: 700px) {
+	article, footer {
+		width: auto;
+		float: none;
+	}
+	aside {
+		width: auto;
+		float: none;
+	}
+}
+@media screen and (max-width: 480px) {
+	header {
+		height: auto;
+	}
+	h1 {
+		font-size: 24px;
+	}
+	aside {
+		display: none;
+	}
+  nav ul li {
+    clear:right;
+    float:none;
+  }
+  nav ul:after {
+    clear:both;
+    content:".";
+    display:block;
+    height:0;
+    visibility:hidden;
+  }
+}
+hr {
+  border:0 none;
+  border-top:1px solid #666;
+}
+img {
+  height:auto;
+  max-width:100%;
+}
+header, article, aside {
+	margin-bottom: 5px;
+}
+/*
+body, header, article, aside, footer {
+	border: solid 1px #ccc;
+}
+*/
