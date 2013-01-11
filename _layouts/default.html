@@ -3,7 +3,11 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if paginator.page > 1 -%}
+    <title>Page {{ paginator.page }} - JunctionBox.ca</title>
+    {% else -%}
     <title>{{ page.title }} - JunctionBox.ca</title>
+    {% endif -%}
     <meta name="author" content="Nathan Fisher" />
     <meta name="description" content="{{ page.description }}" />
     <meta name="keywords" content="{{ page.keywords }}" />
@@ -47,9 +51,7 @@
     <aside>
     {% if page.url == '/index.html' -%}
       <address id="about" class="vcard body">
-        <!--
         <img src="/images/nathan_in_oz.jpg" class="photo" alt="Nathan in Melbourne, Australia"/>
-        -->
         <span class="primary">
           <h3><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a>, <span class="role">DevOps Engineer</span> at <span class="org">uSwitch.com</span></h3>
           
