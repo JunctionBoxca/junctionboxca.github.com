@@ -3,7 +3,6 @@ title:      Beware the Garbage Man's Scope
 created_at: 2008-07-25 12:00:00 +00:00
 layout:     default
 ---
-h2. {{page.title}}
 
 Garbage collection can be an amazing resource to the developer, except when you forget its there as I did in a recent project.  I'll be honest I started cutting my teeth on x86 assembler and C++. The mantra of the day was, don't assume anything and clean up after yourself. Unless you're trying to piss off the neighbours, which is never of any real benefit.  The simplified example of what happened is a variable initialization like so;
 

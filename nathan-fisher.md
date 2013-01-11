@@ -4,7 +4,6 @@ layout: default
 created_at: 2012-07-15 12:00:00 +00:00
 nocomment:  true
 ---
-## {{page.title}}
 
 <img class="right" src="/images/climbing.jpg"/>
 

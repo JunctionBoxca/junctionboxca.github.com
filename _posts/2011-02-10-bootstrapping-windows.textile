@@ -3,7 +3,6 @@ title:      Bootstrapping Windows
 created_at: 2011-02-10 12:00:00 +00:00
 layout:     default
 ---
-h2. {{page.title}}
 
 Finding myself back in the Windows domain I really miss package repository tools like YUM and apt-get.  In what seems eons ago I used a toolset called Unattended for windows installations.  It's a little rough around the edges but it gave me some interesting ideas.  I put together a quick script to download some common tools I find myself using on windows servers.  
 

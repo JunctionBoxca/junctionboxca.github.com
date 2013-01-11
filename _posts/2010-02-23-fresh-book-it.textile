@@ -3,7 +3,6 @@ title:      Fresh Book It
 created_at: 2010-02-23 12:00:00 +00:00
 layout:     default
 ---
-h2. {{page.title}}
 
 A few years ago I signed up for a "Freshbooks":http://www.freshbooks.com/ account while I was running my own business.  A year and a half later I was employed at a small start-up that had about 12 people.  I was involved in much of the software selection and design of some of our core infrastructure.  We needed a time tracking system.  My suggestion was Freshbooks as there was the potential to integrate it with some of our other systems.
 

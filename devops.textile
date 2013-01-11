@@ -4,7 +4,6 @@ layout: default
 created_at: 2012-07-15 12:00:00 +00:00
 nocomment:  true
 ---
-h2. {{page.title}}
 
 DevOps is a common sense approach to software release cycles. It's an accumulation of best practices and the agreement that software has no business value until it's in the hands of its intended user. The best way to do that is ruthless automation to the point where deployments become as simple as pressing a button. Does it require effort to build and maintain? You bet ya but, it can save many a night of restless sleep and marathon weekend deployments.
 

@@ -19,6 +19,11 @@ h1 {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   margin-bottom:0.3em;
 }
+h1 .sub {
+  clear:both;
+  font-size:87.5%;
+  width:100%;
+}
 body {
 	padding: 5px;
 	width: 960px;
@@ -28,6 +33,7 @@ header {
 	height: 70px;
 }
 nav ul {
+  clear:both;
   margin:0;
   padding:0;
 }
