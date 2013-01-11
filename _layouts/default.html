@@ -54,7 +54,7 @@
           <h3><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a>, <span class="role">DevOps Engineer</span></h3>
           
         </span>
-        <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior <a href="/devops.html">DevOps</a> engineer at <a href="http://www.uswitch.com/">uSwitch.com</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, DevOps and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer.</span>
+        <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior <a href="/devops.html">DevOps</a> engineer at <a href="http://www.uswitch.com/">uSwitch.com</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, DevOps and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer.</span> Currently living in <span class="location">Cambridge, UK</span>
         </address>
       {% endif -%}
       <h3>Recent Articles</h3>
@@ -94,11 +94,11 @@
     <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = 'junctionboxca'; // required: replace example with your forum shortname
-    var disqus_title = '{{ @page.title }}';
+    var disqus_title = '{{ page.title }}';
 
     // The following are highly recommended additional parameters. Remove the slashes in front to use.
     var disqus_identifier = '{{ page.url }}';
-    var disqus_url = 'http://junctionbox.ca{{ @page.url }}';
+    var disqus_url = 'http://junctionbox.ca{{ page.url }}';
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
