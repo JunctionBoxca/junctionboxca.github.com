@@ -41,14 +41,6 @@
       </nav>
     </header>
     <article>
-    {{ content }}
-    <hr/>
-    <p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date_to_string}}</p>
-    {% if page.nocomment == null %}
-    <div id="disqus_thread"></div>
-    {% endif %}
-    </article>
-    <aside>
     {% if page.url == '/index.html' -%}
       <address id="about" class="vcard body">
         <img src="/images/nathan_in_oz.jpg" class="photo" alt="Nathan in Melbourne, Australia"/>
@@ -59,6 +51,14 @@
         <span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior <a href="/devops.html">DevOps</a> engineer at <a href="http://www.uswitch.com/">uSwitch.com</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, DevOps and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer.</span> 
         </address>
       {% endif -%}
+    {{ content }}
+    {% unless page.nocomment -%}
+    <p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date_to_string}}</p>
+    <hr/>
+    <div id="disqus_thread"></div>
+    {% endunless -%}
+    </article>
+    <aside>
       <h3>Recent Articles</h3>
       <ul>
         {% for post in site.posts limit:7 %}

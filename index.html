@@ -6,22 +6,10 @@ nocomment:  true
 description: JunctionBox.ca is the personal blog of Nathan Fisher, an IT professional with expertise in DevOps, Continuous Delivery, and Configuration Management.
 keywords: devops, junctionbox, Nathan, Fisher, continuous, delivery
 ---
-{% for post in paginator.posts %}
+{% for post in site.posts limit:6 %}
+  <div class="post">
   <h2>{{post.title}}</h2>
   {{post.description}}
   <p><a href="{{post.url}}">{{post.title}}</a> | <a href="{{post.url}}#disqus_thread">Comment</a></p>
+  </div>
 {% endfor %}
-
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a href="/page{{paginator.next_page}}">&laquo; Older</a>
-  {% endif %}
-  <span> {{paginator.page}} of {{paginator.total_pages}}</span>
-  {% if paginator.previous_page %}
-  {% assign page_url = join: "/page", paginator.previous_page %}
-    {% if paginator.previous_page == 1 %}
-    {% assign page_url = '/' %}
-    {% endif %}
-    <a href="{{page_url}}">Newer &raquo;</a>
-  {% endif %}
-</div>
