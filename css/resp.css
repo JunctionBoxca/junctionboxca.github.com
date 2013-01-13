@@ -1,36 +1,34 @@
-body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif}
-address{margin-bottom:1em;font-style:normal}
-h2,h3{margin-bottom:0.3em}
-a{color:#669;text-decoration:none}
+.photo{float:left;margin:2.1em 1.6em 1.3em 0}
+.post{display:block;float:left;height:11.5em;padding-right:4%;width:46%}
 a:hover{text-decoration:underline}
-h1{font-size:36px/100%;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;margin-bottom:0.3em}
-h1 .sub{clear:both;font-size:87.5%;width:100%}
-body{padding:5px;width:960px;margin:auto}
-header{height:auto}
-nav ul, footer ul{clear:both;margin:0 0 0 -15px;padding:0}
-nav li, footer li{float:left;list-style:none;margin:0;padding:0}
-nav a, footer a{display:block;padding:10px 15px}
+address{margin-bottom:1em;font-style:normal}
 article,footer{width:600px;float:left}
 aside{width:300px;float:right}
+a{color:#669;text-decoration:none}
+body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:5px;width:960px;margin:auto}
 footer{padding-top:1em;clear:both}
-.photo{float:left;margin:2.1em 1.6em 1.3em 0}
-.post{display:block;float:left;height:11em;padding-right:4%;width:46%}
+h1 .sub{clear:both;font-size:87.5%;width:100%}
+h1{font-size:36px/100%;margin-bottom:0.3em}
+h2,h3{margin-bottom:0.3em}
+header,article,aside{margin-bottom:5px}
+img{height:auto;max-width:100%}
+nav a, footer a{display:block;padding:10px 15px}
+nav li, footer li{float:left;list-style:none;margin:0;padding:0}
+nav ul, footer ul{clear:both;margin:0 0 0 -15px;padding:0}
 @media screen and (max-width:980px) {
-body{width:94%}
 article,footer{width:65%}
 aside{width:30%}
+body{width:94%}
 }
 @media screen and (max-width:700px) {
 article,footer{width:auto;float:none}
 aside{width:auto;float:none}
 }
 @media screen and (max-width:480px) {
-header{height:auto}
-h1{font-size:24px}
+.post{width:100%;padding:0;height:auto}
 aside{display:none}
+h1{font-size:24px}
+header{height:auto}
 nav ul li{clear:right;float:none}
 nav ul:after{clear:both;content:".";display:block;height:0;visibility:hidden}
-.post{width:100%;padding:0;height:auto}
 }
-img{height:auto;max-width:100%}
-header,article,aside{margin-bottom:5px}
