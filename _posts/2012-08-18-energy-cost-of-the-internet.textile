@@ -3,7 +3,7 @@ title:      Hidden Cost of the Internet
 created_at: 2012-08-18 12:00:00 +00:00
 layout:     default
 keywords:   servers, internet, power, energy
-description: The operating cost of running a single server generally isn't generally a consideration for many however, the internet is estimated to have 33m servers.  This article explores in what the internet costs in terms of power.
+description: Servers are power hungry, this article explores just how hungry those 33m servers that run the internet are.
 ---
 
 It's estimated there are 33m servers in the world [["1":#gigaom]]. So let's do some quick napkin math (there're massive holes here that I'll detail later).  Assuming an average power consumption of 450 watts (W)/server [["2":#opencompute]] this will amount to 14.85 gigawatts of power consumption per hour.  To put that in perspective, the Fukushima power plant had a maximum functional output of 4,696 megawatts (MW) [["3":#fukushima]]. To power all of those servers it would take a little over 3 Fukushima power plants running at peak capacity.  Keep in mind 4,696 MW can service approximately 2,141,376 UK homes (assumming 4 kWh annual consumption [["4":#ukpower]] ).  The mathematical shortcut is to say 1 servers' annual power consumption is roughly equal to 1 homes' average annual consumption. Below is a table of calculations in case I made a mistake somewhere.
