@@ -1,4 +1,4 @@
-.photo{float:left;margin:2.1em 1.6em 1.3em 0}
+.photo{clear:left;float:left;margin:2.1em 1.6em 1.3em 0}
 .post{display:block;float:left;height:12em;padding-right:4%;width:46%}
 a:hover{text-decoration:underline}
 address{margin-bottom:1em;font-style:normal}
@@ -14,7 +14,7 @@ header,article,aside{margin-bottom:5px}
 img{height:auto;max-width:100%}
 nav a, footer a{display:block;padding:10px 15px}
 nav li, footer li{float:left;list-style:none;margin:0;padding:0}
-nav ul, footer ul{clear:both;margin:0 0 0 -15px;padding:0}
+nav ul, footer ul{clear:both;height:3em;margin:0 0 0 -15px;padding:0}
 @media screen and (max-width:980px) {
 article,footer{width:65%}
 aside{width:30%}
@@ -23,6 +23,7 @@ body{width:94%}
 @media screen and (max-width:700px) {
 article,footer{width:auto;float:none}
 aside{width:auto;float:none}
+.post{height:14em}
 }
 @media screen and (max-width:480px) {
 .post{width:100%;padding:0;height:auto}
