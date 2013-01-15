@@ -20,3 +20,4 @@ h2. Misc
 
 * "Functional Programming Book Reference":http://alexott.net/en/fp/books/
 * "Cool Timezone Visualisation":http://everytimezone.com/
+* "Notes on Distributed Systems":http://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/

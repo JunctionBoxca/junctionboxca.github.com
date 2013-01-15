@@ -4,12 +4,12 @@ a:hover{text-decoration:underline}
 address{margin-bottom:1em;font-style:normal}
 article,footer{width:600px;float:left}
 aside{width:300px;float:right}
-a{color:#669;text-decoration:none}
+a{color:#668;text-decoration:none}
 body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:5px;width:960px;margin:auto}
 footer{padding-top:1em;clear:both}
 h1 .sub{clear:both;font-size:87.5%;width:100%}
 h1{font-size:36px/100%;margin-bottom:0.3em}
-h2,h3{margin-bottom:0.3em}
+h2,h3{color:rgb(157,169,177);margin-bottom:0.3em}
 header,article,aside{margin-bottom:5px}
 img{height:auto;max-width:100%}
 nav a, footer a{display:block;padding:10px 15px}
