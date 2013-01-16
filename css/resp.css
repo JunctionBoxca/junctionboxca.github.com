@@ -4,17 +4,22 @@ a:hover{text-decoration:underline}
 address{margin-bottom:1em;font-style:normal}
 article,footer{width:600px;float:left}
 aside{width:300px;float:right}
-a{color:#668;text-decoration:none}
-body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:5px;width:960px;margin:auto}
+a{color:#777;text-decoration:none}
+body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:0;width:960px;margin:auto}
 footer{padding-top:1em;clear:both}
-h1 .sub{clear:both;font-size:87.5%;width:100%}
+h1 .sub{clear:both;width:100%}
 h1{font-size:36px/100%;margin-bottom:0.3em}
-h2,h3{color:rgb(157,169,177);margin-bottom:0.3em}
+h1 a{color:#D3D727}
+h2,h3{color:rgb(136,192,44);margin-bottom:0.3em}
 header,article,aside{margin-bottom:5px}
+header{background:rgb(136,192,44);border-top:1px solid rgb(136,192,44);border-bottom:1px solid #999}
+header h1{color:white;margin-left:15px}
 img{height:auto;max-width:100%}
-nav a, footer a{display:block;padding:10px 15px}
+nav a, footer a{display:block;line-height:1em;height:1em;padding:1em 15px}
+nav a{color:white}
+nav a:hover{background:white;color:rgb(136,192,44)}
 nav li, footer li{float:left;list-style:none;margin:0;padding:0}
-nav ul, footer ul{clear:both;height:3em;margin:0 0 0 -15px;padding:0}
+nav ul, footer ul{clear:both;height:2em;padding:0}
 @media screen and (max-width:980px) {
 article,footer{width:65%}
 aside{width:30%}
@@ -30,6 +35,7 @@ aside{width:auto;float:none}
 aside{display:none}
 h1{font-size:24px}
 header{height:auto}
+nav ul{height:14em}
 nav ul li{clear:right;float:none}
 nav ul:after{clear:both;content:".";display:block;height:0;visibility:hidden}
 }
