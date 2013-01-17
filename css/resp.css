@@ -6,7 +6,8 @@ article,footer{width:600px;float:left}
 aside{width:300px;float:right}
 a{color:#777;text-decoration:none}
 body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:0;width:960px;margin:auto}
-footer{padding-top:1em;clear:both}
+footer{background:#BCBEC0;border-top:1px solid #999;clear:both}
+footer a{color:#666}
 h1 .sub{clear:both;width:100%}
 h1{font-size:36px/100%;margin-bottom:0.3em}
 h1 a{color:#D3D727}
@@ -20,6 +21,7 @@ nav a{color:white}
 nav a:hover{background:white;color:rgb(136,192,44)}
 nav li, footer li{float:left;list-style:none;margin:0;padding:0}
 nav ul, footer ul{clear:both;height:2em;padding:0}
+footer ul{margin:0}
 @media screen and (max-width:980px) {
 article,footer{width:65%}
 aside{width:30%}
