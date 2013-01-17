@@ -8,6 +8,9 @@
 {% else -%}
 <title>{{ page.title }} - JunctionBox.ca</title>
 {% endif -%}
+{% if page.canonical -%}
+<link rel="canonical" href="{{ page.canonical }}"/>
+{% endif -%}
 <meta name="author" content="Nathan Fisher" />
 <meta name="description" content="{{ page.description }}" />
 <meta name="keywords" content="{{ page.keywords }}" />
