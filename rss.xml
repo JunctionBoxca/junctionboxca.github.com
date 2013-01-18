@@ -1,0 +1,23 @@
+---
+layout: nil
+---
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>junctionbox.ca</title>
+    <link>http://junctionbox.ca/</link>
+    <atom:link href="http://junctionbox.ca/rss.xml" rel="self" type="application/rss+xml" />
+    <description>JunctionBox.ca - Nathan Fisher's DevOps blog</description>
+    <language>en-us</language>
+    <pubDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+    <lastBuildDate>{{ site.time | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
+    {% for post in site.posts %}
+    <item>
+      <title>{{ post.title }}</title>
+      <link>http://junctionbox.ca{{ post.url }}</link>
+      <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+      <guid>http://junctionbox.ca{{ post.id }}</guid>
+      <description>{{ post.description | xml_escape }}</description>
+    </item>
+    {% endfor %}
+  </channel> 
+</rss>
