@@ -1,3 +1,4 @@
+.archive{list-style:none;margin:0;padding:0}
 .photo{clear:left;float:left;margin:2.1em 1.6em 1.3em 0}
 .post{display:block;float:left;height:12em;padding-right:4%;width:46%}
 a:hover{text-decoration:underline}
@@ -15,6 +16,7 @@ h2,h3{color:rgb(136,192,44);margin-top:0.65em;margin-bottom:0.3em}
 header,article,aside{margin-bottom:0.6em}
 header{background:rgb(136,192,44);border-top:1px solid rgb(136,192,44);border-bottom:1px solid #999}
 header h1{color:white;margin-left:15px}
+body{color:#454441}
 img{height:auto;max-width:100%}
 nav a, footer a{display:block;line-height:1em;height:1em;padding:1em 15px}
 nav a{color:white}
