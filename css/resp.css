@@ -11,8 +11,8 @@ footer a{color:#666}
 h1 .sub{clear:both;width:100%}
 h1{font-size:36px/100%;margin-bottom:0.3em}
 h1 a{color:#D3D727}
-h2,h3{color:rgb(136,192,44);margin-bottom:0.3em}
-header,article,aside{margin-bottom:5px}
+h2,h3{color:rgb(136,192,44);margin-top:0.65em;margin-bottom:0.3em}
+header,article,aside{margin-bottom:0.6em}
 header{background:rgb(136,192,44);border-top:1px solid rgb(136,192,44);border-bottom:1px solid #999}
 header h1{color:white;margin-left:15px}
 img{height:auto;max-width:100%}
