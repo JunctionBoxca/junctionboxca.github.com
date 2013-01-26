@@ -2,7 +2,7 @@
 title:      Puppet Guidelines
 created_at: 2013-12-26 12:00:00 +00:00
 layout:     default
-description: Puppet as a configuration management tool is often a love/hate relationship. This guideline provides some practises I've found beneficial in maintaining manifests.
+description: Puppet is a configuration management tool that induces a love/hate relationship in many delivery teams. This guideline provides some practises that I've found beneficial for maintaining manifests.
 keywords: configuration management, puppet
 ---
 
