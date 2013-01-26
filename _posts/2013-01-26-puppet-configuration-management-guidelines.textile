@@ -12,32 +12,31 @@ Noop will help identify change before it happens, great for the commitment-phobe
 
 @puppet apply --verbose --noop --summarize --show_diff@
 
-h3. No stage left here, avoid stages
+h3. No stage left here, avoid the stage
 
 Stages in puppet reduce re-usability (over valued in many dev shops IMHO). More importantly they make it difficult to restructure and reorganise puppet manifests as resource dependencies are transitively defined via the stage rather than explicitly defined by their direct dependents.
 
 h3. This isn’t Goldman Sachs, avoid excessive Execs
 
-Execs are prone to odd behaviour and failures.  Usually they aren’t necessary (e.g. starting services) sometimes they are (apt-get update).  Basically they hide the function of the command, require individual review, and can sometimes be tricky to prevent from executing on subsequent puppet runs.
+Execs are prone to odd behaviour and failures.  Usually they aren’t necessary (e.g. starting services) sometimes they are (apt-get update).  They obscure the function of the command, require individual review, and can sometimes be tricky to prevent from executing on subsequent puppet runs.
 
 h3. Steve Jobs? No. Then don’t micromanage file lines
 
-You either know what you want in a configuration file or you shouldn’t be touching it one line at a time.  Puppet runs in order according to dependencies only.  As a result line-wise management may result in files that are potentially different between nodes, which may result in subtly different behaviour.  While a minor point it’s also not very efficient and bloats the manifest code. Don’t micromanage a files’ lines, use a template or static file instead.
-
+You either know what you want in a configuration file or you shouldn’t be touching it one line at a time.  Puppet runs in order according to dependencies only.  As a result line-wise management may result in files that are potentially different between nodes, and can cause subtly different behaviour.  While a minor point it’s also not very efficient and bloats the manifest code. Don’t micromanage a files’ lines, use a template or static file instead.
 
 h3. Avoid Conditionals in Templates
 
 Templates with extensive conditionals are difficult to evaluate if you have shared code prefer a partial instead.  Well named templates should document intended usage.
 
 
-h3. Put modules on a diet, avoid binaries in modules
+h3. Heavy modules? Put them on a module diet by avoiding binaries
 
-Binaries placed in puppet modules bloat the repository, increase load on the puppet master (checksums), and generally result in a high kittens mortality rate.  Place them in a well known repository (e.g. web server, s3, file share, etc).
+Binaries placed in puppet modules bloat the repository, increase load on the puppet master (checksums), and generally result in a high kitten mortality rate.  Place them in a well known repository (e.g. web server, s3, file share, etc).
 
 
 h3. Library roulette, avoid installed/present/latest
 
-Explicitly define the revision you expect to be on the machine it will help ensure every node is configured the same and reduce errors due to minor changes in supporting libraries.
+Explicitly define the revision you expect to be on the machine it will help ensure every node is configured with same package and reduce errors due to minor changes in supporting libraries. You wouldn't want two different versions of your db server running in production would you?
 
 *TIP*: On Ubuntu you can list available versions with the following command (substitute ntp with the desired package);
 
@@ -76,7 +75,7 @@ node backend inherits oldntp {
 }
 </pre>
 
-*Note*: Puppet won't let you redefine an existing resource in the graph, even if they are similar in definition so this example isn't exact.
+*Note*: Puppet won't let you redefine an existing resource in the graph, even if they are similar in definition so yes this is a bad example.
 
 h4. Composition (preferred)
 
