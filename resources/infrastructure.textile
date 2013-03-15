@@ -5,6 +5,8 @@ layout: default
 permalink: infrastructure/
 ---
 
+"USE Method Checklist for Linux Performance":http://dtrace.org/blogs/brendan/2012/03/07/the-use-method-linux-performance-checklist/
+
 h3. Linux and MacBook Goodness
 
 "Fix that trackpad":http://uselessuseofcat.com/?p=74
