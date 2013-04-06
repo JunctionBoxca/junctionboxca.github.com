@@ -39,8 +39,8 @@ aside{width:auto;float:none}
 aside{display:none}
 h1{font-size:18px}
 header{height:auto}
-nav ul{height:11em}
+nav ul{height:5em}
 nav ul li{clear:right;float:none}
 nav ul:after{clear:both;content:".";display:block;height:0;visibility:hidden}
-nav .home{display:none}
+nav .home,nav .devops,nav .resources{display:none}
 }
