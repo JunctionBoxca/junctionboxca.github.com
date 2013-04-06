@@ -5,7 +5,7 @@ permalink: sitemap.xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
   <loc>http://junctionbox.ca/</loc>
-  <lastmod>{{site.time | date_to_xmlschema}}</lastmod>
+  <lastmod>{{site.time | date: "%Y-%m-%dT%H:%M:%S+00:00"}}</lastmod>
 </url>
 <url>
   <loc>http://junctionbox.ca/devops.html</loc>
@@ -14,7 +14,7 @@ permalink: sitemap.xml
 {% for post in site.posts %}
 <url>
   <loc>http://junctionbox.ca{{ post.url }}</loc>
-  <lastmod>{{post.created_at | date_to_xmlschema}}</lastmod>
+  <lastmod>{{post.created_at | date: "%Y-%m-%dT%H:%M:%S+00:00"}}</lastmod>
 </url>
 {% endfor %}
 </urlset>

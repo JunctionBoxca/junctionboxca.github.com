@@ -59,8 +59,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 {% endif -%}
 {{ content }}
 {% unless page.nocomment -%}
-<p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date_to_string}}
-</p>
+<p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date: "%d %B %Y" }}</p>
 <div class="g-plusone"></div>
 <hr/>
 <div id="disqus_thread"></div>
