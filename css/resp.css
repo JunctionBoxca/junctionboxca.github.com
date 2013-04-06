@@ -37,7 +37,7 @@ aside{width:auto;float:none}
 @media screen and (max-width:480px) {
 .post{width:100%;padding:0;height:auto}
 aside{display:none}
-h1{font-size:24px}
+h1{font-size:18px}
 header{height:auto}
 nav ul{height:11em}
 nav ul li{clear:right;float:none}
