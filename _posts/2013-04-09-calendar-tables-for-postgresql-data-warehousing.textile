@@ -1,0 +1,74 @@
+---
+title:      Calendar Tables in PostgreSQL
+created_at: 2013-04-09 12:00:00 +00:00
+layout:     default
+published: true
+description: Hadoop and MapReduce has made data warehousing all the rage but, don't give up on the trusty old RDBMS. Learn how to populate a calendar table using only PostgreSQL built-in features.
+keywords: postgresql, data-warehousing
+---
+I've just started a new job with "Maxymiser":http://www.maxymiser.com/ that I'm pretty excited about. With enough active and passive collection of data to accumulate Terabytes in a short period of time we have a treasure trove of data that can be analysed.  One of the first tasks I've been assigned is improving our ability to explore the data more readily so I'm evaluating a few tools;
+
+* "Logstash":http://www.logstash.net/ - opensource goodness using solr.
+* "Splunk":http://www.splunk.com/ - tried and true workhorse for log analysis.
+* "HBase/Hadoop":http://hbase.apache.org - all the Map/Reduce love you can muster on commodity hardware.
+* "PostgreSQL":http://www.postgresql.org - an oldie but, a goodie!
+
+Our primary concerns are security, performance, maintainability and extensibility. As I mentioned we're looking at some reasonably sized data warehousing which warrants some testing and hammock time. 
+
+A personal goal of mine is to establish an "apdex rating":http://apdex.org/ for all of the tiers in our infrastructure and an overarching measurement for the end user experience. To do this I'll be putting the apdex value in the facts table and using a join table for the infrastructure tier.  Nothing particularly original in the world of databases. Anyway the high-level schema looks something like this;
+
+* calendar.
+* request/response.
+* user-agent.
+* infrastructure element (e.g. server, tier, location).
+* join table for facts (e.g. "apdex rating":http://apdex.org/, time spent to fulfill request, etc).
+
+Now that I'm almost past the fold in your browser I'll discuss generating a calendar table.  The main motivation is to denormalise the data in a way that makes the queries more efficient (I will measure if this helps or not). The final schema is still to in flux but, here's the current fields;
+
+<pre>
+day id - date primary key 
+year - year in UTC
+month - month in UTC
+day - day in UTC
+quarter - business quarter
+day of week - a numeric identity representing Mon-Sun
+day of year - a numeric identity for the absolute day within the year (instead of the current month)
+week of year - pretty self explanatory
+</pre>
+
+The create table DDL looks a little like this before indexes;
+
+<pre>
+CREATE TABLE calendar (
+  day_id DATE NOT NULL PRIMARY KEY,
+  year SMALLINT NOT NULL, -- 2012 to 2038
+  month SMALLINT NOT NULL, -- 1 to 12
+  day SMALLINT NOT NULL, -- 1 to 31
+  quarter SMALLINT NOT NULL, -- 1 to 4
+  day_of_week SMALLINT NOT NULL, -- 0 () to 6 ()
+  day_of_year SMALLINT NOT NULL, -- 1 to 366
+  week_of_year SMALLINT NOT NULL, -- 1 to 53
+  CONSTRAINT con_month CHECK (month >= 1 AND month <= 31),
+  CONSTRAINT con_day_of_year CHECK (day_of_year >= 1 AND day_of_year <= 366), -- 366 allows for leap years
+  CONSTRAINT con_week_of_year CHECK (week_of_year >= 1 AND week_of_year <= 53)
+);
+</pre>
+
+Nothing special there. The next bit is where the fun comes in, generating the table data. Now, I'll be honest I considered popping out to Python or Clojure to generate the data but, I decided to spend a little time getting reacquainted with PostgreSQL. After reading through the docs and getting assistance on IRC from Myon this is what we're using;
+
+<pre>
+INSERT INTO calendar (day_id, year, month, day, quarter, day_of_week, day_of_year, week_of_year)
+(SELECT ts, 
+  EXTRACT(YEAR FROM ts),
+  EXTRACT(MONTH FROM ts),
+  EXTRACT(DAY FROM ts),
+  EXTRACT(QUARTER FROM ts),
+  EXTRACT(DOW FROM ts),
+  EXTRACT(DOY FROM ts),
+  EXTRACT(WEEK FROM ts)
+  FROM generate_series('2012-01-01'::timestamp, '2038-01-01', '1day'::interval) AS t(ts));
+</pre>
+
+As far as I'm concerned it's pretty compact and concise without being difficult to understand. As expected the query was done in a snap and now I've got the time dimension in.  I've started loading some of our w3c formatted log files using copy but, haven't had an opportunity to do any in-depth analysis.  
+
+One thing I investigated when specifying the DDL was URI length.  You know how the "RFC":http://www.faqs.org/rfcs/rfc2616.html recommends limiting it to 255 bytes? Well in a sample of 600k requests we've got requests that are in excess of 4k long! They're likely an exploit but, still rather interesting.  Anyway that's it for today, time for bed!
