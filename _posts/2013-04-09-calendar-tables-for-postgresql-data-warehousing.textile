@@ -15,19 +15,21 @@ I've just started a new job with "Maxymiser":http://www.maxymiser.com/ that I'm 
 
 Our primary concerns are security, performance, maintainability and extensibility. As I mentioned we're looking at some reasonably sized data warehousing which warrants some testing and hammock time. 
 
-A personal goal of mine is to establish an apdex rating for all of the tiers in our infrastructure. An "apdex rating":http://apdex.org/ is a simple metric on a scale of 0.0 to 1.0 that avoids the skewing that can occur  when using averages (think big outliers e.g. 30s response for 1 connection out of hundreds).
+A personal goal of mine is to establish an apdex (Application Performance Index) rating for all of the tiers in our infrastructure. An "apdex rating":http://apdex.org/ is a simple performance metric using a scale of 0.0 to 1.0 that avoids the skewing which can occur when using averages on response time (think big outliers e.g. 30s response for 1 connection out of hundreds). To quote "wikipedia":http://en.wikipedia.org/wiki/Apdex;
 
-To do this I'll be putting the apdex rating in the facts table and roll-up the score on an hourly basis into another table. The high-level schema for the data warehouse has the following dimensions;
+bq. Apdex (Application Performance Index) is an open standard developed by an alliance of companies. It defines a standard method for reporting and comparing the performance of software applications in computing. Its purpose is to convert measurements into insights about user satisfaction, by specifying a uniform way to analyze and report on the degree to which measured performance meets user expectations.
 
-* calendar.
-* request/response.
-* user-agent.
-* infrastructure element (e.g. server, tier, location).
-* join table for facts (e.g. "apdex rating":http://apdex.org/, time spent to fulfill request, etc).
+To achieve this measurement I'll aggregate all of our logs and use the response time to calculate the apdex rating (0 - satisfying, 1 - tolerating and 2 - frustrated).  The logs will be aggregated into a star schema with the following dimensions;
 
-Now that I'm almost past the fold in your browser lets discuss the calendar table.  The main use case for a calendar table is to trade-off space for performance by pre-populating and denormalising dates and time into unique fields within a table. It's pretty useful when asking questions like; "How much traffic did we have during Black Friday for the last 2 years?" By including apdex calculations you can ask "How did our infrastructure cope during that time?". 
+* calendar - denormalised date columns.
+* request/response - uri, response code, etc.
+* user-agent - raw string, os, family.
+* infrastructure element - server, tier, location.
+* request facts table - apdex rating, time spent to fulfill request, etc.
 
-As mentioned the schema for a calendar table is heavily denormalised around attributes of a date/time. The fields I feel are most useful in our current use case are;
+Now that I'm almost past the fold in your browser lets get into detail on creating a calendar table.  The main use case for a calendar table is to trade-off space (denormalised data) for an improvement in time per query. It can be useful when asking questions like; "How much traffic did we have during the 4th quarter for the last 2 years?" By including apdex calculations you can ask "How did our infrastructure cope during that time?". 
+
+As alluded to earlier a calendar table is heavily denormalised around date/time attributes. The fields I feel are most useful in our current use case include;
 
 <pre>
 day id - date primary key 
@@ -40,7 +42,7 @@ day of year - a numeric identity for the absolute day within the year (instead o
 week of year - pretty self explanatory
 </pre>
 
-Which yields a table DDL that looks a little like this before indexes are applied;
+Translating them into a table DDL looks a little like this before indexes are applied;
 
 <pre>
 CREATE TABLE calendar (
@@ -73,7 +75,7 @@ INSERT INTO calendar (day_id, year, month, day, quarter, day_of_week, day_of_yea
   FROM generate_series('2012-01-01'::timestamp, '2038-01-01', '1day'::interval) AS t(ts));
 </pre>
 
-A small sample of data from the table looks as follows;
+As far as I'm concerned that's a pretty compact and concise way to generate the calendar records without being difficult to understand. As expected the query was done in a snap and now I've got the date dimension loaded for dates up to 2038-01-01.  A small sample of data from the table looks as follows;
 
 |_{width:7em}. date_id    |_{width:4em}. year |_{width:4em}. month |_{width:4em}. day |_{width:4em}. quarter |_{width:4em}. day_of_week |_{width:4em}. day_of_year |_{width:4em}. week_of_year |
 | 2012-01-13 | 2012 |     1 |  13 |       1 |           5 |          13 |            2 |
@@ -82,6 +84,6 @@ A small sample of data from the table looks as follows;
 | 2012-01-16 | 2012 |     1 |  16 |       1 |           1 |          16 |            3 |
 | 2012-01-17 | 2012 |     1 |  17 |       1 |           2 |          17 |            3 |
 
-As far as I'm concerned it's pretty compact and concise without being difficult to understand. As expected the query was done in a snap and now I've got the time dimension in.  I've started loading some of our w3c formatted log files using copy but, haven't had an opportunity to do any in-depth analysis.  
+I've started loading some of our w3c formatted log files using copy but, haven't had an opportunity to do any in-depth analysis. One thing I investigated before creating the DDL was URI length.  The "RFC":http://www.faqs.org/rfcs/rfc2616.html recommends limiting URI's to 255 bytes for (old) proxies. Well in a sample of 600k requests I found requests in excess of 4k long! They're likely an exploit might be an opportunity to do active request filtering using machine learning.  Anyway that's it for today, time for bed!
 
-One thing I investigated before creating the DDL was URI length.  The "RFC":http://www.faqs.org/rfcs/rfc2616.html recommends limiting URI's to 255 bytes for (old) proxies. Well in a sample of 600k requests there were requests in excess of 4k long! They're likely an exploit but, still rather interesting.  Anyway that's it for today, time for bed!
+Updated: 2013-04-10 - Provided further clarifications for Apdex rating and Calendar table.
