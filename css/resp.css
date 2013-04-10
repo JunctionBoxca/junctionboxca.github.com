@@ -18,6 +18,7 @@ header{background:rgb(136,192,44);border-top:1px solid rgb(136,192,44);border-bo
 header h1{color:white;margin-left:15px}
 body{color:#454441}
 img{height:auto;max-width:100%}
+th{text-align:left}
 nav a, footer a{display:block;line-height:1em;height:1em;padding:1em 15px}
 nav a{color:white}
 nav a:hover{background:white;color:rgb(136,192,44)}

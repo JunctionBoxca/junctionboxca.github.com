@@ -15,7 +15,9 @@ I've just started a new job with "Maxymiser":http://www.maxymiser.com/ that I'm 
 
 Our primary concerns are security, performance, maintainability and extensibility. As I mentioned we're looking at some reasonably sized data warehousing which warrants some testing and hammock time. 
 
-A personal goal of mine is to establish an "apdex rating":http://apdex.org/ for all of the tiers in our infrastructure and an overarching measurement for the end user experience. To do this I'll be putting the apdex value in the facts table and using a join table for the infrastructure tier.  Nothing particularly original in the world of databases. Anyway the high-level schema looks something like this;
+A personal goal of mine is to establish an apdex rating for all of the tiers in our infrastructure. An "apdex rating":http://apdex.org/ is a simple metric on a scale of 0.0 to 1.0 that avoids the skewing that can occur  when using averages (think big outliers e.g. 30s response for 1 connection out of hundreds).
+
+To do this I'll be putting the apdex rating in the facts table and roll-up the score on an hourly basis into another table. The high-level schema for the data warehouse has the following dimensions;
 
 * calendar.
 * request/response.
@@ -23,7 +25,9 @@ A personal goal of mine is to establish an "apdex rating":http://apdex.org/ for 
 * infrastructure element (e.g. server, tier, location).
 * join table for facts (e.g. "apdex rating":http://apdex.org/, time spent to fulfill request, etc).
 
-Now that I'm almost past the fold in your browser I'll discuss generating a calendar table.  The main motivation is to denormalise the data in a way that makes the queries more efficient (I will measure if this helps or not). The final schema is still to in flux but, here's the current fields;
+Now that I'm almost past the fold in your browser lets discuss the calendar table.  The main use case for a calendar table is to trade-off space for performance by pre-populating and denormalising dates and time into unique fields within a table. It's pretty useful when asking questions like; "How much traffic did we have during Black Friday for the last 2 years?" By including apdex calculations you can ask "How did our infrastructure cope during that time?". 
+
+As mentioned the schema for a calendar table is heavily denormalised around attributes of a date/time. The fields I feel are most useful in our current use case are;
 
 <pre>
 day id - date primary key 
@@ -36,7 +40,7 @@ day of year - a numeric identity for the absolute day within the year (instead o
 week of year - pretty self explanatory
 </pre>
 
-The create table DDL looks a little like this before indexes;
+Which yields a table DDL that looks a little like this before indexes are applied;
 
 <pre>
 CREATE TABLE calendar (
@@ -69,6 +73,15 @@ INSERT INTO calendar (day_id, year, month, day, quarter, day_of_week, day_of_yea
   FROM generate_series('2012-01-01'::timestamp, '2038-01-01', '1day'::interval) AS t(ts));
 </pre>
 
+A small sample of data from the table looks as follows;
+
+|_{width:7em}. date_id    |_{width:4em}. year |_{width:4em}. month |_{width:4em}. day |_{width:4em}. quarter |_{width:4em}. day_of_week |_{width:4em}. day_of_year |_{width:4em}. week_of_year |
+| 2012-01-13 | 2012 |     1 |  13 |       1 |           5 |          13 |            2 |
+| 2012-01-14 | 2012 |     1 |  14 |       1 |           6 |          14 |            2 |
+| 2012-01-15 | 2012 |     1 |  15 |       1 |           0 |          15 |            2 |
+| 2012-01-16 | 2012 |     1 |  16 |       1 |           1 |          16 |            3 |
+| 2012-01-17 | 2012 |     1 |  17 |       1 |           2 |          17 |            3 |
+
 As far as I'm concerned it's pretty compact and concise without being difficult to understand. As expected the query was done in a snap and now I've got the time dimension in.  I've started loading some of our w3c formatted log files using copy but, haven't had an opportunity to do any in-depth analysis.  
 
-One thing I investigated when specifying the DDL was URI length.  You know how the "RFC":http://www.faqs.org/rfcs/rfc2616.html recommends limiting it to 255 bytes? Well in a sample of 600k requests we've got requests that are in excess of 4k long! They're likely an exploit but, still rather interesting.  Anyway that's it for today, time for bed!
+One thing I investigated before creating the DDL was URI length.  The "RFC":http://www.faqs.org/rfcs/rfc2616.html recommends limiting URI's to 255 bytes for (old) proxies. Well in a sample of 600k requests there were requests in excess of 4k long! They're likely an exploit but, still rather interesting.  Anyway that's it for today, time for bed!
