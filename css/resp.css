@@ -34,6 +34,6 @@ article{width:auto;max-width:620px}
 }
 @media screen and (max-width:620px) {
 body{width:auto;padding:0 10px}
-article,aside{margin:0;width:100%}
+article,aside,header,footer{margin:0;width:100%}
 pre{overflow:hidden}
 }
