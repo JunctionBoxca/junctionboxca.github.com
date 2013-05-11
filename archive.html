@@ -1,11 +1,10 @@
 ---
-title:      Article Index
+title:      DevOps Articles
 created_at: 2011-03-22 08:16:58.063825 +00:00
 layout:     default
 permalink:  /archive/index.html
 nocomment:  true
 ---
-<h2>DevOps Articles</h2>
 {% assign year = '1900' -%}
 <ul class="archive">
   {% for post in site.posts %}
@@ -14,6 +13,6 @@ nocomment:  true
   <h3>{{ current_year }}</h3>
   {% assign year = current_year %}
   {% endif %}
-  <li><span style="font-family:'Courier New',Courier; font-size:87.5%; color:rgb(2,64,89);">{{post.created_at | date: "%b, %d"}}</span> - <a href="{{post.url}}">{{post.title}}</a>
+  <li><span>{{post.created_at | date: "%b, %d"}}</span>  <a href="{{post.url}}">{{post.title}}</a>
   {% endfor %}
 </ul>
