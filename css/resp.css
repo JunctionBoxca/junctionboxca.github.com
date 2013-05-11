@@ -37,3 +37,6 @@ body{width:620px}
 body{width:auto}
 article{margin-right:10px;width:auto}
 }
+@media screen and (max-width:480px) {
+body{max-width:480px}
+}
