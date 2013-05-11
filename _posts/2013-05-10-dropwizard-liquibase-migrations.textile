@@ -161,7 +161,7 @@ h4. Footnotes
 
 fn1. "Dropwizard":http://dropwizard.codahale.com is a production-ready REST framework.
 
-fn2. "Liquibase":http://dropwizard.codahale.com is a database migration library.
+fn2. "Liquibase":http://www.liquibase.org is a database migration library.
 
 fn3. One file per change-set reduces the likelihood of changing previous change-sets by accident. It also makes any changes to an existing change-set directly visible in your SCM's history.
 
