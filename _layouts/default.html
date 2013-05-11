@@ -33,30 +33,21 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 </head>
 <body>
 <header>
-<h1><a href="/">JunctionBox.ca</a> <span class="sub">{{ page.title }}</span></h1>
+<a href="/" class="sitename">JunctionBox.ca</a>
 <nav>
 <ul>
 <li class="home"><a href="/">Home</a></li>
-<li><a href="/archive/">Archive</a></li>
+<li class="archive"><a href="/archive/">Archive</a></li>
 <li class="resources"><a href="/resources/">Resources</a></li>
 <li class="devops"><a href="/devops.html">DevOps</a></li>
-<li><a href="/nathan-fisher.html">Nathan Fisher</a></li>
-<li>
-</li>
+<li class="me"><a href="/nathan-fisher.html">Nathan Fisher</a></li>
 </ul>
 </nav>
 </header>
 <article>
-{% if page.url == '/index.html' -%}
-<address id="about" class="vcard body">
-<img src="/images/nathan_in_oz.jpg" class="photo" alt="Nathan in Melbourne, Australia" width="90" height="120"/>
-<span class="primary">
-<h3><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a>, <span class="role">Systems Engineer</span> at <span class="org">maxymiser.com</span></h3>
-
-</span>
-<span class="bio">JunctionBox.ca is the personal blog of Nathan Fisher; senior systems engineer at <a href="http://www.maxymiser.com/">maxymiser.com</a>, and occassional climber. The <a href="">Archive</a> contains my musings on development, <a href="/devops.html">DevOps</a> and whatever else suits my fancy in IT. The <a href="/resources/">Resource</a> section contains links to a handful of interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough. Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer.</span> 
-</address>
-{% endif -%}
+{% unless page.url == '/index.html' -%}
+<h1>{{ page.title }}</h1>
+{% endunless -%}
 {{ content }}
 {% unless page.nocomment -%}
 <p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date: "%d %B %Y" }}</p>
@@ -74,12 +65,11 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 <li><a href="/archive/">&raquo; All Articles</a>
 </ul>
 
-<h3>Find Me Online</h3>
+<h3>Nathan Online</h3>
 <ul>
 <li><a href="https://twitter.com/natbobc"><img src="/images/twitter.png" alt="Twitter Logo" width="16" height="16"/> @natbobc</a></li>
 <li><a href="http://github.com/nfisher/"><img src="/images/github.png" alt="Github Logo" width="16" height="16"/> nfisher</a></li>
 <li><a href="http://uk.linkedin.com/in/nrfisher/"><img src="/images/linkedin.png" alt="Linkedin Logo" width="16" height="16" /> nrfisher</a></li>
-<li>nfisher on <a href="http://freenode.net/">Freenode</a></li>
 </ul>
 
 <h3>Blogroll</h3>

@@ -1,47 +1,39 @@
-.archive{list-style:none;margin:0;padding:0}
-.photo{clear:left;float:left;margin:2.1em 1.6em 1.3em 0}
-.post{display:block;float:left;height:13.5em;padding-right:4%;width:46%}
-a:hover{text-decoration:underline}
-address{margin-bottom:1em;font-style:normal}
-article,footer{width:600px;float:left}
-aside{width:300px;float:right}
-a{color:#777;text-decoration:none}
-body{font-size:87.5%;line-height:1.4em;font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;padding:0;width:960px;margin:auto}
-footer{background:#BCBEC0;border-top:1px solid #999;clear:both}
-footer a{color:#666}
-h1 .sub{clear:both;width:100%}
-h1{font-size:36px/100%;margin-bottom:0.3em}
-h1 a{color:#D3D727}
-h2,h3{color:rgb(136,192,44);margin-top:0.65em;margin-bottom:0.3em}
-header,article,aside{margin-bottom:0.6em}
-header{background:rgb(136,192,44);border-top:1px solid rgb(136,192,44);border-bottom:1px solid #999}
-header h1{color:white;margin-left:15px}
-body{color:#454441}
+body{width:960px;margin:auto}
+.post{display:block;float:left;width:300px}
+.post:nth-child(odd){margin-left:20px}
+article{width:620px;margin-left:10px;float:left}
+aside{width:300px;margin-left:20px;float:left}
+header,footer{margin:20px 10px}
+nav{margin-top:20px;max-width:620px}
+nav ul, footer ul{font-size:1.25em;clear:both;padding:0;margin:0;height:1.625em}
+nav li, footer li{float:left;list-style:none;margin:0;margin-right:20px;padding:0}
+nav a, footer a{color:#423F37}
+h1,h2,h3,h4{margin:0;padding:0}
+h1{font-size:1.625em}
+h2,h3,h4{color:#4F7310;font-size:1.25em;margin-bottom:10px}
+a{color:#8AC02D;text-decoration:none}
+a:hover{color:#4F7310;text-decoration:underline}
+body{color:#57534A;line-height:1.625em;font-family:Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;}
+pre,address{background:#eee;font-style:normal;margin-bottom:20px;border-radius:4px;padding:10px}
+pre {overflow:auto;line-height:1em}
+.sitename{font-size:2.625em}
+ul.archive{list-style:none;margin:0;padding:0}
+.me,.devops{float:right;margin-left:20px;margin-right:0}
+.devops a,.me a{color:#8AC02D}
 img{height:auto;max-width:100%}
-th{text-align:left}
-nav a, footer a{display:block;line-height:1em;height:1em;padding:1em 15px}
-nav a{color:white}
-nav a:hover{background:white;color:rgb(136,192,44)}
-nav li, footer li{float:left;list-style:none;margin:0;padding:0}
-nav ul, footer ul{clear:both;height:2em;padding:0}
-footer ul{margin:0}
-@media screen and (max-width:980px) {
-article,footer{width:65%}
-aside{width:30%}
-body{width:94%}
+ul{margin-top:0}
+.photo{clear:left;float:left;margin:0 20px 0 0}
+address p{margin:0;margin-left:110px}
+@media screen and (max-width:960px) {
+body{width:auto;margin:0}
+aside{width:220px}
+.post:nth-child(odd){margin-left:0}
+.post{width:auto}
 }
-@media screen and (max-width:700px) {
-article,footer{width:auto;float:none}
-aside{width:auto;float:none}
-.post{height:14em}
+@media screen and (max-width:840px) {
+body{width:620px}
 }
-@media screen and (max-width:480px) {
-.post{width:100%;padding:0;height:auto}
-aside{display:none}
-h1{font-size:18px}
-header{height:auto}
-nav ul{height:5em}
-nav ul li{clear:right;float:none}
-nav ul:after{clear:both;content:".";display:block;height:0;visibility:hidden}
-nav .home,nav .devops,nav .resources{display:none}
+@media screen and (max-width:620px) {
+body{width:auto}
+article{margin-right:10px;width:auto}
 }
