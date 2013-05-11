@@ -10,9 +10,9 @@ NoSQL for the win... wait what!? No!! Sorry but, I'll be talking about that stod
 
 h3. What are migrations?
 
-Database migrations are a way to programmatically manage, apply and track changes to a databases schema. The changes are typically tracked using a meta-data table and predefined sequence identifiers. As each change is successfully applied the meta-data is updated to include the sequence/change-set identifier, date of change, etc. Migrations are analogous to source control management in many respects and that's exactly what Liquibase provides SCM tooling for your schema. Dropwizard migrations provides a nice container and abstraction for Liquibase and your migration scripts.
+Database migrations are a way to programmatically manage, apply and track changes to a databases schema. The changes are typically tracked using a meta-data table and predefined sequence identifiers. As each change is successfully applied the meta-data is updated to include the sequence/change-set identifier, date of change, etc. Migrations are analogous to source control management in many respects and that's exactly what Liquibase provides, SCM tooling for your schema. Dropwizard migrations gives a nice container and abstraction for Liquibase and your migration scripts.
 
-Migrations can be used to reverse a change-set (aka a roll-back) however, roll-backs must be explicitly defined with Liquibase. In practise roll-back procedures on a production database are non-trivial. Because a roll-back is outside the "Happy Path" in delivery schedules it often receives less time and attention. I would highly encourage running automated tests of your roll-back procedure with production like data before trying it against production.
+Migrations can be used to reverse a change-set (aka a roll-back) however, roll-backs must be explicitly defined with Liquibase. In practise roll-back procedures on a production database are non-trivial. Because a roll-back is outside the "Happy Path", delivery schedules often cause them to receive less time and attention. I highly encourage running automated verification of your roll-back procedure with production like data *before* trying it against production.
 
 h3. Evolution of a table
 
