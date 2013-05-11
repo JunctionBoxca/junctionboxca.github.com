@@ -155,7 +155,7 @@ $ velodrome db migrate --dry-run config.yml # output the SQL that will be used t
 
 h3. Final Notes
 
-Dropbox and Liquibase provide a nice and neat package to migrate schemas. The single package design reduces the number of moving parts simplifying, the path to production and reducing the possibility of mismatched environments. The externalised configuration makes provisioning a new environment a breeze. And with the command driven interface it is easily instrumented into a build pipeline which can provide a level of automation, reliability and consistency that will free your DBA's for other problems.
+Dropwizard and Liquibase provide a nice and neat package to migrate schemas. The single package design reduces the number of moving parts simplifying, the path to production and reducing the possibility of mismatched environments. The externalised configuration makes provisioning a new environment a breeze. And with the command driven interface it is easily instrumented into a build pipeline which can provide a level of automation, reliability and consistency that will free your DBA's for other problems.
 
 h4. Footnotes
 
