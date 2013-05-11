@@ -33,6 +33,8 @@ article{width:auto;max-width:620px}
 }
 @media screen and (max-width:620px) {
 .sitename{font-size:1.625em}
+.photo{clear:both;display:none;float:none;}
+address p{margin:0}
 body{width:auto;padding:0 10px}
 article,aside,header,footer{margin:0;width:100%}
 pre{overflow:hidden}
