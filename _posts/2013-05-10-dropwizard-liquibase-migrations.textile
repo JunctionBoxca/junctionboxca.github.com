@@ -67,7 +67,7 @@ As described in the "manual":http://dropwizard.codahale.com/manual/migrations/ y
 config.yml
 
 <pre>
-databaseConfiguration:
+database:
   driverClass: org.apache.derby.jdbc.EmbeddedDriver
   url: jdbc:derby:db/velodrome;create=true
   user: SA
