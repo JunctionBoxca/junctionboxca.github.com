@@ -41,9 +41,9 @@ v1 to v2 transition for existing tables
 
 <pre>
 ALTER TABLE clicks 
-  ADD (
-    session VARCHAR(255)       -- the session or user ID
-  );
+  ADD 
+    session VARCHAR(255);    -- the session or user ID
+  
 </pre>
 
 In a traditional approach you may have a pile of SQL scripts that are applied one by one (or worse manually typed into each console).  As illustrated above there are 2 different ways to produce a v2 table. For new environments you can use the v2 script directly. For an existing environment (such as production) it's likely more desirable to use the transition script if you already have valuable data. You could simply use the v1 and v1 to v2 transition script everywhere but, you're essentially replicating what migration tools do (there's a dry-run option if you want/need to know what's going to happen).
