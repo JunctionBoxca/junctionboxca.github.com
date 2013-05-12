@@ -67,18 +67,11 @@ As described in the "manual":http://dropwizard.codahale.com/manual/migrations/ y
 config.yml
 
 <pre>
-database:
-  # the name of your JDBC driver
-  driverClass: org.apache.derby.jdbc.ClientDriver
-
-  # the username
-  user: SA
-
-  # the password
-  password: 
-
-  # force derby to create the folder structure if it doesn't exist
+databaseConfiguration:
+  driverClass: org.apache.derby.jdbc.EmbeddedDriver
   url: jdbc:derby:db/velodrome;create=true
+  user: SA
+  password:
 </pre>
 
 h3. Liquibase Migrations
