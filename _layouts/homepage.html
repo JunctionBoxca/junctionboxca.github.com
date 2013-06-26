@@ -42,12 +42,6 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 </header>
 <article>
 {{ content }}
-{% unless page.nocomment -%}
-<p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date: "%d %B %Y" }}</p>
-<div class="g-plusone"></div>
-<hr/>
-<div id="disqus_thread"></div>
-{% endunless -%}
 </article>
 <aside>
 <h3>Recent Articles</h3>
@@ -58,6 +52,30 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 <li><a href="/archive/">&raquo; All Articles</a>
 </ul>
 
+<h3>Nathan Online</h3>
+<ul>
+<li><a href="https://twitter.com/natbobc"><img src="/images/twitter.png" alt="Twitter Logo" width="16" height="16"/> @natbobc</a></li>
+<li><a href="http://github.com/nfisher/"><img src="/images/github.png" alt="Github Logo" width="16" height="16"/> nfisher</a></li>
+<li><a href="http://uk.linkedin.com/in/nrfisher/"><img src="/images/linkedin.png" alt="Linkedin Logo" width="16" height="16" /> nrfisher</a></li>
+</ul>
+
+<h3>Blogroll</h3>
+<ul>
+<li><a href="http://dtrace.org/blogs/brendan/">Brendan Gregg</a></li>
+<li><a href="http://www.jennifersmith.co.uk/">Jennifer Smith</a></li>
+<li><a href="http://jezhumble.net/">Jez Humble</a></li>
+<li><a href="http://lizdouglass.wordpress.com/">Liz Douglass</a></li>
+<li><a href="http://martinfowler.com/">Martin Fowler</a></li>
+<li><a href="http://mechanical-sympathy.blogspot.co.uk/">Martin Thompson</a></li>
+<li><a href="http://www.markhneedham.com/">Mark Needham</a></li>
+<li><a href="http://matthewkantor.com/">Matthew Kantor</a></li>
+<li><a href="http://www.devopsy.com/">Max Lincoln</a></li>
+<li><a href="http://www.natpryce.com/">Nat Pryce</a></li>
+<li><a href="http://www.jedi.be/">Patrick DeBois</a></li>
+<li><a href="http://rhebus.posterous.com/">Philip Potter</a></li>
+<li><a href="http://www.samnewman.org/">Sam Newman</a></li>
+<li><a href="http://mechanitis.blogspot.co.uk/">Trisha Gee</a></li>
+</ul>
 </aside>
 <footer>
 <ul>
