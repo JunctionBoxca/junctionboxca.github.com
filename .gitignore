@@ -2,3 +2,4 @@
 _site/
 *.sw?
 .DS_Store
+_drafts/
