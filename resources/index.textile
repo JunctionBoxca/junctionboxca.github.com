@@ -4,6 +4,8 @@ created_at: 2011-03-21
 layout: default
 ---
 
+This is a complete clutter of IT related resources.  Aka lazy bookmarking  :)
+
 h2. JunctionBox.ca's Resource Links
 
 "Java":/resources/java/
