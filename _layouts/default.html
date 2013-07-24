@@ -41,6 +41,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 </nav>
 </header>
 <article>
+<h1>{{ page.title }}</h1>
 {{ content }}
 {% unless page.nocomment -%}
 <p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date: "%d %B %Y" }}</p>
