@@ -1,0 +1,14 @@
+---
+title: OpenSSL
+created_at: 2013-08-21
+layout: default
+permalink: openssl/
+---
+
+h3. Encrypt a file
+
+pre. openssl aes-256-cbc -a -salt -in $INFILE -out $OUTFILE
+
+h3. Decrypt a file
+
+pre. openssl aes-256-cbc -d -a -in $INFILE -out $OUTFILE

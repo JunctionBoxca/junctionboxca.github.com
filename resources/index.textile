@@ -12,6 +12,7 @@ h2. JunctionBox.ca's Resource Links
 "GIT":/resources/git/
 "Infrastructure":/resources/infrastructure/
 ".NET":/resources/dotnet/
+"OpenSSL":/resources/openssl/
 "OS X":/resources/osx/
 "Release Engineering/DevOps":/resources/release/
 "SVN":/resources/svn/
