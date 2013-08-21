@@ -41,6 +41,10 @@ h3. Remote Tracking
 pre. git branch rspec
 git branch --track $BRANCH $REMOTE/$BRANCH
 
+h3. Extract zip of branch
+
+pre. git archive --format zip --output ${FILE}.zip $BRANCH
+
 h2. Reference Material
 
 "Err the Blog":http://cheat.errtheblog.com/s/git/ - good list of commonly used git commands.
