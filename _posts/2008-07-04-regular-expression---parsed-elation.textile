@@ -18,6 +18,13 @@ h2. Character Classes
 * \d - digit  [0-9]
 * \D - non-digit character [^\d]
 
+h2. Quantifiers
+
+* ? - zero or one
+* \* - zero or more
+* + - one or more
+* \{min, max\} - ranged selection
+
 h2. Avoiding Back-tracking
 
 h3. Negative boundary matching
