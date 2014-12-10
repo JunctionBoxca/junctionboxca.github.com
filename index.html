@@ -1,23 +1,27 @@
 ---
 title:      Nathan Fisher, DevOps
 created_at: 2011-05-28 12:00:00 +00:00
-layout:     homepage
+layout:     default
 nocomment:  true
 description: JunctionBox.ca is the personal blog of Nathan Fisher, an IT professional with expertise in DevOps, Continuous Delivery, and Configuration Management.
 keywords: devops, junctionbox, Nathan, Fisher, continuous, delivery
+disable_title: true
 ---
 <address id="about" class="vcard body">
-  <img src="/images/nathan_in_oz.jpg" class="photo" alt="Nathan Fisher in Melbourne, Australia" width="90" height="120"/>
+  <img src="/images/nathan_in_oz.jpg" alt="Nathan Fisher in Melbourne, Australia" width="90" height="120" class="u-pull-left"/>
 <span class="primary">
 <h3><a href="/nathan-fisher.html" class="fn url">Nathan Fisher</a>, <span class="role">Systems Engineer</span> at <span class="org">maxymiser.com</span></h3>
 
 </span>
 <p class="bio">JunctionBox.ca is the personal blog of Nathan Fisher, a senior systems engineer at <a href="http://www.maxymiser.com/">maxymiser.com</a>. The <a href="">Archive</a> contains my musings on development, <a href="/devops.html">DevOps</a> and IT related articles. The <a href="/resources/">Resource</a> section is a dumping ground for links to interesting tools, OS's, and tips I've found on the web. <a href="/nathan-fisher.html">About Nathan</a> is a short overview of me, myself and I...as if a blog wasn't self-indulgent enough! Oh and while I'd hope this is self evident any views expressed here are mine and not those of my employer.</p> 
 </address>
-{% for post in site.posts limit:6 %}
+
+{% for post in site.posts limit:5 %}
   <div class="post">
   <h2><a href="{{post.url}}">{{post.title}}</a></h2>
   {{post.description}}
   <p><a href="{{post.url}}">More...</a> | <a href="{{post.url}}#disqus_thread">Comment</a></p>
   </div>
 {% endfor %}
+
+<p><a href="/archive/">Older Articles &raquo;</a></p>

@@ -1,98 +1,101 @@
-<!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ page.title }} - JunctionBox.ca</title>
-{% if page.canonical -%}
-<link rel="canonical" href="{{ page.canonical }}"/>
-{% endif -%}
-<meta name="author" content="Nathan Fisher" />
-<meta name="description" content="{{ page.description }}" />
-<meta name="keywords" content="{{ page.keywords }}" />
-<link rel="stylesheet" href="/css/resp.css" type="text/css" />
-<link rel="alternate" type="application/rss+xml" title="Nathan's DevOps Blog" href="http://junctionbox.ca/rss.xml" />
-<script type="text/javascript">
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>{{ page.title }} - JunctionBox.ca</title>
+  {% if page.canonical -%}
+  <link rel="canonical" href="{{ page.canonical }}"/>
+  {% endif -%}
+  <meta name="description" content="{{ page.description }}" />
+  <meta name="keywords" content="{{ page.keywords }}" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <link rel="stylesheet" href="/css/main.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="Nathan's DevOps Blog" href="http://junctionbox.ca/rss.xml">
+
+  <script type="text/javascript">
 var _gaq = _gaq || []; 
 _gaq.push(['_setAccount', 'UA-713228-10']);
 _gaq.push(['_trackPageview']);
 
 (function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); 
-})();
-</script>
-<!--[if lt IE 9]>
-<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-<![endif]-->
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); 
+ })();
+  </script>
 </head>
 <body>
-<header>
-<a href="/" class="sitename">JunctionBox.ca</a>
-<nav>
-<ul>
-<li class="home"><a href="/">Home</a></li>
-<li class="archive"><a href="/archive/">Archive</a></li>
-<li class="resources"><a href="/resources/">Resources</a></li>
-<li class="devops"><a href="/devops.html">DevOps</a></li>
-<li class="me"><a href="/nathan-fisher.html">Nathan Fisher</a></li>
-</ul>
-</nav>
-</header>
-<article>
-<h1>{{ page.title }}</h1>
-{{ content }}
-{% unless page.nocomment -%}
-<p>Posted by <a href="/nathan-fisher.html">Nathan Fisher</a> on {{page.created_at | date: "%d %B %Y" }}</p>
-<div class="g-plusone"></div>
-<hr/>
-<div id="disqus_thread"></div>
-{% endunless -%}
-</article>
-<aside>
-<h3>Recent Articles</h3>
-<ul>
-{% for post in site.posts limit:7 %}
-<li><a href="{{post.url}}">{{post.title}}</a>
-{% endfor %}
-<li><a href="/archive/">&raquo; All Articles</a>
-</ul>
 
-</aside>
-<footer>
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/archive/">Archive</a></li>
-<li><a href="/resources/">Resources</a></li>
-<li><a href="/devops.html">DevOps</a></li>
-<li><a href="/nathan-fisher.html">&copy; 2011-2012 - Nathan Fisher</a></li>
-</ul>
-</footer>
-{% unless page.nocomment %}
-<script type="text/javascript">
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <nav class="row">
+      <ul class="twelve column">
+        <li class="home"><a href="/">junctionbox.ca</a></li>
+        <li class="archive"><a href="/archive/">Archive</a></li>
+        <li class="resources"><a href="/resources/">Resources</a></li>
+        <li class="devops"><a href="/devops.html">DevOps</a></li>
+        <li class="me"><a href="/nathan-fisher.html">Nathan Fisher</a></li>
+      </ul>
+    </nav>
+    <div class="row">
+      <div class="two-thirds column">
+        {% unless page.disable_title %}
+        <h1>{{ page.title }}</h1>
+        {% endunless %}
+        {{ content }}
+      </div>
+      <div class="one-third column">
+        {% include recent.html %}
+        {% include profile.html %}
+        {% include blogroll.html %}
+      </div>
+    </div>
+  </div>
+  {% unless page.nocomment %}
+  <script type="text/javascript">
 /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'junctionboxca'; // required: replace example with your forum shortname
-var disqus_title = '{{ page.title }}';
+  var disqus_shortname = 'junctionboxca'; // required: replace example with your forum shortname
+  var disqus_title = '{{ page.title }}';
 
-// The following are highly recommended additional parameters. Remove the slashes in front to use.
-var disqus_identifier = '{{ page.url }}';
-var disqus_url = 'http://junctionbox.ca{{ page.url }}';
+  // The following are highly recommended additional parameters. Remove the slashes in front to use.
+  var disqus_identifier = '{{ page.url }}';
+  var disqus_url = 'http://junctionbox.ca{{ page.url }}';
 
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
-var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
-</script>
-{% endunless %}
-<script type="text/javascript">
+  /* * * DON'T EDIT BELOW THIS LINE * * */
   (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+  </script>
+  {% endunless %}
+  <script type="text/javascript">
+(function() {
+ var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+ po.src = 'https://apis.google.com/js/plusone.js';
+ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
