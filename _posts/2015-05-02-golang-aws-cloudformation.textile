@@ -8,10 +8,10 @@ keywords: golang, aws, aws-sdk-go
 ---
 Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't without pain. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Amazon CloudFormation is a technology that aims to reign in some of this complexity. At its core CloudFormation uses JSON based templates that are typically composed of at least these four basic elements;
 
-- Parameters - user controlled variables including descriptions, constraints and default values.
-- Mappings - essentially constants specified in a key-value format.
-- Resources - the composition of AWS services you want provisioned.
-- Outputs - any variables or values you want to present to output upon success.
+  * Parameters - user controlled variables including descriptions, constraints and default values.
+  * Mappings - essentially constants specified in a key-value format.
+  * Resources - the composition of AWS services you want provisioned.
+  * Outputs - any variables or values you want to present to output upon success.
 
 
 CloudFormation is to environments as configuration management is to servers. It manages all of the complexity of resource ordering for you (for AWS specific components) reducing the need for polling or subscribing to events.
