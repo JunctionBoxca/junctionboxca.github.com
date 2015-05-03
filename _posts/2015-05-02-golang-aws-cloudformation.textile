@@ -42,9 +42,9 @@ Quick List:
 - aws-sdk-go
 - CloudFormation template
 
-For the purposes of this article I'll assume you have a functional Go environment that can compile a basic "Hello world" app. If you don't take a look at offical "Go download":http://golang.org/doc/install page. First up we'll want to download the latest aws-sdk-go package using go get as follows;
+For the purposes of this article I'll assume you have a functional Go environment that can compile a basic "Hello world" app. If you don't take a look at the offical "Go download":http://golang.org/doc/install page. First up we'll want to download the latest aws-sdk-go package using go get as follows;
 
-<pre><code>go get -v github.com/awslabs/aws-sdk-go</code></pre>
+<pre><code>go get -d -v github.com/awslabs/aws-sdk-go</code></pre>
 
 If you're not familiar with Go this command simply does a checkout of the library at $GOPATH/src making it available for import in any Go program you develop.  Next you'll want to download and unpack the AWS "CloudFormation sample template":http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-sample-templates.html files for your desired region.
 
