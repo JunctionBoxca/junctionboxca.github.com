@@ -6,15 +6,11 @@ published: true
 description: Getting started with golang AWS SDK.
 keywords: golang, aws, aws-sdk-go 
 ---
-Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't without pain. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Amazon CloudFormation is a technology that aims to reign in some of this complexity. At its core CloudFormation uses JSON based templates that are typically composed of at least these four basic elements;
+Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't without pain. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Enter Amazon CloudFormation which is described by amazon as;
 
-  * Parameters - user controlled variables including descriptions, constraints and default values.
-  * Mappings - essentially constants specified in a key-value format.
-  * Resources - the composition of AWS services you want provisioned.
-  * Outputs - any variables or values you want to present to output upon success.
-
-
-CloudFormation is to environments as configuration management is to servers. It manages all of the complexity of resource ordering for you (for AWS specific components) reducing the need for polling or subscribing to events.
+<blockquote>
+"AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provisioning and updating them in an orderly and predictable fashion."
+</blockquote>
 
 In this article I'll cover the basic life-cycle of an environment as described in the following sections;
 
@@ -26,6 +22,17 @@ In this article I'll cover the basic life-cycle of an environment as described i
   # "Stack Deletion":#cleanup
   # "Conclusion":#conclusion
 
+At its core CloudFormation uses JSON based templates that are typically composed of at least these four basic elements that affect provisioning;
+
+  * Parameters - user controlled variables including descriptions, constraints and default values.
+  * Mappings - essentially constants specified in a key-value format.
+  * Resources - the composition of AWS services you want provisioned.
+  * Outputs - any variables or values you want to present to output upon success.
+
+
+CloudFormation is to environments as configuration management is to servers. It manages all of the complexity of resource ordering for you (for AWS specific components) reducing the need for polling or subscribing to events.
+
+
 h3(#dependencies). Dependencies
 
 Quick List:
@@ -33,6 +40,7 @@ Quick List:
 - functional Go ~1.4 environment.
 - aws IAM credentials stored in ~/.aws/credentials
 - aws-sdk-go
+- CloudFormation template
 
 For the purposes of this article I'll assume you have a functional Go environment that can compile a basic "Hello world" app. If you don't take a look at offical "Go download":http://golang.org/doc/install page. First up we'll want to download the latest aws-sdk-go package using go get as follows;
 
@@ -205,4 +213,4 @@ log.Println(awsutil.StringValue(delOutput))</code></pre>
 
 h3(#conclusion). Conclusion
 
-There you have it a method to manage the full life-cycle of repeatable environments on AWS. As you can see the building blocks are pretty consistent. The hardest bits are figuring out the required parameters for the Inputs. If I have some time I'll look at writing an article on creating your own templates and nesting stacks to make them more managable.
+There you have it a method to manage the full life-cycle of repeatable environments on AWS. As you can see the building blocks are pretty consistent. The hardest bits are figuring out the required parameters for the Inputs. For next steps I'd highly recommend reviewing the "Best Practises":http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html.
