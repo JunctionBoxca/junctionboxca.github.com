@@ -6,7 +6,7 @@ published: true
 description: Getting started with golang AWS SDK.
 keywords: golang, aws, aws-sdk-go 
 ---
-Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't without pain. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Enter Amazon CloudFormation which is described by amazon as;
+Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't pain-free. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Enter Amazon CloudFormation which is described by amazon as;
 
 <blockquote>
 "AWS CloudFormation gives developers and systems administrators an easy way to create and manage a collection of related AWS resources, provisioning and updating them in an orderly and predictable fashion."
