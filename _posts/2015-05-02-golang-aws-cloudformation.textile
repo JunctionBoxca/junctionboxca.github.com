@@ -157,7 +157,7 @@ if err != nil {
 log.Println(awsutil.StringValue(createOutput)) // StackID</code></pre>
 
 
-Depending on the size and complexity of your stack you'll want to adjust the timeout and what happens on failure.  I've specified deletion on failure as I don't care to diagnose any issues and would rather it just clean-up after itself in the case of a failure. Choose what fits your needs. As an example you might want to keep an environment around while developing a template and then once its solid have it do deletion on failure for pre-production environments.  Another element to note is the StackName. You can think of this as a user generated name to reference this particular instantiation of the template. If you want to provision another stack you'll should provide a new name.
+Depending on the size and complexity of your stack you'll want to adjust the timeout and what happens on failure.  I've specified deletion on failure as I don't care to diagnose any issues and would rather it just clean-up after itself in the case of a failure. Choose what fits your needs. As an example you might want to keep an environment around while developing a template and then once its solid have it do deletion on failure for pre-production environments.  Another element to note is the StackName. You can think of this as a user generated name to reference this particular instantiation of the template. If you want to provision another stack you should provide a new name.
 
 h3(#stack_progress). Stack Progress
 
