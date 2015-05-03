@@ -131,7 +131,7 @@ In the above code you'll notice that I've iterated over each of the Parameters t
 
 h3(#stack_provisioning). Stack Provisioning
 
-This is the bit that everyone came for! Provisioning all the things at the speed of webscale! There's not a whole lot new here just building on what's already been done. The SDK meethod for provisioning a stack is;
+This is the bit that everyone came for! Provisioning all the things at the speed of webscale! There's not a whole lot new here just building on what's already been done. The SDK method for provisioning a stack is;
 
 <pre><code>func (c *CloudFormation) CreateStack(input *CreateStackInput) (output *CreateStackOutput, err error)</code></pre>
 
