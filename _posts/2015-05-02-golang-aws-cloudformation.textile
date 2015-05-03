@@ -103,7 +103,7 @@ func main() {
   log.Println(awsutil.StringValue(template.Description)) // output the templates description if specified.
 }</code></pre>
 
-This program will parse the template and either output the errors associated with it or print the templates description. Some readers may note the awsutil.StringValue and aws.String functions.  These are used distinguish between the absence of a value (nil pointer) and an empty value ("", 0, etc). You maybe used to this idiom if you've used protobufs.
+This program will parse the template and either output the errors associated with it or print the templates description. Some readers may note the awsutil.StringValue and aws.String functions.  These are used to distinguish between the absence of a value (nil pointer) and an empty value ("", 0, etc). You'll recognise this idiom if you've used protobufs or thrift.
 
 h3(#estimating_operating_costs). Estimating Operating Costs
 
