@@ -33,8 +33,7 @@ Quick List:
 
 For the purposes of this article I'll assume you have a functional Go environment that can compile a basic "Hello world" app. If you don't take a look at offical "Go download":http://golang.org/doc/install page. First up we'll want to download the latest aws-sdk-go package using go get as follows;
 
-<pre><code>
-go get -v github.com/awslabs/aws-sdk-go
+<pre><code>go get -v github.com/awslabs/aws-sdk-go
 </code>
 </pre>
 
