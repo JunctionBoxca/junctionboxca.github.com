@@ -15,4 +15,4 @@ relative_permalinks: true
 markdown: kramdown
 sass:
   style: :compressed
-exclude: [bundle]
+exclude: [bundle,vendor]
