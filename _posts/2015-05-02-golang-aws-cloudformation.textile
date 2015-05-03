@@ -33,8 +33,7 @@ Quick List:
 
 For the purposes of this article I'll assume you have a functional Go environment that can compile a basic "Hello world" app. If you don't take a look at offical "Go download":http://golang.org/doc/install page. First up we'll want to download the latest aws-sdk-go package using go get as follows;
 
-<pre>
-<code>
+<pre><code>
 go get -v github.com/awslabs/aws-sdk-go
 </code>
 </pre>
@@ -43,8 +42,7 @@ If you're not familiar with Go this command simply does a checkout of the librar
 
 Now lets create a project folder;
 
-<pre>
-<code>
+<pre><code>
 PROJECT=$GOPATH/src/github.com/nfisher/goaws
 mkdir -p "${PROJECT}"
 cat > "${PROJECT}/main.go" <<EOT
@@ -67,16 +65,14 @@ h3(#validating_templates). Validating Templates
 
 The best place to start with the CloudFormation components is probably familiarising yourself withe "documentation":http://godoc.org/github.com/awslabs/aws-sdk-go/service/cloudformation or the code in your source path. The examples are somewhat lacking but it makes a reasonable reference for the datatypes and functions available. For this section we're particularly interested in validating one of the CloudFormation templates we downloaded (in theory these should compile without error). The method we're interested in is defined as follows;
 
-<pre>
-<code>
+<pre><code>
 func (c *CloudFormation) ValidateTemplate(input *ValidateTemplateInput) (output *ValidateTemplateOutput, err error)
 </code>
 </pre>
 
 So from the above we can derive that we need to instantiate a CloudFormation struct and a ValidateTemplateInput. To simplify the program you can paste the template directly into the CfTemplate value but for everyday use you'll probably want to either read the template from disk or specify a S3 bucket. Editing our main.go file we'll end up with something like the following;
 
-<pre>
-<code>
+<pre><code>
 package main
 
 import (
@@ -114,16 +110,14 @@ h3(#estimating_operating_costs). Estimating Operating Costs
 
 Now that we've validated our template lets estimate it's cost using the "Simple Monthly Calculator":http://calculator.s3.amazonaws.com/index.html. The SDK provides the following method for this;
 
-<pre>
-<code>
+<pre><code>
 func (c *CloudFormation) EstimateTemplateCost(input *EstimateTemplateCostInput) (output *EstimateTemplateCostOutput, err error)
 </code>
 </pre>
 
 The output of this function will provide you with a URL to your saved cost estimate. The following code will load the template with all of the default values and save a cost estimate on the AWS simple calculator.
 
-<pre>
-<code>
+<pre><code>
 params := make([]*awscf.Parameter, len(template.Parameters)) //initialise an array to the length of the templates available parameters.
 
 // set the params to the templates default values
@@ -157,16 +151,14 @@ h3(#stack_provisioning). Stack Provisioning
 
 This is the bit that everyone came for! Provisioning all the things at the speed of webscale! There's not a whole lot new here just building on what's already been done. The SDK meethod for provisioning a stack is;
 
-<pre>
-<code>
+<pre><code>
 func (c *CloudFormation) CreateStack(input *CreateStackInput) (output *CreateStackOutput, err error)
 </code>
 </pre>
 
 As I'm sure you've noted by now the call pattern is consistent across the library. Provide an input and receive an output and possible error.  One notable difference is that the required input data has increased. It would be nice if a factory method were provided that uses sane defaults prompting you for the required variables but alas this is beta software.
 
-<pre>
-<code>
+<pre><code>
 stackName := "YourMagicalStack"
 createInput := &awscf.CreateStackInput{
     StackName: aws.String(stackName),
@@ -195,16 +187,14 @@ h3(#stack_progress). Stack Progress
 
 As fast as AWS makes it for provisioning environments it's still not instant. In order to get an overview of progress you may want to periodically poll the progress. This is done via the following method;
 
-<pre>
-<code>
+<pre><code>
 func (c *CloudFormation) DescribeStackEvents(input *DescribeStackEventsInput) (output *DescribeStackEventsOutput, err error)
 </code>
 </pre>
 
 You can retrieve the progress using the StackName as follows;
 
-<pre>
-<code>
+<pre><code>
 descInput := &awscf.DescribeStackEventsInput{
     StackName: aws.String(stackName),
   }
@@ -225,16 +215,14 @@ h3(#stack_deletion). Stack Deletion
 
 Now that you've spun-up more stacks than you know what to do with (and made AWS a tidy profit in the process) you'll probably want to bring your AWS bills back down to a sane level.  Enter stack deletion!
 
-<pre>
-<code>
+<pre><code>
 func (c *CloudFormation) DeleteStack(input *DeleteStackInput) (output *DeleteStackOutput, err error)
 </code>
 </pre>
 
 With a small dusting of code that is probably beginning to look as monotonous to read as it is to type;
 
-<pre>
-<code>
+<pre><code>
 delInput := &awscf.DeleteStackInput{
     StackName: aws.String(stackName),
   }
