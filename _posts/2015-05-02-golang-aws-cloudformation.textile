@@ -6,22 +6,25 @@ published: true
 description: Getting started with golang AWS SDK.
 keywords: golang, aws, aws-sdk-go 
 ---
-Cloud computing has made getting an IT based company off the ground cheaper than it's ever been.However this ubiquity isn't without it's pain. As you develop your product inevitably you will increase the number of running services and their associated roles. Each service and role will have different requirements whether it be CPU, memory or IO requirements. As a result it requires that you have a heterogenus environment.  This heterogenity introduces complexity during the provisioning process which becomes a concern when reproducing an environment. Amazon CloudFormation is a technology that aims to reign in some of this complexity. At its core CloudFormation uses JSON based templates that produce stacks. CloudFormation manages all of the complexity of resource ordering for you (for AWS specific components) reducing the need for polling or subscribing to events. I've broken the remainder of this article in the following sections;
+Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't without pain. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Amazon CloudFormation is a technology that aims to reign in some of this complexity. At its core CloudFormation uses JSON based templates that are typically composed of at least these four basic elements;
 
-- "Dependencies":#dependencies
-- "Validating Templates":#validating_templates
-- "Estimating Operating Costs":#estimating_operating_costs
-- "Stack Provisioning":#stack_provisioning
-- "Stack Progress":#stack_progress
-- "Stack Deletion":#cleanup
-- "Conclusion":#conclusion
-
-When first starting with CloudFormation templates there are 4 main elements you'll be concerned with;
-
-- Parameters - variables that can be specified when you provision a "stack".
-- Mappings - look-ups for various values.
+- Parameters - user controlled variables including descriptions, constraints and default values.
+- Mappings - essentially constants specified in a key-value format.
 - Resources - the composition of AWS services you want provisioned.
-- Outputs - any variables or values you want to present to the user upon completion.
+- Outputs - any variables or values you want to present to output upon success.
+
+
+CloudFormation is to environments as configuration management is to servers. It manages all of the complexity of resource ordering for you (for AWS specific components) reducing the need for polling or subscribing to events.
+
+In this article I'll cover the basic life-cycle of an environment as described in the following sections;
+
+  # "Dependencies":#dependencies
+  # "Validating Templates":#validating_templates
+  # "Estimating Operating Costs":#estimating_operating_costs
+  # "Stack Provisioning":#stack_provisioning
+  # "Stack Progress":#stack_progress
+  # "Stack Deletion":#cleanup
+  # "Conclusion":#conclusion
 
 h3(#dependencies). Dependencies
 
