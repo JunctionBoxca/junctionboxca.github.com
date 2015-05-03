@@ -48,7 +48,7 @@ For the purposes of this article I'll assume you have a functional Go environmen
 
 If you're not familiar with Go this command simply does a checkout of the library at $GOPATH/src making it available for import in any Go program you develop.  Next you'll want to download and unpack the AWS "CloudFormation sample template":http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-sample-templates.html files for your desired region.
 
-Now lets create a project folder;
+Now lets create a project;
 
 <pre><code>PROJECT=$GOPATH/src/github.com/nfisher/goaws
 mkdir -p "${PROJECT}"
@@ -64,11 +64,11 @@ EOT
 
 go run $PROJECT/main.go</code></pre>
 
-With all of that you should have a simple application that outputs "Hello World". The easiest and cheapest thing to do with a template is get it's parameters. Next up we'll actually start to dig into the Go AWS SDK.
+With all of that you should have a simple application that outputs "Hello World". The easiest and cheapest thing to do with a template is get it's parameters. Next up we'll dig into the Go AWS SDK.
 
 h3(#validating_templates). Validating Templates
 
-The best place to start with the CloudFormation components is probably familiarising yourself withe "documentation":http://godoc.org/github.com/awslabs/aws-sdk-go/service/cloudformation or the code in your source path. The examples are somewhat lacking but it makes a reasonable reference for the datatypes and functions available. For this section we're particularly interested in validating one of the CloudFormation templates we downloaded (in theory these should compile without error). The method we're interested in is defined as follows;
+The best place to start with the CloudFormation components is familiarising yourself with the "documentation":http://godoc.org/github.com/awslabs/aws-sdk-go/service/cloudformation or the code in your source path. The examples are somewhat lacking but it makes a reasonable reference for the datatypes and functions available. For this section we're particularly interested in validating one of the CloudFormation templates we downloaded (in theory these should compile without error). The method we're interested in is defined as follows;
 
 <pre><code>func (c *CloudFormation) ValidateTemplate(input *ValidateTemplateInput) (output *ValidateTemplateOutput, err error)</code></pre>
 
@@ -107,7 +107,7 @@ This program will parse the template and either output the errors associated wit
 
 h3(#estimating_operating_costs). Estimating Operating Costs
 
-Now that we've validated our template lets estimate it's cost using the "Simple Monthly Calculator":http://calculator.s3.amazonaws.com/index.html. The SDK provides the following method for this;
+Now that we've validated our template lets estimate its cost using the "Simple Monthly Calculator":http://calculator.s3.amazonaws.com/index.html. The SDK provides the following method for this;
 
 <pre><code>func (c *CloudFormation) EstimateTemplateCost(input *EstimateTemplateCostInput) (output *EstimateTemplateCostOutput, err error)</code></pre>
 
@@ -138,7 +138,7 @@ if err != nil {
 
 log.Println(awsutil.StringValue(cost.URL))</code></pre>
 
-In the above code you'll notice that I've iterated over each of the Parameters that were extracted during the template validation. In reality you're likely to want specify your own values (unless you've made or updated the default values in the template). It maybe possible that a default value is missing in which case the above code will cause the program to print an error and exit. The simplest fix is to create a hash and use a value from the look-up or alternatively provide some kind of interaction with the user to prompt them for values (e.g. web-form or command line prompts).
+In the above code you'll notice that I've iterated over each of the Parameters that were extracted during the template validation. In reality you'll want to specify your own values (unless you've made or updated the default values in the template). It maybe possible that a default value is missing in which case the above code will cause the program to print an error and exit. The simplest fix is to create a hash and use a value from the look-up or alternatively provide some kind of interaction with the user to prompt them for values (e.g. web-form or command line prompts).
 
 h3(#stack_provisioning). Stack Provisioning
 
@@ -214,3 +214,5 @@ log.Println(awsutil.StringValue(delOutput))</code></pre>
 h3(#conclusion). Conclusion
 
 There you have it a method to manage the life-cycle of repeatable environment generation on AWS. I've left stack updates as an exercise for the reader (UpdateStack **cough** **cough**). As you can see the building blocks are pretty consistent. The hardest bits are figuring out the required parameters for the Inputs. For next steps I'd highly recommend reviewing the "Best Practises":http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html.
+
+Special thanks to "Mark Needham":http://www.markhneedham.com/blog/ for his feedback.
