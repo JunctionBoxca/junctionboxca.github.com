@@ -3,7 +3,7 @@ title:      Go(ing) to the Clouds
 created_at: 2015-05-02 12:00:00 +00:00
 layout:     default
 published: true
-description: Getting started with golang AWS SDK.
+description: AWS is one of the top cloud providers. Amazon CloudFormation makes it easier to manage an entire environment and Golang is an efficient language to develop that tooling in. Combining the two and you have the foundation for building environment life-cycle.
 keywords: golang, aws, aws-sdk-go 
 ---
 Cloud computing has made getting an IT based company off the ground cheaper than it's ever been. However the availability of low-cost compute resources isn't pain-free. As you develop your product inevitably the number of services and their associated roles will increase. Each service and role will have different requirements whether it be CPU, memory or IO. This heterogenous enviornment introduces complexity during the provisioning process which makes reproduction difficult due to co-ordiation overhead. Enter Amazon CloudFormation which is described by amazon as;
