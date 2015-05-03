@@ -187,7 +187,7 @@ Now that you've spun-up more stacks than you know what to do with (and made AWS 
 
 <pre><code>func (c *CloudFormation) DeleteStack(input *DeleteStackInput) (output *DeleteStackOutput, err error)</code></pre>
 
-With a small dusting of code that is probably beginning to look as monotonous to read as it is to type;
+With a small dusting of code that is probably beginning to look as monotonous to read as it is to type you too can delete a stack near you.
 
 <pre><code>delInput := &awscf.DeleteStackInput{
     StackName: aws.String(stackName),
