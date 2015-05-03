@@ -91,7 +91,7 @@ func main() {
   config := &aws.Config{Region: "eu-west-1"} // specify your preferred region but note that not all regions are made the same in terms of available AZ's and Instance types.
   svc := awscf.New(config) // this instantiates a CloudFormation struct.
 
-  input := &&awscf.ValidateTemplateInput{
+  input := &awscf.ValidateTemplateInput{
       TemplateBody: aws.String(CfTemplate),
     }
 
