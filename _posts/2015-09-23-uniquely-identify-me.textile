@@ -112,7 +112,7 @@ Some operational attributes:
 |_. Generation | database or consensus | optimistic local generation |
 |_. Uniqueness | guaranteed            | probabalistic |
 |_. Chronology | implicit              | N/A |
-|_. Collisions | N/A                   | retry |
+|_. Collisions | N/A                   | regenerate and retry |
 |_. Max Records| 2^32                  | 2^128 |
 |_. Sharding   | modulo or range blocks| modulo or range blocks |
 
