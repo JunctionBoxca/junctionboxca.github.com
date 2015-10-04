@@ -81,30 +81,40 @@ h2. <a name=usability></a> Asthetics & Usability
 This point I agree with but I feel it's somewhat subjective. For developers and computers end-points with number identifiers make sense for users they may not. If making the URL's user friendly is a priority consider providing users with a labelling facility. With labels users can gather detail directly from the URL. Using numbers maybe more compact than UUID's but exposing either integers or UUID's is a functional short-cut. It exposes implementation detail about the application that may or may not be helpful to the user.
 
 Starting with Richard's example:
-/user/345123/task/12
+@/user/345123/task/12@
 
 If this were an admin view then I would introduce a unique username:
-/users/nfisher/tasks/12
+@/users/nfisher/tasks/12@
 
 If it were a users view then the scoping feels unnecessary:
-/tasks/12
+@/tasks/12@
 
 Taking it to the ultimate conclusion:
-/tasks/finish_writing_article_on_ids
+@/tasks/finish_writing_article_on_ids@
 
 Numbers are useful where the identity exposed to the user is in the response body:
-/customers/markel/invoices/1234
+@/customers/markel/invoices/1234@
 
 h2. <a name=architecture></a> Architectural Influence
 
 As I've alluded to previously complexity is a beast to be constrained where possible. By using a UUID instead of a primitive you can simultaneously add and remove complexity. Within code using a primitive is a great simplification. From an architectural perspective however a primitive could be an Achilles heel as generation needs to be centrally co-ordinated. Whether or not central co-ordination will be a limiting factor requires a realisitic assessment of your market and your growth potential within that market.
 
-To demonstrate the complexity I'm referencing here's a few examples in Golang:
+To demonstrate the complexity I'm referencing here are a few examples in Golang:
 
-|_. Operation    |_. Int32                 |_. UUID                         |
-|_. Equality     | id1 == id2              | bytes.Compare(id1, id2) == 0 |
-|_. Presentation | fmt.Sprintf("%v", id)   | fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:3], uuid[4:5], uuid[6:7], uuid[8:9], uuid[10:]) |
-|_. New          | autoincrement in the DB | read from random and some bit masking |
+*Equality*
+<pre><code>id1 == id2 // int
+bytes.Compare(id1, id2) == 0 // uuid
+</code></pre>
+
+*Formatting*
+<pre><code>fmt.Sprintf("%v", id) // int
+fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:3], uuid[4:5], uuid[6:7], uuid[8:9], uuid[10:]) // uuid
+</code></pre>
+
+*New*
+<pre><code>Int: DB autoincrement, or distributed CAS operation.
+UUID: read from random and some bit masking.
+</code></pre>
 
 Some operational attributes:
 
