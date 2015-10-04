@@ -97,7 +97,7 @@ Numbers are useful where the identity exposed to the user is in the response bod
 
 h2. <a name=architecture></a> Architectural Influence
 
-As I've mentioned throughout the article complexity is something to be constrained where possible. By using a UUID instead of a primitive you can simultaneously add and remove complexity. Within code using a primitive is a great simplification. From an architectural perspective however a primitive could be an Achilles heel as generation needs to be central co-ordinated. Whether or not central co-ordination will be a limiting factor requires a realisitic assessment of your market and your growth potential within that market.
+As I've alluded to previously complexity is a beast to be constrained where possible. By using a UUID instead of a primitive you can simultaneously add and remove complexity. Within code using a primitive is a great simplification. From an architectural perspective however a primitive could be an Achilles heel as generation needs to be centrally co-ordinated. Whether or not central co-ordination will be a limiting factor requires a realisitic assessment of your market and your growth potential within that market.
 
 To demonstrate the complexity I'm referencing here's a few examples in Golang:
 
