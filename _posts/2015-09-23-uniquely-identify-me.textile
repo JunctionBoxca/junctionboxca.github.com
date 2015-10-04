@@ -81,19 +81,19 @@ h2. <a name=usability></a> Asthetics & Usability
 This point I agree with but I feel it's somewhat subjective. For developers and computers end-points with number identifiers make sense for users they may not. If making the URL's user friendly is a priority consider providing users with a labelling facility. With labels users can gather detail directly from the URL. Using numbers maybe more compact than UUID's but exposing either integers or UUID's is a functional short-cut. It exposes implementation detail about the application that may or may not be helpful to the user.
 
 Starting with Richard's example:
-http://www.example.com/user/345123/task/12
+/user/345123/task/12
 
 If this were an admin view then I would introduce a unique username:
-http://www.example.com/users/nfisher/tasks/12
+/users/nfisher/tasks/12
 
 If it were a users view then the scoping feels unnecessary:
-http://www.example.com/tasks/12
+/tasks/12
 
 Taking it to the ultimate conclusion:
-http://www.example.com/tasks/finish_writing_article_on_ids
+/tasks/finish_writing_article_on_ids
 
 Numbers are useful where the identity exposed to the user is in the response body:
-http://www.example.com/customers/markel/invoices/1234
+/customers/markel/invoices/1234
 
 h2. <a name=architecture></a> Architectural Influence
 
