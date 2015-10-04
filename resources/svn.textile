@@ -2,7 +2,7 @@
 title:      SVN
 created_at: 2011-03-21
 layout: default
-permalink: svn/
+permalink: /resources/svn/
 ---
 
 h3. Dry run next update

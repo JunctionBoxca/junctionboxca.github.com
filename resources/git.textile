@@ -2,7 +2,7 @@
 title:      Git
 created_at: 2011-03-21
 layout: default
-permalink: git/
+permalink: /resources/git/
 ---
 
 h3. Empty server repo

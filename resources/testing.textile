@@ -2,7 +2,7 @@
 title: Testing
 created_at: 2011-05-29
 layout: default
-permalink: testing/
+permalink: /resources/testing/
 ---
 
 h3. Katas

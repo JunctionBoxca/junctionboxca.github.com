@@ -2,7 +2,7 @@
 title:      .NET
 created_at: 2011-04-01
 layout: default
-permalink: dotnet/
+permalink: /resources/dotnet/
 ---
 
 h4. Monitoring & Logging

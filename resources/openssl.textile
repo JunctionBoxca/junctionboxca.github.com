@@ -2,7 +2,7 @@
 title: OpenSSL
 created_at: 2013-08-21
 layout: default
-permalink: openssl/
+permalink: /resources/openssl/
 ---
 
 h3. Encrypt a file

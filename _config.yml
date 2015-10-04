@@ -9,7 +9,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://junctionbox.ca" # the base hostname & protocol for your site
 twitter_username: natbobc
 github_username:  nfisher
-relative_permalinks: true
+#relative_permalinks: true
 
 # Build settings
 markdown: kramdown

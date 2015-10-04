@@ -2,7 +2,7 @@
 title:    Infrastructure
 created_at: 2011-05-29
 layout: default
-permalink: infrastructure/
+permalink: /resources/infrastructure/
 ---
 
 "USE Method Checklist for Linux Performance":http://dtrace.org/blogs/brendan/2012/03/07/the-use-method-linux-performance-checklist/
@@ -64,6 +64,7 @@ h3. Alerting
 
 * "Alertra":http://www.alertra.com/
 * "Pingdom":http://www.pingdom.com/
+* Gomez
 
 h3. Monitoring
 
