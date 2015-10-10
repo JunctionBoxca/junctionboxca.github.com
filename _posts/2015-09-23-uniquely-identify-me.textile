@@ -70,7 +70,7 @@ From the results it is clear neither provide perfectly uniform performance but I
 
 h2. <a name=writes_to_single_db></a> Single Writer
 
-If you have a stable application base and a reasonable understanding of your market totally agree. No need to invest in the additional complexity of a UUID. However, if you're a start-up with realistic growth potential (e.g. consumer facing rather than b2b) you'll probably want to take the hit on a UUID as it pushes ID generation out to your application nodes allow for an interesting opportunity to shard.
+If you have a stable application base and a reasonable understanding of your market totally agree. No need to invest in the additional complexity of a UUID. However, if you're a start-up with realistic growth potential (e.g. consumer facing rather than b2b) you'll probably want to take the hit on a UUID as it pushes ID generation out to your application nodes allowing for routing to storage based on UUID.
 
 h2. <a name=natural_key></a> Natural Record Keys
 
