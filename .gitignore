@@ -4,3 +4,4 @@ _site
 /bin
 *.sw?
 /.bundle
+.DS_Store
