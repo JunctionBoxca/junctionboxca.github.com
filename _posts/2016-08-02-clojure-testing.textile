@@ -3,7 +3,7 @@ title:      Clojure Testing
 created_at: 2016-08-02 12:00:00 +00:00
 layout:     default
 published: true
-description: Just a quick post to aggregate Clojure Testing details.
+description: Clojure start-up time can be expensive especially when using ClojureScript. This article is a quick post to aggregate what I use to improve the testing feedback cycle in Clojure.
 keywords: clojure, testing, repl
 ---
 
