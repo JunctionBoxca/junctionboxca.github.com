@@ -3,10 +3,10 @@ title:      Reagent Presentational and Container Components
 created_at: 2016-09-03 12:00:00 +00:00
 layout:     default
 published: true
-description: If you've used "React Redux":http://redux.js.org/docs/basics/UsageWithReact.html you've likely come across the Presentation and Container Component pattern. A similar pattern can be achieved with "Reagent":https://reagent-project.github.io and "Re-frame":https://github.com/Day8/re-frame. The primary motivation of this pattern is creating a clear separation of concerns. The presentational component renders the view from it's properties and is ideally a pure function which makes it easy to test. The container component subscribes to updates made in the re-frame app-db.
+description: In this article I cover off how I've adapted the React/Redux Presentational and Container Component pattern to ClojureScript using Reagent and Re-Frame.
 keywords: clojurescript,re-frame,reagent
 ---
-If you've used "React Redux":http://redux.js.org/docs/basics/UsageWithReact.html you've likely come across the Presentation and Container Component pattern. A similar pattern can be achieved with "Reagent":https://reagent-project.github.io and "Re-frame":https://github.com/Day8/re-frame. The primary motivation of this pattern is creating a clear separation of concerns. The presentational component renders the view from it's properties and is ideally a pure function which makes it easy to test. The container component subscribes to updates made in the re-frame app-db.
+If you've used "React Redux":http://redux.js.org/docs/basics/UsageWithReact.html you've likely come across the Presentation and Container Component pattern. A similar pattern can be achieved with "Reagent":https://reagent-project.github.io and "Re-frame":https://github.com/Day8/re-frame. The primary motivation to use this pattern is creating a clear separation of concerns. The presentational component renders the view from it's properties and is ideally a pure function which makes it easy to test. The container component subscribes to updates made in the re-frame app-db.
 
 To recap here's a few definitions:
 
