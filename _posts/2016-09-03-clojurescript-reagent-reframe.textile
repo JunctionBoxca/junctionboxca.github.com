@@ -26,6 +26,7 @@ Ok so there's a few things you'll need before we get started:
 - Java 1.8.
 - leiningen 2.6.2 - see "install leiningen":http://leiningen.org/#install.
 - new project workspace <code>mkdir -p ${WORKSPACE}/cljs-reagent-reframe</code>
+- optionally you can clone my "cljs-reagent-reframe":https://github.com/nfisher/cljs-reagent-reframe repo.
 
 h3. Creating a Minimal Project
 
