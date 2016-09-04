@@ -274,10 +274,11 @@ Some general tips I've found during my own development:
 * make handlers pure named functions to ease testing.
 * avoid subscriptions in presentational components.
 * dereference atoms outside the presentational component.
-* while not demonstrated above namespace data in app-db to parallel the container namespace to identify what container "owns/writes" the data.
-* delay trying to "DRY" your handlers, containers and components until you see at least 3 obvious duplications.
+* link ownership of values in app-db with the container using a nested map (e.g. {:container-ns {:field "Value"}}).
+* defer "DRY"-ing handlers, containers and components until you've implemented at least 3 clear duplicates.
 * use dispatch-sync for input fields to prevent an unusual user experience (e.g. unexpected resetting of cursor position).
 * use dispatch for buttons and selects as it's asynchronous nature doesn't impact user interactions.
+* prefer specific symbols for event handlers and subscriptions rather than generic ones (e.g. :address-changed over :input-changed).
 
 Some practises others have suggested:
 
