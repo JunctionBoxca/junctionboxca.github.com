@@ -11,6 +11,8 @@ If you've used "React Redux":http://redux.js.org/docs/basics/UsageWithReact.html
 To recap here's a few definitions:
 
 <dl>
+<dt>ClojureScript</dt>
+<dd>A "Clojure":https://clojure.org/ to Javascript transpiler that leverages Google Closure to generate super small JS files.</dd>
 <dt>Reagent</dt>
 <dd>React bindings for use with ClojureScript.</dd>
 <dt>Re-frame</dt>
@@ -30,7 +32,7 @@ Ok so there's a few things you'll need before we get started:
 
 h3. Creating a Minimal Project
 
-With the above out of the way we can get started. The first thing we need to do is gather all of the dependencies. Starting with the re-frame simple project as a starting point we can use the following project.clj to specify our projects dependencies and build process:
+With the above out of the way we can get started. The first thing we need to do is gather all of the dependencies. Starting with the re-frame "simple":https://github.com/Day8/re-frame/tree/master/examples/simple project as a base the following project.clj specifies the minimum dependencies required to build our project:
 
 <pre><code>cat > ${WORKSPACE}/cljs-reagent-reframe/project.clj <<EOT
 (defproject cljs-reagent-reframe "0.8.0"
@@ -66,7 +68,7 @@ With the above out of the way we can get started. The first thing we need to do 
                                                :output-to  "resources/public/js/client.js"}}}})
 EOT</code></pre>
 
-The keen observer will note a few folders in the above project that need to be created:
+The keen observer will note a few folders in the above project need to be created:
 
 <pre><code>
 mkdir -p ${WORKSPACE}/cljs-reagent-reframe/env/dev/cljs/crr
@@ -75,7 +77,7 @@ mkdir -p ${WORKSPACE}/cljs-reagent-reframe/src/cljs/crr
 cd ${WORKSPACE}/cljs-reagent-reframe
 </code></pre>
 
-Next up is a little bit of figwheel love for live browser refresh:
+Next up is a little bit of figwheel love for hot reloads in the browser:
 
 <pre><code>cat > env/dev/cljs/crr/dev.cljs <<EOT
 (ns crr.dev
@@ -95,7 +97,7 @@ Now a minimal skeleton app including a reagent component:
   (:require [reagent.core :as reagent]))
 
 (defn hello-world []
-  [:h1 "Hello World"]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
+  [:h1 "Hello World"]) ; instead of JSX, Reagent uses Hiccup which is nested vectors.
 
 (defn ^:export run
   []
@@ -103,11 +105,11 @@ Now a minimal skeleton app including a reagent component:
                   (js/document.getElementById "app")))
 EOT</code></pre>
 
-You can check that everything is ok by running:
+You can check everything is ok by running:
 
 <code>lein do clean, figwheel</code>
 
-If everything is wired up correctly you should see an output similar to the following:
+You should see an output similar to the following:
 
 <pre><code>Figwheel: Cutting some fruit, just a sec ...
 Figwheel: Validating the configuration found in project.clj
@@ -119,7 +121,7 @@ Compiling "resources/public/js/client.js" from ("src" "env/dev/cljs")...
 Successfully compiled "resources/public/js/client.js" in 9.909 seconds.</code></pre>
 
 
-Ok great but that doesn't really do much for us. We need some html so we can take advantage of the magic:
+Ok great but that doesn't really do much. We need a web page to take advantage of the magic:
 
 <pre><code>cat > resources/public/index.html <<EOT
 <!doctype html>
@@ -144,37 +146,25 @@ Starting up figwheel again we can browse the newly created HTML:
 
 <code>lein do clean, figwheel</code>
 
-Once you see the JS has been successfully compiled fire up "http://localhost:3449/":http://localhost:3449/. Boom! You should see "Hello World" displayed in your browser. If you're not seeing "Hello World" open your browser "console":https://developers.google.com/web/tools/chrome-devtools/debug/console/console-ui?hl=en and check for errors in either files being loaded or JavaScript errors.
+Once you see the JS has been successfully compiled fire up "http://localhost:3449/":http://localhost:3449/. Boom! You should see "Hello World" displayed in your browser. If you're not seeing "Hello World" open your browser "console":https://developers.google.com/web/tools/chrome-devtools/debug/console/console-ui?hl=en and check for 404's assets and/or JavaScript errors.
 
 h3. Reagent Presentational Component
 
 Now let's convert hello-world into a presentational component with the following change to core.cljs:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]))
-
-(defn hello-world [name] ; accept name as a parameter
+<pre><code>(defn hello-world [name] ; accept name as a parameter
   [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
 
 (defn ^:export run
   []
   (reagent/render [hello-world "World 2"] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+                  (js/document.getElementById "app")))</code></pre>
 
 h3. Reagent Container Component
 
 Now my kind reader you might be scratching your head..."thought you said there's hot reloads!! I want a refund!!". Well patience my friend let's introduce the container:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]))
-
-(defn hello-world [name] ; accept name as a parameter
-  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
-
-(defn hello-world-container []
+<pre><code>(defn hello-world-container []
   ;; our container
   (let [name "World 3"]
     (fn []
@@ -184,28 +174,15 @@ Now my kind reader you might be scratching your head..."thought you said there's
   []
   (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
                   (js/document.getElementById "app")))
-EOT</code></pre>
+</code></pre>
 
-"Dude this still isn't auto-loading!!" Ok refresh your browser and stay with me. To reward your patience change the name string as follows:
+"Dude this still isn't auto-loading!!" Ok refresh your browser and stay with me. To reward your patience change the name string in the container as follows:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]))
-
-(defn hello-world [name] ; accept name as a parameter
-  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
-
-(defn hello-world-container []
+<pre><code>(defn hello-world-container []
   ;; our container
   (let [name "World 4"]
     (fn []
-      [hello-world name])))
-
-(defn ^:export run
-  []
-  (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+      [hello-world name])))</code></pre>
 
 Huzzah! Live loading! That's the reagent container and presentational container mostly done.
 
@@ -215,34 +192,29 @@ Let's sprinkle in a side of re-frame by initialising the database (re-frame.db/a
 
 *Note*: This is prep work that won't have a visible side-effect yet!
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as rf]))
+Import re-frame:
 
-(def initial-state
+<pre><code>(ns crr.core
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as rf]))</code></pre>
+
+Define the initial state and add the initialisation handler:
+
+<pre><code>(def initial-state
   {:name "World 5"}) ; this is the map we want to initialise the app-db to.
 
 (rf/reg-event-db
   :initialise
   (fn [db _]
-    (merge db initial-state)))
+    (merge db initial-state)))</code></pre>
 
-(defn hello-world [name] ; accept name as a parameter
-  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
+Initialise the database:
 
-(defn hello-world-container []
-  ;; our container
-  (let [name "World 4"]
-    (fn []
-      [hello-world name])))
-
-(defn ^:export run
+<pre><code>(defn ^:export run
   []
   (rf/dispatch-sync [:initialise])
   (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+                  (js/document.getElementById "app")))</code></pre>
 
 Hit refresh and you'll still see "Hello World 4". What you've likely noticed is that any behaviour which isn't contained in the render scope requires a refresh of the web page.
 
@@ -250,111 +222,39 @@ h3. Re-Frame Database Subscription
 
 Next let's add a subscription to read from the app-db:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as rf]))
-
-(def initial-state
-  {:name "World 5"}) ; this is the map we want to initialise the app-db to.
-
-(rf/reg-event-db
-  :initialise
-  (fn [db _]
-    (merge db initial-state)))
-
+<pre><code>
 (rf/reg-sub
   :name
   (fn [db arg]
     (println "pirate sayz " arg) ; you should see the subscription vector in the console
     (:name db)))
 
-(defn hello-world [name] ; accept name as a parameter
-  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
-
 (defn hello-world-container []
   ;; our container
   (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
     (fn []
-      [hello-world @name]))) ; note we're de-referencing the atom here
-
-(defn ^:export run
-  []
-  (rf/dispatch-sync [:initialise])
-  (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+      [hello-world @name]))) ; note we're de-referencing the atom here</code></pre>
 
 h3. Adding an Input
 
 Ok so we've got it reading from the app-db. How do we write? Let's add a simple input to the component:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as rf]))
-
-(def initial-state
-  {:name "World 5"}) ; this is the map we want to initialise the app-db to.
-
-(rf/reg-event-db
-  :initialise
-  (fn [db _]
-    (merge db initial-state)))
-
-(rf/reg-sub
-  :name
-  (fn [db arg]
-    (println "pirate sayz " arg) ; you should see the subscription vector in the console
-    (:name db)))
-
+<pre><code>
 (defn hello-world [name] ; accept name as a parameter
   [:div
     [:input {:type :text}]
-    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
-
-(defn hello-world-container []
-  ;; our container
-  (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
-    (fn []
-      [hello-world @name]))) ; note we're de-referencing the atom here
-
-(defn ^:export run
-  []
-  (rf/dispatch-sync [:initialise])
-  (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code></pre>
 
 h3. Re-Frame Dispatching
 
 Add a handler and link it to the input as follows:
 
-<pre><code>cat > src/cljs/crr/core.cljs <<EOT
-(ns crr.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as rf]))
-
-(def initial-state
-  {:name "World 5"}) ; this is the map we want to initialise the app-db to.
-
-(rf/reg-event-db
-  :initialise
-  (fn [db _]
-    (merge db initial-state)))
-
-(defn update-name [db [_ new-name]] ; re-frame examples use anonymous functions. Using a named function allows for easier testing.
+<pre><code>(defn update-name [db [_ new-name]] ; re-frame examples use anonymous functions. Using a named function allows for easier testing.
   (merge db {:name new-name}))
 
 (rf/reg-event-db
   :name-changed
   update-name)
-
-(rf/reg-sub
-  :name
-  (fn [db arg]
-    (println "pirate sayz " arg) ; you should see the subscription vector in the console
-    (:name db)))
 
 (defn change-name [evt]
   (rf/dispatch-sync [:name-changed (-> evt .-target .-value)]))
@@ -362,20 +262,7 @@ Add a handler and link it to the input as follows:
 (defn hello-world [name] ; accept name as a parameter
   [:div
     [:input {:type :text :on-change change-name :value name}]
-    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
-
-(defn hello-world-container []
-  ;; our container
-  (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
-    (fn []
-      [hello-world @name]))) ; note we're de-referencing the atom here
-
-(defn ^:export run
-  []
-  (rf/dispatch-sync [:initialise])
-  (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                  (js/document.getElementById "app")))
-EOT</code></pre>
+    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code></pre>
 
 You now have the ability to update the title via the input field. The ":value name" pair can be omitted but demonstrates two way binding. 
 
@@ -383,15 +270,15 @@ h3. Tips and Tricks
 
 Some general tips I've found during my own development:
 
-- make presentational components pure functions to ease testing.
-- make handlers pure named functions to ease testing.
-- avoid subscriptions in presentational components.
-- dereference atoms outside the presentational component.
-- while not demonstrated above namespace data in app-db to parallel the container namespace to identify what container "owns/writes" the data.
-- delay trying to "DRY" your handlers, containers and components until you see at least 3 obvious duplications.
-- use dispatch-sync for input fields to prevent an unusual user experience (e.g. unexpected resetting of cursor position).
-- use dispatch for buttons and selects as it's asynchronous nature doesn't impact user interactions.
+* make presentational components pure functions to ease testing.
+* make handlers pure named functions to ease testing.
+* avoid subscriptions in presentational components.
+* dereference atoms outside the presentational component.
+* while not demonstrated above namespace data in app-db to parallel the container namespace to identify what container "owns/writes" the data.
+* delay trying to "DRY" your handlers, containers and components until you see at least 3 obvious duplications.
+* use dispatch-sync for input fields to prevent an unusual user experience (e.g. unexpected resetting of cursor position).
+* use dispatch for buttons and selects as it's asynchronous nature doesn't impact user interactions.
 
 Some practises others have suggested:
 
-- use cljs.spec to enforce structural constraints on key/values held within app-db.
+* use cljs.spec to enforce structural constraints on key/values held within app-db.
