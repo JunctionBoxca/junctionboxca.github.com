@@ -1,0 +1,56 @@
+---
+title:      Joys of Java Logging
+created_at: 2017-01-14 12:00:00 +00:00
+layout:     default
+published: true
+description: I like to minimise my dependencies. Sadly the java.util.logging library is rather sparse on documentation when it comes to Uberjars. Read on for how I tamed this particular beast (more of a rabbit than a big cat).
+keywords: java, logging
+---
+Searching the internet you'll find lots of details on slf4j and many of the other logging libraries. They sufficiently drown out the few details available relating to Java logging on Oracles website (aside from API docs). The reason I started shaving this yak is that the default configure in an absence of "logger.properties":https://docs.oracle.com/cd/E19717-01/819-7753/gcblo/ leaves you with an undesirable 2 lines for every record. What I wanted was something more akin to the following:
+
+<pre><code>
+2017-01-20 14:43:23 INFO com.markelintl.messages.publisher.Pipeline start executing 3 stages
+2017-01-20 14:43:23 INFO com.markelintl.messages.publisher.Stage run startup - acme.VendorStage
+2017-01-20 14:43:23 INFO com.markelintl.messages.publisher.Stage run startup - acme.MapStage
+</code></pre>
+
+Ah nice and scanable by the human eye and no external dependencies!
+
+The basic structure I adopted for my little project was as follows:
+
+<pre><code>
+src
+  +- main
+     +- resources
+        +- logger.properties
+</code></pre>
+
+The contents of my final file which includes the output formatting is:
+
+<pre><code>
+handlers= java.util.logging.ConsoleHandler
+.level= INFO
+
+java.util.logging.ConsoleHandler.level = INFO
+java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+
+javax.jms.connection.level = INFO
+
+java.util.logging.SimpleFormatter.format=%1$tF %1$tT %4$s %2$s %5$s%6$s%n
+</code></pre>
+
+Once you've done that you'll need to wire it into your code thusly:
+
+<pre><code>
+  // loads the log properites
+  final InputStream is = Thread.currentThread()
+                              .getContextClassLoader()
+                              .getResourceAsStream("resources/logger.properties");
+  // retrieves the global log manager
+  final LogManager manager = LogManager.getLogManager();
+
+  // turns up the log sheen to level 10!
+  manager.readConfiguration(is);
+</code></pre>
+
+And there you go... nice clean 1 line logs without external depedencies.
