@@ -21,7 +21,7 @@ h3. Setup
 
 I'll assume you know how to install pandas, matplotlib, and Jupyter notebook, if not use this "handy guide":http://pandas.pydata.org/pandas-docs/stable/install.html.
 
-Having grown up close to our archaic big brother in the south I unfortunately have a mixed mental model of Imperial and Metric for various dimensions. So the first thing I'm going to do is import the data and scale it to the nearest foot with the following:
+Having grown up close to big southern brother the USA, I unfortunately have a mixed mental model of imperial and metric for various dimensions. For boats it happens to be imperial so the first thing I'm going to do is import the data and scale it to the nearest foot with the following code:
 
 <pre><code># inlines graphs with Jupyter Notebook
 %matplotlib inline
