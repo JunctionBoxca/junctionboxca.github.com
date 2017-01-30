@@ -12,7 +12,7 @@ I've been intrigued about the idea of an Atlantic crossing by sailboat since I'v
 * "Clipper Race":https://www.clipperroundtheworld.com/ - one design race with a mix of experienced and inexperienced crew.
 * Crew on a boat delivery.
 
-I'm very tempted to buy a boat because I want to sail more than a single passage to the Carribean. I've read that folks have done a trans-Atlantic in a range of boat sizes down to small boats which are less than 30'/9m. Not being satisified with merely sorting the data and counting I thought it would be a good opportunity to carry out some analysis on it. The two items that I thought would be helpful in picking a boat for trans-Atlantic voyages based on the available data are:
+I'm very tempted to buy a boat because I want to sail more than a single passage to the Carribean. I've read that folks have done a trans-Atlantic in a range of boat sizes down to small boats which are less than 30'/9m. Not being satisified with merely sorting the data and counting I thought it would be a good opportunity to carry out some analysis on it. The two items that I thought would be helpful in picking a boat for trans-Atlantic voyages based on the "available data":https://www.worldcruising.com/arc/arc_2017_evententries.aspx are:
 
 1. Length Overall (LOA).
 2. Designer
