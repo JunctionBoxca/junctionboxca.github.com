@@ -55,15 +55,14 @@ p. We're only really interested in the min and max right now. 31' and 106' wow t
 
 h3. Graphing Distribution
 
-The most direct way to represent distribution in a plot is to use a histogram. One of the key considerations in using a histogram is binsize. Pandas will automatically select one for you or you can specify your own with the bins parameter. I decided since I already fudged the numbers a bit with my rounding it'd be better to see each foot discretely rather than letting matplotlib select a bin size. For this use-case the bins are equal to the range between max-min and use that value for your bin size for your histogram plot as follows:
+The most direct way to represent distribution in a plot is to use a histogram. One of the key considerations in using a histogram is binsize. Pandas will automatically select one for you or you can specify your own with the bins parameter. I decided since I already fudged the numbers a bit with my rounding it'd be better to see each foot discretely rather than letting matplotlib select a bin size. For this use-case I'll make the bins equal to the difference between max and min which will be 1' per bin as follows:
 
 bc.. bins = int(df['Rounded'].max() - df['Rounded'].min())
 ax = df['Rounded'].hist(bins=bins, figsize=(6,4))
 ax.set_xlabel('LOA (feet)')
 ax.set_ylabel('# of boats')
 
-p. Which yields the following graph where the X-axis is LOA rounded to the nearest foot:
-
+p. 
 !/images/arc-histogram.png(ARC 2016 LOA Distribution)!
 
 p. Another way to present this is a boxplot which demonstrates the distribution. The blue box indicates the 25th to 75th "percentile":https://en.wikipedia.org/wiki/Percentile and I'll force the whiskers to draw at the 5th and 95th percentile as follows:
@@ -139,7 +138,7 @@ Lagoon        62.0       3
 Hanse         56.0       3
 Name: Manufacturer, dtype: int64
 
-p. From the above two outputs we can see most popular boats are Beneteau's but in a variety of sizes. This is where the boxplot can shine. Let's take the top 5 designers and put them into a new DataFrame.
+p. The most popular boats are Beneteau's but in a variety of sizes. This is where the boxplot will shine. Let's take the top 5 designers and put them into a new DataFrame.
 
 bc.. top5 = gbM.to_frame().index.values[0:5]
 dfM = df.set_index(['Manufacturer']).loc[top5,:]
@@ -157,4 +156,4 @@ p. Which results in the following graph:
 
 p. From the above graph you can see that Oysters tend to be much larger boats in the ARC with a median close to 60' and the 95th percentile near 70'. The other 4 designs are closer to 50' and except for Lagoon are typically under 60'. You could of course use multiple histograms for this however it gives a clear view of what lengths are common across designs without too much noise.
 
-p. I had a lot of fun thinking about ways to graph the data. One of the biggest takeaways is that when it comes to data there's no single solution for representation. There's tradeoffs and benefits between tables and various methods of graphing that depend on your audience and the message you're trying to convey. In general if you want exact values a table is probably best, if you want a way to easily compare distributions by a particular grouping the boxplot works well. If you want to express magnitude within a distribution a histogram is generally your best tool. Any thoughts or comments let me know below!
+p. I had a lot of fun thinking about ways to graph the data. One of the biggest takeaways is that when it comes to data there's no single solution for representation. There's tradeoffs and benefits between tables and various methods of graphing that depend on your audience and the message you're trying to convey. In general if you want exact values a table is probably best. If you want a way to easily compare distributions by a particular grouping the boxplot works well. If you want to express magnitude within a distribution a histogram is generally your best tool. Any thoughts or comments let me know below!
