@@ -37,11 +37,9 @@ df['Rounded'] = (df['LOA'] * 3.28084).round(0)</code></pre>
 
 h3. Range
 
-As a sanity check the calculation we want to ensure the range is reasonable. I'm not expecting anything less than 20' nor much greater than 100'.
+To sanity check the calculation I want to ensure the range is reasonable. I'm not expecting anything less than 20' nor much greater than 100'.
 
 bc.. df['Rounded'].describe()
-
-p. This should print the following:
 
 bc.. count    288.000000
 mean      50.315972
