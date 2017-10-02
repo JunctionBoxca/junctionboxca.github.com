@@ -1,0 +1,22 @@
+---
+title:      Rsync Daily Snapshots
+created_at: 2006-04-17 12:00:00 +00:00
+layout:     default
+---
+
+Need to backup in a hurry? Want to create daily snapshots that don't take more drive platters than Google? Here's a quick and efficient way to back-up data from your RSYNC server. **Warning** do not try this on the interweb kids, only on a trusted link (ie/ not the wild west that is the inter-web).
+
+    #!/bin/sh
+
+    HOST=localhost.localdomain
+    BASE=/home/samba/rsync
+    DATEDIR=`date +%Y-%m-%d-%a`
+    CUR=current
+    BAK="HOME ETC VAR"
+
+    for CURVOL in $BAK; do
+    rsync -avz --delete --force rsync://$HOST/$CURVOL $BASE/$CUR/$CURVOL
+    done
+
+    mkdir $BASE/$DATEDIR
+    cp -Rl $BASE/$CUR/* $BASE/$DATEDIR/

@@ -1,0 +1,25 @@
+---
+title:      Dom A Regato, My Tests Are Auto
+created_at: 2010-03-24 12:00:00 +00:00
+layout:     default
+---
+
+So in my ever increasing commitment to TDD, I've started seeking an efficient way to run tests. Call me what you will but, I find running tests breaks my tempo. So how do I keep aware of my testing state, but stay with my head in the code. Some out there might call for NetBeans, I've used it and loved it, but I'm drawn to vim like a moth to the proverbial flame.
+
+Mix 1 vertical pinch of **NERDTree**, 1 horizontal slice of **bufexplorer**, a gram of **FuzzyFinder**, **rails.vim**, and some custom bindings and what do you get? A pimped out ride in vim for rails development. Sure it may look like a Honda with those over-sized spoilers, but its just the way I like it! Long story short, NetBeans is a great package, but I just can't stay away from vim long. Alas I digress, the goal is to maximize my productivity while staying committed to the Tao of TDD.
+So under the hood I've got MacVim runnin', lean, mean and full-screen but, how do I maximize my productivity? The first thing that came to mind was FAM, at first I was considering rolling my own tool... mmm maybe we'll just consult with the interwebz a little before we take it that far. Came across autotest, interesting, but it uses polling....or does it? Enter autotest-fsevent, just what the doctor ordered for keepin' those idle cycles, idle. Add a sprinkle of autotest-growl (highly recommend "Music Video" as your default growl style) and autotest-rails-pure and you've got a nice setup for TDD.
+
+So a quick rundown of my setup.
+
+-   MacVim
+    -   Rails.vim
+    -   NERDTree.vim
+    -   bufexplor.vim
+    -   FuzzyFinder.vim
+    -   keyboard mapping love
+-   gems
+    -   autotest
+    -   autotest-fsevent
+    -   autotest-growl
+    -   autotest-rails-pure
+    -   test-unit

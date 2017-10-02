@@ -1,0 +1,50 @@
+---
+title:      REST + less weekend while Camping
+created_at: 2008-09-23 12:00:00 +00:00
+layout:     default
+---
+
+In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;
+
+-   REST
+-   RestStop
+-   Actionscript 3 URLStream
+
+I started out with RestStop's blog.rb as a starting point, and modified it as an event recorder. It worked like a charm out of the box. From there I wrote a quick Flash interface to POST data to each controllers create method. BOOM, Ka-POW, Problems... I was getting a little unexpected funk from the way Flash was handling HTTP status codes. IOErrorEvent's were being fired, babies cried, etc. So far my observations have shown that URLStream & URLLoader classes do a funky dance when they receive 3xx series status. At a later date I would like to investigate further to see if the 3xx status is the cause of the IOErrorEvent. Ultimately the classes only report the final http status and none of the intermediary status changes.
+I decided to look around a little on Google into what I thought to be a fairly standardized protocol. Turns out REST is less of a protocol and more of a methodology. Regardless of what you call it I'd still like to work from a common community shared standard, at least when it comes to HTTP status codes. In that search I found the table below buried in the article [How to Create a REST Protocol](http://www.xml.com/pub/a/2004/12/01/restful-web.html). It was great my first resource that seemed to clearly define some constraints in what otherwise looked like the Wild West of RESTful web services.
+
+|               |            |                      |                    |
+|---------------|------------|----------------------|--------------------|
+| **Resource**  | **Method** | **Representation**   | **Status Codes**   |
+| Employee      | GET        | Employee Format      | 200, 301, 410      |
+| Employee      | PUT        | Employee Format      | 200, 301, 400, 410 |
+| Employee      | DELETE     | N/A                  | 200, 204           |
+| All Employees | GET        | Employee List Format | 200, 301           |
+| All Employees | POST       | Employee Format      | 201, 400           |
+
+I pulled up the descriptions for each of the status codes, and made a short comment in my Camping app.
+
+    <code>
+    # Event GET      200,301,410
+    # Event PUT      200,301,400,410
+    # Event DELETE   200,204
+    # Events GET     200,301
+    # Events POST    201,400
+    #
+    # 200 - OK
+    # 201 - Created
+    # 204 - No Content
+    # 301 - Moved Permanently
+    # 400 - Bad Request
+    # 410 - Gone
+    </code>
+
+Now I want to take the previous table a little bit further to map out each of the states.
+
+|              |            |                         |                                    |                                              |
+|--------------|------------|-------------------------|------------------------------------|----------------------------------------------|
+| **Resource** | **Method** | **Status**              | **Action**                         | **Details**                                  |
+| Event        | GET        | 200 - OK                | READ =&gt; Show Event              | Event found, READ Event.                     |
+| .            | \*         | 301 - Moved Permanently | READ FAILED =&gt; ??               | Event no longer available, renamed or moved. |
+| .            | \*         | 410 - Gone              | READ FAILED =&gt; ??               | Event no longer available/never existed.     |
+| .            | PUT        | 200 - OK                | UPDATE =&gt; Show Event w/ Updates | Event updated, SHOW updated event            |
