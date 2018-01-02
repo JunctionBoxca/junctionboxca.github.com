@@ -124,7 +124,9 @@ because of the [ABA problem](https://en.wikipedia.org/wiki/ABA_problem). I
 doubt it’s much of an issue in practise because of the largely serial nature of
 namespace initialisation and the employment of `Var.rev`. There's an
 [issue](https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Var.java#L183)
-with syncronisation in the constructor that I plan to submit a patch for.
+with syncronisation in the
+[constructor](https://docs.oracle.com/javase/tutorial/essential/concurrency/syncmeth.html)
+that I plan to submit a patch for.
 
 The next hiccup during this 18ms (1.9%) period is `*in*` which takes 2ms (0.2%)
 and then finally `*reader-resolver*` which is 1ms (0.1%).
