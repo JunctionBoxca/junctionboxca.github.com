@@ -67,7 +67,7 @@ JVM Start-up
 
 ![JVM Overhead](/images/cljperf/jvm-overhead.png)
 
-JVM start-up is a fixed cost of around 40ms on my machine as illustrated below.
+JVM start-up is a fixed cost of around 40ms on my machine as illustrated above.
 
 During those first 40ms (4.2%) the JVM is initialised, and bootclasspath and
 extensions are
@@ -107,7 +107,7 @@ One of the things you’ll quickly notice is the 38ms (4.0%) gap between the sta
 of clojure.main/main and the execution of the clojure.RT static block. The first
 12ms (1.3%) of empty whitespace is class loading at which point a small flurry
 of about 100 clojure.lang.Symbols, Vars, and Keywords are created as highlighted
-below until `*out*` is loaded 38ms (4.0%) later.
+above until `*out*` is loaded 38ms (4.0%) later.
 
 ![clojure.main vars](/images/cljperf/clojure-main-vars.png)
 
