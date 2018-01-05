@@ -240,5 +240,5 @@ There's a core tradeoff in this optimisation which is that the speculative
 execution and loading of classes where not immediately required could steal
 processor time where other work could be done. However in the context of
 Clojure's current implementation and with it's extensive use of static fields
-that issue already exists to extent.
+that issue already exists.
 
