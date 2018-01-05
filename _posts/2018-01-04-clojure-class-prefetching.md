@@ -2,7 +2,7 @@
 title:       JVM Class Prefetching
 created_at:  2018-01-04 12:00:00 +00:00
 layout:      default
-published:   true
+published:   false
 description: This is my second article in a series on Clojure start-up timings.
              The focus for this article is Class Prefetching.
 keywords: clojure, java, jvm
