@@ -1,8 +1,8 @@
 ---
-title:       JVM Class Prefetching
+title:       Clojure Speedup - Class Prefetching
 created_at:  2018-01-04 12:00:00 +00:00
 layout:      default
-published:   false
+published:   true
 description: This is my second article in a series on Clojure start-up timings.
              The focus for this article is Class Prefetching.
 keywords: clojure, java, jvm
@@ -111,7 +111,7 @@ Which requires the following addition as the first lines in `clojure.main/main`;
 
 As I mentioned previously class ordering is important so I simply used the JRE's
 `-verbose:class` flag which outputs the classes in order as they're loaded by
-the class loader. Using the same execution as my previous post looks as follows;
+the class loader. Using a similar execution to my previous post looks as follows;
 
 ```
 $ java -verbose:class -cp clojure.jar:`cat maven-classpath` \
@@ -229,13 +229,12 @@ Conclusion
 ----------
 
 So after all of this fanfare what impact does it have on Clojure start-up? Well
-it's not earth shattering but the typical speed-up is around 50ms (5%). This
+it's not earth shattering but the median speed-up is around 40ms (4%). This
 could be further improved by combining the existing `run()` method with a queue.
-This would allow for more dynamic behaviour in the prefetch thread. The 50ms
-isn't huge but when combined with conditional loading of the server that's a 10%
-improvement in start-up latency. Without the outlined improvement it has
-diminishing value in relative impact as the user code expands beyond a simple
-prn expression.
+This would allow for more dynamic behaviour in the prefetch thread. The 40ms
+isn't huge but when combined with conditional loading of the server that's a 9%
+improvement in start-up latency. Without dynamic fetching the improvement
+doesn't scale as the users code base grows.
 
 There's a core tradeoff in this optimisation which is that the speculative
 execution and loading of classes where not immediately required could steal
