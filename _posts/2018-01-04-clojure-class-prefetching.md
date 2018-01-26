@@ -242,3 +242,7 @@ processor time where other work could be done. However in the context of
 Clojure's current implementation and with it's extensive use of static fields
 that issue already exists.
 
+Thanks
+------
+
+Special thanks to Josh Graham for his valuable input to this article.
