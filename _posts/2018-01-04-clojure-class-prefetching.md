@@ -246,3 +246,6 @@ Thanks
 ------
 
 Special thanks to Josh Graham for his valuable input to this article.
+
+[Hacker News Discussion](https://news.ycombinator.com/item?id=16237244)
+[Reddit Discussion](https://www.reddit.com/r/Clojure/comments/7t2kjt/clojurejvm_speedup_class_prefetching/)
