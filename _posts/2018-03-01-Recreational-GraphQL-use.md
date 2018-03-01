@@ -7,8 +7,6 @@ description: GraphQLs hype seems to have hit a fever pitch in my tech circle. Li
 keywords: python, graphql
 ---
 
-# Recreational GraphQL use
-
 GraphQLs hype seems to have hit a fever pitch in my tech circle. Like any new
 technology I figured it’s utility was somewhere between nil and unicorn pixie
 dust that will “revolutionise” the way I code.  The only way to find out was to
