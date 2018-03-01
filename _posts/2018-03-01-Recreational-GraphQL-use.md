@@ -22,7 +22,7 @@ most innovative API this side of Dagobah. Yet another Star Wars API.
 
 The first version was using [go-neelance](https://github.com/graph-gophers/graphql-go).
 It seems the preferred choice in Go based on my subjective interpretation of the
-docs and a few posts I happened upon on the web. For this version I kept it
+docs and a few posts I happened upon around the web. For this version I kept it
 simple; an in-memory map, six entity types, and a handful of queries and
 mutations. Once I wired graphiql into my API I experienced a small hit of
 dopamine as I was able to query data in a range of structures and forms without
@@ -79,7 +79,7 @@ with a toy and the fact the Star Wars data-set is inherently circular. In any
 case I think the resolvers would be better placed on the entity type rather
 than associated with the field. To clarify take this simplified example;
 
-’’’
+```
 class Character(ObjectType):
     films = List(Film)
     def resolve_films(self, info):
@@ -89,7 +89,7 @@ class Starships(ObjectType):
     films = List(Film)
     def resolve_films(self, info):
         return get_films(self.films)
-’’’
+```
 
 Even in refactoring out the `get_films` the number of resolvers required felt
 excessive in my spike. This maybe a matter of greater flexibility in a larger
@@ -107,14 +107,14 @@ keyword args. In terms of implementation I think something like this might
 result in lower duplication across the codebase and a more concise expression
 of intent.
 
-’’’
+```
 class Character(ObjectType):
     films = List(Film, order=(“release_date”,”ASC”))
 
 class Film(ObjectType):
     def get(self, ids, **kwargs):
       return get_films(ids, kwargs)
-’’’
+```
 
 This is armchair coding so there’s likely a number of conditions I’ve neglected
 and would welcome feedback.
