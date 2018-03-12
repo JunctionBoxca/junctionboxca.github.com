@@ -3,7 +3,11 @@ title:       Recreational GraphQL use
 created_at:  2018-03-01 12:00:00 +00:00
 layout:      default
 published:   true
-description: GraphQLs hype seems to have hit a fever pitch in my tech circle. Like any new technology I figured it’s utility was somewhere between nil and unicorn pixie dust that will “revolutionise” the way I code.  The only way to find out was to roll up my sleeves and start coding.
+description:
+  GraphQLs hype seems to have hit a fever pitch in my tech circle.
+  Like any new technology I figured it’s utility was somewhere between nil and
+  unicorn pixie dust that will “revolutionise” the way I code.  The only way to
+  find out was to roll up my sleeves and start coding.
 keywords: python, graphql
 ---
 
@@ -12,7 +16,7 @@ technology I figured it’s utility was somewhere between nil and unicorn pixie
 dust that will “revolutionise” the way I code.  The only way to find out was to
 roll up my sleeves and start coding.
 
-Peeling back the hype machine and reading the [docs](facebook.github.io/graphql/October2016/)
+Peeling back the hype machine and reading the [docs](https://facebook.github.io/graphql/October2016/)
 for the first time I’d advise you to hold judgement. There’s some obvious
 performance implications that will cry out to you if you’ve ever had to improve
 the performance of n+1 queries. I decided to suppress my concern and wrote the
@@ -29,7 +33,7 @@ made some notes and put my toy back on the shelf.
 
 Fast forward a couple of months and I found myself interviewing and accepting a
 job offer with [ShipHero](http://shiphero.com/careers/) using GraphQL and
-Python. I decided it might be worth my while to brush up on Python so I [wired]()
+Python. I decided it might be worth my while to brush up on Python so I [wired](https://github.com/nfisher/graphenespike)
 together an API using [graphene](http://graphene-python.org/) and Cassandra to
 force a more “realistic” implementation.
 
@@ -119,7 +123,7 @@ and would welcome feedback.
 
 ## performance: should I cache or should I go now
 
-By default grapenes dataloader caches look-ups in memory. I have yet to dig
+By default the grapene dataloader caches look-ups in memory. I have yet to dig
 into the code for dataloaders eviction strategy but if you’re not careful this
 could be a source of all sorts of problems associated with stale data and
 memory leaks. The simplest way to address this is to generate the loaders per
