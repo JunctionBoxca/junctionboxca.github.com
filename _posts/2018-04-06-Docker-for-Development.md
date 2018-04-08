@@ -29,7 +29,7 @@ A docker environment with as much RAM and CPU as you’re willing to allocate th
 
 **Non-Goals** ✝
 
-- Windows/Linux setup. (although some principals are likely cross-cutting)
+- Windows/Linux setup. (although some principles are likely cross-cutting)
 - forward OS X SSH agents see [docker/for-mac#483](https://github.com/docker/for-mac/issues/483).
 - production deployments.
 - CI builds.
