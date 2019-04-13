@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/nfisher
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://junctionbox.ca
+  * I am nfisher (https://keybase.io/nfisher) on keybase.
+  * I have a public key ASDoy9ZyogdN5aP92MFJEGRFq5DoYCmbDkyQynnJsAocqQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120e476bd893427061730de37b42ea2be87d8aa160ff20ef3bf491d8154a50b45fe0a",
+      "host": "keybase.io",
+      "kid": "0120e8cbd672a2074de5a3fdd8c149106445ab90e860299b0e4c90ca79c9b00a1ca90a",
+      "uid": "554af5d65be2c0ad3f717b175936aa19",
+      "username": "nfisher"
+    },
+    "merkle_root": {
+      "ctime": 1555134700,
+      "hash": "3fe39d605bb722a64612142f0f38fec2594156f702651be286c7a63d592cf22323eef71a339c86ae9fcea1f914c4d44769cea0d0321f6b1f2309aa8a56e00e9b",
+      "hash_meta": "ad8a7686b8e79d118a8bf70fb5ff0810bc59e1b2d1a8b110923fed92c7b10ae8",
+      "seqno": 5158995
+    },
+    "service": {
+      "entropy": "tvduYiT+gf+MUddjjFVIVDQ+",
+      "hostname": "junctionbox.ca",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "3.2.2"
+  },
+  "ctime": 1555134720,
+  "expire_in": 504576000,
+  "prev": "f10eed311fac5d131941696890695fc3a600204e92717eadf89a5cb9346055b4",
+  "seqno": 52,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg6MvWcqIHTeWj/djBSRBkRauQ6GApmw5MkMp5ybAKHKkKp3BheWxvYWTESpcCNMQg8Q7tMR+sXRMZQWlokGlfw6YAIE6ScX6t+JpcuTRgVbTEIHoBDjZdlfEQQFcIKHj3ZG7Qh2Nvfl6+kT/bAttwU06kAgHCo3NpZ8RAHPtQbE4Cgf2+MY+5d1MqQXGOFF/8Bl9eJQD5uyK+caOThksp5WirZ0rJ/LwGPEH3ykU5jB48uPhrxg7zU2MPB6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIPM+B7HNyGM/wbEfmOkxwPhsiUKAGG+rOIV+Oc0KQCi2o3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/nfisher
+
+==================================================================
