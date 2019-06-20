@@ -1,5 +1,5 @@
 ---
-title:       Preparing to migrate from Maven to Bazel
+title:       Maven to Bazel Preparation
 created_at:  2019-06-20 12:00:00 +00:00
 layout:      default
 published:   true
