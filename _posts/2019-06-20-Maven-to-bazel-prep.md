@@ -2,7 +2,7 @@
 title:       Preparing to migrate from Maven to Bazel
 created_at:  2019-06-20 12:00:00 +00:00
 layout:      default
-published:   false
+published:   true
 description:
   Bazel is a fast build tool that works well with a monorepo.
   This post aims to provide some quick guidelines when migrating from
@@ -29,7 +29,8 @@ and load dependencies like language plugins. While it is possible to stitch toge
 traditional repos in a multi-workspace configuration it becomes cumbersome resolving 
 and manage third-party dependencies across repos. Multirepos also bring additional
 overhead as it abandons the maven concept of manually versioned modules. Instead it
-expects repos to be in the master/HEAD position.
+expects repos to be in the master/HEAD position with changes being committed atomically
+across the project.
 
 ### Language support varies
 
@@ -46,9 +47,9 @@ There’s a number of tools out there that aim to help (bazel-deps, rules_jvm_ex
 but none of them are a complete solution. Maven is pretty lax in the specification of dependencies
 whereas Bazel is quite strict. Part of its speed is not having to solve version compatibility
 during the build. This means if you’re project isn’t using a BOM to manage versions it’s
-likely you’ll have multiple versions inflight, something Bazel won’t accept in the same
-dependency graph. As a result you’ll want to introduce a BOM and bring align the dependency
-versions before migrating to Bazel.
+likely you’ll have multiple versions inflight, something Bazel will reject in the same
+dependency graph. As a result introduce a BOM and lift all the dependency
+versions to it before migrating to Bazel.
 
 ### Conclusions
 
