@@ -55,5 +55,5 @@ versions to it before migrating to Bazel.
 
 If you have a doggedly slow build Bazel can definitely pep it up. In my experience I’m
 seeing speedups of 2-10x. If you’re willing to put in the effort and have an adaptive
-team that enjoys CLI based tooling it’s definitely worth the effort IMO. Better yet if
-you’re greenfield start your project with it so you don’t have to suffer a later migration.
+team that enjoys CLI based tooling it’s definitely worth it. If
+you’re greenfield start your project with Bazel and avoid a migration later.
