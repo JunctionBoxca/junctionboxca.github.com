@@ -83,7 +83,9 @@ The anonymous function became named;
 
 And the register became;
 
-`$container->register('logger', new FunctionBinder('create_logger') );`
+```
+$container->register('logger', new FunctionBinder('create_logger') );
+```
 
 ### Code check in aisle 3... code check
 

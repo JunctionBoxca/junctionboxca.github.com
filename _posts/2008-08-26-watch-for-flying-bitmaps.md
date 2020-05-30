@@ -30,7 +30,9 @@ We are planning a sliding door effect that does not use a mask, where do we star
 
 For this test I decided the number of frames works well to decide my slice size. Each frame is equal to a 1% increment reveal of the bitmap because of those extra 99 frames we added earlier.
 
-`var percentage:int = currentFrame / totalFrames;`
+```
+var percentage:int = currentFrame / totalFrames;
+```
 
 ### I'm full what next?
 
@@ -53,7 +55,9 @@ Remember those extra 99 frames I asked you to add? Well they come in handy when 
 
 Okay at some point you're going to be full to the brim, or at least providing a full reveal of your image. What if you want to downsize? As [Mr. Saul](http://www.johnralstonsaul.com/SUM_Unconscious.html) might argue, downsizing often has a detrimental effect. While I agree, I'm not here to argue corporate politics. The best way to deal with this conundrum is to clean up after yourself.
 
-`if( numChildren > 1 ) removeChildAt( 0 );`
+```
+if( numChildren > 1 ) removeChildAt( 0 );
+```
 
 ### Cheque please!
 
