@@ -215,6 +215,6 @@ With a small dusting of code that is probably beginning to look as monotonous to
 
 There you have it a method to manage the life-cycle of repeatable environment generation on AWS. I've left stack updates as an exercise for the reader (UpdateStack **cough** **cough**). As you can see the building blocks are pretty consistent. The hardest bits are figuring out the required parameters for the Inputs. For next steps I'd highly recommend reviewing the [Best Practises](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html). In an upcoming article I'll outline how to create a CloudFormation template from scratch.
 
-The following gist includes a more complete example that reads a specified template file from disk; <https://gist.github.com/nfisher/522c303ef325bd5cf43e>
+The following gist includes a more complete example that reads a specified template file from disk; [main.go](https://gist.github.com/nfisher/522c303ef325bd5cf43e)
 
 Special thanks to [Mark Needham](http://www.markhneedham.com/blog/) for his feedback.
