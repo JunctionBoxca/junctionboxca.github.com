@@ -10,7 +10,12 @@ keywords: configuration management, puppet
 
 Noop will help identify change before it happens, great for the commitment-phobes on your team. If you aren’t 100% confident of the changes puppet will make, then it’s a good idea to give it a dry-run. It can save your bacon in a pinch, especially from those fat fingers that add changes manually!
 
-`puppet apply --verbose --noop --summarize --show_diff`
+```shell
+puppet apply --verbose \
+        --noop \
+        --summarize \
+        --show_diff
+```
 
 ### No stage left here, avoid the stage
 
