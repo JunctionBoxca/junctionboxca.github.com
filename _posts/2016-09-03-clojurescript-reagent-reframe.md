@@ -1,5 +1,5 @@
 ---
-title:      Reagent Presentational and Container Components
+title:      Reagent Container Components
 created_at: 2016-09-03 12:00:00 +00:00
 layout:     default
 published: true

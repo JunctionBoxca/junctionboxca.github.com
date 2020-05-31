@@ -1,5 +1,5 @@
 ---
-title:      Illustrated Guide to Clojure Start-up Timings
+title:      Clojure Start-up Timings
 created_at: 2017-12-26 12:00:00 +00:00
 layout:     default
 published: true

@@ -54,6 +54,9 @@ ul.archive h3 {
   margin-top:2.5rem;
   margin-bottom:0;
 }
+ul.archive>li {
+  list-style: none;
+}
 ul.archive>li>span {
   padding-right:1rem;
 }
