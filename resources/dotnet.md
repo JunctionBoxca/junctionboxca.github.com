@@ -23,8 +23,7 @@ permalink: /resources/dotnet/
 
 #### Deployment
 
-[Web
-Deploy](http://technet.microsoft.com/en-us/library/dd569059(WS.10).aspx)
+[Web Deploy](http://technet.microsoft.com/en-us/library/dd569059(WS.10).aspx)
 
 #### Frameworks
 

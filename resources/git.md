@@ -17,7 +17,6 @@ mkdir -p $REMOTE_REPO_ABSOLUTE_PATH
 git --bare init
 ```
 
-
 Note: somewhere in your home folder is probably best.
 
 ### First push to empty server repo
@@ -42,7 +41,6 @@ git rebase -i $COMMIT_ID
 ```bash
 git reset --hard
 ```
-
 
 ### Initialise a SVN bridge
 
