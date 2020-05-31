@@ -5,47 +5,65 @@ layout: default
 permalink: /resources/git/
 ---
 
-h3. Empty server repo
+## Reference Material
 
-pre. mkdir -p $REMOTE_REPO_ABSOLUTE_PATH
+- [Err the Blog](http://cheat.errtheblog.com/s/git/) - good list of commonly used git commands.
+- [Git Community Book](http://book.git-scm.com/) - fairly good coverage of common workflows from beginner to advanced.
+
+### Empty server repo
+
+```bash
+mkdir -p $REMOTE_REPO_ABSOLUTE_PATH
 git --bare init
+```
+
 
 Note: somewhere in your home folder is probably best.
 
-h3. First push to empty server repo
+### First push to empty server repo
 
-pre. git init
+```bash
+git init
 git add .
 git commit -a -m "Initial push."
 git remote add origin ssh://$SERVER_URL/$REMOTE_REPO_ABSOLUTE_PATH
 git push origin master
+```
 
-h3. Ranged cherry pick into branch
+### Ranged cherry pick into branch
 
-pre. git checkout -b fix644
+```
+git checkout -b fix644
 git rebase -i $COMMIT_ID
+```
 
-h3. Override local changes
+### Override local changes
 
-pre. git reset --hard
+```bash
+git reset --hard
+```
 
-h3. Initialise a SVN bridge
 
-pre. git svn init -s $REMOTE_REPO .
+### Initialise a SVN bridge
+
+```bash
+git svn init -s $REMOTE_REPO .
 git svn fetch
 git rebase trunk
 git svn dcommit
+```
 
-h3. Remote Tracking
 
-pre. git branch rspec
+### Remote Tracking
+
+```bash
+git branch rspec
 git branch --track $BRANCH $REMOTE/$BRANCH
+```
 
-h3. Extract zip of branch
+### Extract zip of branch
 
-pre. git archive --format zip --output ${FILE}.zip $BRANCH
+```bash
+git archive --format zip --output ${FILE}.zip $BRANCH
+```
 
-h2. Reference Material
-
-"Err the Blog":http://cheat.errtheblog.com/s/git/ - good list of commonly used git commands.
-"Git Community Book":http://book.git-scm.com/ - fairly good coverage of common workflows from beginner to advanced.

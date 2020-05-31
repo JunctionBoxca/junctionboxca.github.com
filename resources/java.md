@@ -5,15 +5,15 @@ layout: default
 permalink: /resources/java/
 ---
 
-h3. Dependency Management
+### Dependency Management
 
-* "Maven":http://maven.apache.org/
-* "Ivy":http://ant.apache.org/ivy/
+-   [Maven](http://maven.apache.org/)
+-   [Ivy](http://ant.apache.org/ivy/)
 
-h3. Build Tools
+### Build Tools
 
-* "Buildr":http://buildr.apache.org/
+-   [Buildr](http://buildr.apache.org/)
 
-h3. Coverage
+### Coverage
 
-* "Jester":http://sourceforge.net/projects/jester/
+-   [Jester](http://sourceforge.net/projects/jester/)

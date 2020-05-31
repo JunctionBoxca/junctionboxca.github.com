@@ -5,22 +5,23 @@ layout: default
 permalink: /resources/osx/
 ---
 
-h3. Turn off spotlight indexing
+### Turn off spotlight indexing
 
-pre. mdutil -a -i off
+`mdutil -a -i off`
 
-h3. Flush DNS cache
+### Flush DNS cache
 
-pre. lookupd -flushcache
+`lookupd -flushcache`
 
-h3. Clean MacPorts
+### Clean MacPorts
 
-pre. sudo port clean --all installed
+`sudo port clean ---all installed`
 
-h2. Reference Material
+Reference Material
+------------------
 
-"Onne Gorter":http://tech.inhelsinki.nl/gnu_developement_under_mac_os_x/ - on taming the command line terminal.
+[Onne Gorter](http://tech.inhelsinki.nl/gnu_developement_under_mac_os_x/) - on taming the command line terminal.
 
-h3. Install Dev Tools
+### Install Dev Tools
 
-pre. xcode-select --install
+`xcode-select ---install`

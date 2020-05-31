@@ -5,10 +5,10 @@ layout: default
 permalink: /resources/openssl/
 ---
 
-h3. Encrypt a file
+### Encrypt a file
 
-pre. openssl aes-256-cbc -a -salt -in $INFILE -out $OUTFILE
+`openssl aes-256-cbc -a -salt -in $INFILE -out $OUTFILE`
 
-h3. Decrypt a file
+### Decrypt a file
 
-pre. openssl aes-256-cbc -d -a -in $INFILE -out $OUTFILE
+`openssl aes-256-cbc -d -a -in $INFILE -out $OUTFILE`

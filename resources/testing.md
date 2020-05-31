@@ -5,20 +5,21 @@ layout: default
 permalink: /resources/testing/
 ---
 
-h3. Katas
+### Katas
 
-* "TDD Problems":https://sites.google.com/site/tddproblems/all-problems-1
+-   [TDD Problems](https://sites.google.com/site/tddproblems/all-problems-1)
 
-h3. BDD
+### BDD
 
-* "Twist":http://www.thoughtworks-studios.com/agile-test-automation ("java":/resources/java/)
-* "Cucumber":http://cukes.info/
-* "Rspec":http://rspec.info/
-* "Page Objects":http://code.google.com/p/selenium/wiki/PageObjects
+-   [Twist](http://www.thoughtworks-studios.com/agile-test-automation)
+    ([java](/resources/java/))
+-   [Cucumber](http://cukes.info/)
+-   [Rspec](http://rspec.info/)
+-   [Page Objects](http://code.google.com/p/selenium/wiki/PageObjects)
 
-h3. Browser Drivers
+### Browser Drivers
 
-* "FitNesse":http://fitnesse.org/
-* "Selenium":http://seleniumhq.org/
-* "Waitr":http://watir.com/
-* "Windmill":http://www.getwindmill.com/
+-   [FitNesse](http://fitnesse.org/)
+-   [Selenium](http://seleniumhq.org/)
+-   [Waitr](http://watir.com/)
+-   [Windmill](http://www.getwindmill.com/)

@@ -5,73 +5,71 @@ layout: default
 permalink: /resources/infrastructure/
 ---
 
-"USE Method Checklist for Linux Performance":http://dtrace.org/blogs/brendan/2012/03/07/the-use-method-linux-performance-checklist/
+[USE Method Checklist for Linux Performance](http://dtrace.org/blogs/brendan/2012/03/07/the-use-method-linux-performance-checklist/)
 
-h3. Linux and MacBook Goodness
+### Linux and MacBook Goodness
 
-"Fix that trackpad":http://uselessuseofcat.com/?p=74
+[Fix that trackpad](http://uselessuseofcat.com/?p=74)
 
-h3. Byobu/TMUX Sharing
+### Byobu/TMUX Sharing
 
-<pre>
-$ byobu -S /tmp/pair
-$ chmod 777 /tmp/pair
-$ tmux -S /tmp/pair attach
-</pre>
+    $ byobu -S /tmp/pair
+    $ chmod 777 /tmp/pair
+    $ tmux -S /tmp/pair attach
 
-h3. LXC Host NAT
+### LXC Host NAT
 
-<pre>
--A POSTROUTING -t nat -o eth0 -j MASQUERADE
--A FORWARD -t nat -i eth0   -o lxcbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -t nat -i lxcbr0 -o eth0   -j ACCEPT
-</pre>
+    -A POSTROUTING -t nat -o eth0 -j MASQUERADE
+    -A FORWARD -t nat -i eth0   -o lxcbr0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+    -A FORWARD -t nat -i lxcbr0 -o eth0   -j ACCEPT
 
-h3. LXC Templates
+### LXC Templates
 
-@/usr/lib/lxc/templates@
+`/usr/lib/lxc/templates`
 
-h3. High Availability
+### High Availability
 
-* "DR:DB":http://www.drbd.org/
-* "Load Balancer Methods":http://uk.loadbalancer.org/load_balancing_methods.php
+-   [DR:DB](http://www.drbd.org/)
+-   [Load Balancer
+    Methods](http://uk.loadbalancer.org/load_balancing_methods.php)
 
-h3. Cloud Providers
+### Cloud Providers
 
-* "Amazon Web Services":http://aws.amazon.com/
-* "Rackspace":http://www.rackspace.com/cloud/
+-   [Amazon Web Services](http://aws.amazon.com/)
+-   [Rackspace](http://www.rackspace.com/cloud/)
 
-h3. Configuration Management
+### Configuration Management
 
-* "Chef":http://www.opscode.com/
-* "Puppet":http://www.puppetlabs.com/
+-   [Chef](http://www.opscode.com/)
+-   [Puppet](http://www.puppetlabs.com/)
 
-h3. Virtual Machine Software
+### Virtual Machine Software
 
-* "Vagrant":http://vagrantup.com/
-* "VirtualBox":http://www.virtualbox.org/
+-   [Vagrant](http://vagrantup.com/)
+-   [VirtualBox](http://www.virtualbox.org/)
 
-h3. OS's
+### OS's
 
-* "CentOS":http://centos.org/
-* "FreeBSD":http://www.freebsd.org/
-* "NetBSD":http://www.netbsd.org/
-* "OpenBSD":http://www.openbsd.org/
-* "Slackware":http://www.slackware.com/
-* "Ubuntu":http://www.ubuntu.com/
+-   [CentOS](http://centos.org/)
+-   [FreeBSD](http://www.freebsd.org/)
+-   [NetBSD](http://www.netbsd.org/)
+-   [OpenBSD](http://www.openbsd.org/)
+-   [Slackware](http://www.slackware.com/)
+-   [Ubuntu](http://www.ubuntu.com/)
 
-h3. Alerting
+### Alerting
 
-* "Alertra":http://www.alertra.com/
-* "Pingdom":http://www.pingdom.com/
-* Gomez
+-   [Alertra](http://www.alertra.com/)
+-   [Pingdom](http://www.pingdom.com/)
+-   Gomez
 
-h3. Monitoring
+### Monitoring
 
-* "Cacti":http://www.cacti.net/
-* "Net-SNMP":http://net-snmp.sourceforge.net/
-* "Nagios":http://www.nagios.org/
+-   [Cacti](http://www.cacti.net/)
+-   [Net-SNMP](http://net-snmp.sourceforge.net/)
+-   [Nagios](http://www.nagios.org/)
 
-h3. Authorisation and Authentication
+### Authorisation and Authentication
 
-* "LDAP Auth for Ubuntu":https://help.ubuntu.com/community/LDAPClientAuthentication
+-   [LDAP Auth for
+    Ubuntu](https://help.ubuntu.com/community/LDAPClientAuthentication)
