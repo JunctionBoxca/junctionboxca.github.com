@@ -1,5 +1,5 @@
 ---
-title:      Nathan Fisher's Resources
+title: Resources
 created_at: 2011-03-21
 layout: default
 disable_title: true
@@ -7,7 +7,7 @@ disable_title: true
 
 This is a complete clutter of IT related resources.  Aka lazy bookmarking  :)
 
-## JunctionBox.ca's Resource Links
+## Resources
 
 * [Java](/resources/java/)
 * [GIT](/resources/git/)
