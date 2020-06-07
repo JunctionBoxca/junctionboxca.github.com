@@ -111,7 +111,7 @@ of intent.
 
 ```python
 class Character(ObjectType):
-    films = List(Film, order=(“release_date”,”ASC”))
+    films = List(Film, order=("release_date", "ASC"))
 
 class Film(ObjectType):
     def get(self, ids, **kwargs):
