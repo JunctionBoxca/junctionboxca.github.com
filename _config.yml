@@ -10,6 +10,7 @@ plugins:
   - jekyll-seo-tag
 github_username:  nfisher
 #relative_permalinks: true
+
 social:
   name: Nathan Fisher
   links:
@@ -18,6 +19,16 @@ social:
 # Build settings
 markdown: kramdown
 sass:
-  style: :compressed
-exclude: [bundle,vendor]
+  style: compressed
+exclude: [bundle, vendor]
 
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
