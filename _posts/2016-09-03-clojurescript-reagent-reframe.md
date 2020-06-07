@@ -66,76 +66,82 @@ Ok so there's a few things you'll need before we get started:
 
 With the above out of the way we can get started. The first thing we need to do is gather all of the dependencies. Starting with the re-frame [simple](https://github.com/Day8/re-frame/tree/master/examples/simple) project as a base the following project.clj specifies the minimum dependencies required to build our project:
 
-    <code>cat > ${WORKSPACE}/cljs-reagent-reframe/project.clj <<EOT
-    (defproject cljs-reagent-reframe "0.8.0"
-      :dependencies [[org.clojure/clojure        "1.8.0"]
-                     [org.clojure/clojurescript  "1.9.227"]
-                     [reagent  "0.6.0-rc"]
-                     [re-frame "0.8.0"]]
+```clojure
+cat > ${WORKSPACE}/cljs-reagent-reframe/project.clj <<EOT
+(defproject cljs-reagent-reframe "0.8.0"
+  :dependencies [[org.clojure/clojure        "1.8.0"]
+                  [org.clojure/clojurescript  "1.9.227"]
+                  [reagent  "0.6.0-rc"]
+                  [re-frame "0.8.0"]]
 
-      :plugins [[lein-cljsbuild "1.1.4"]
-                [lein-figwheel  "0.5.6"]]
+  :plugins [[lein-cljsbuild "1.1.4"]
+            [lein-figwheel  "0.5.6"]]
 
-      :hooks [leiningen.cljsbuild]
+  :hooks [leiningen.cljsbuild]
 
-      :profiles {:dev {:cljsbuild
-                       {:builds {:client {:source-paths ["env/dev/cljs"]
-                                          :compiler     {:main "crr.dev"
-                                                         :asset-path "js"
-                                                         :optimizations :none
-                                                         :source-map true
-                                                         :source-map-timestamp true}}}}}
+  :profiles {:dev {:cljsbuild
+                    {:builds {:client {:source-paths ["env/dev/cljs"]
+                                      :compiler     {:main "crr.dev"
+                                                      :asset-path "js"
+                                                      :optimizations :none
+                                                      :source-map true
+                                                      :source-map-timestamp true}}}}}
 
-                 :prod {:cljsbuild
-                        {:builds {:client {:compiler    {:optimizations :advanced
-                                                         :elide-asserts true
-                                                         :pretty-print false}}}}}}
+              :prod {:cljsbuild
+                    {:builds {:client {:compiler    {:optimizations :advanced
+                                                      :elide-asserts true
+                                                      :pretty-print false}}}}}}
 
-      :figwheel {:repl false}
+  :figwheel {:repl false}
 
-      :clean-targets ^{:protect false} ["resources/public/js"]
+  :clean-targets ^{:protect false} ["resources/public/js"]
 
-      :cljsbuild {:builds {:client {:source-paths ["src"]
-                                    :compiler     {:output-dir "resources/public/js"
-                                                   :output-to  "resources/public/js/client.js"}}}})
-    EOT</code>
+  :cljsbuild {:builds {:client {:source-paths ["src"]
+                                :compiler     {:output-dir "resources/public/js"
+                                                :output-to  "resources/public/js/client.js"}}}})
+EOT
+```
 
 The keen observer will note a few folders in the above project need to be created:
 
-    <code>
-    mkdir -p ${WORKSPACE}/cljs-reagent-reframe/env/dev/cljs/crr
-    mkdir -p ${WORKSPACE}/cljs-reagent-reframe/resources/public/js
-    mkdir -p ${WORKSPACE}/cljs-reagent-reframe/src/cljs/crr
-    cd ${WORKSPACE}/cljs-reagent-reframe
-    </code>
+```bash
+mkdir -p ${WORKSPACE}/cljs-reagent-reframe/env/dev/cljs/crr
+mkdir -p ${WORKSPACE}/cljs-reagent-reframe/resources/public/js
+mkdir -p ${WORKSPACE}/cljs-reagent-reframe/src/cljs/crr
+cd ${WORKSPACE}/cljs-reagent-reframe
+```
 
 Next up is a little bit of figwheel love for hot reloads in the browser:
 
-    <code>cat > env/dev/cljs/crr/dev.cljs <<EOT
-    (ns crr.dev
-      (:require [crr.core :as crr]
-                [figwheel.client :as fw]))
+```clojure
+cat > env/dev/cljs/crr/dev.cljs <<EOT
+(ns crr.dev
+  (:require [crr.core :as crr]
+            [figwheel.client :as fw]))
 
-    (enable-console-print!)
+(enable-console-print!)
 
-    (fw/start {:on-jsload crr/run
-               :websocket-url "ws://localhost:3449/figwheel-ws"})
-    EOT</code>
+(fw/start {:on-jsload crr/run
+            :websocket-url "ws://localhost:3449/figwheel-ws"})
+EOT
+```
 
 Now a minimal skeleton app including a reagent component:
 
-    <code>cat > src/cljs/crr/core.cljs <<EOT
-    (ns crr.core
-      (:require [reagent.core :as reagent]))
+```clojure
+cat > src/cljs/crr/core.cljs <<EOT
+(ns crr.core
+  (:require [reagent.core :as reagent]))
 
-    (defn hello-world []
-      [:h1 "Hello World"]) ; instead of JSX, Reagent uses Hiccup which is nested vectors.
+(defn hello-world []
+  [:h1 "Hello World"]) ; instead of JSX, Reagent uses Hiccup which is nested vectors.
 
-    (defn ^:export run
-      []
-      (reagent/render [hello-world] ; hiccup that renders hello-world into page
-                      (js/document.getElementById "app")))
-    EOT</code>
+(defn ^:export run
+  []
+  (reagent/render [hello-world] ; hiccup that renders hello-world into page
+                  (js/document.getElementById "app")))
+EOT
+```
 
 You can check everything is ok by running:
 
@@ -143,18 +149,18 @@ You can check everything is ok by running:
 
 You should see an output similar to the following:
 
-    <code>Figwheel: Cutting some fruit, just a sec ...
+    Figwheel: Cutting some fruit, just a sec ...
     Figwheel: Validating the configuration found in project.clj
     Figwheel: Configuration Valid :)
     Figwheel: Starting server at http://0.0.0.0:3449
     Figwheel: Watching build - client
     Figwheel: Cleaning build - client
     Compiling "resources/public/js/client.js" from ("src" "env/dev/cljs")...
-    Successfully compiled "resources/public/js/client.js" in 9.909 seconds.</code>
+    Successfully compiled "resources/public/js/client.js" in 9.909 seconds.
 
 Ok great but that doesn't really do much. We need a web page to take advantage of the magic:
 
-    <code>cat > resources/public/index.html <<EOT
+    cat > resources/public/index.html <<EOT
     <!doctype html>
     <head>
     <meta charset="utf-8">
@@ -171,7 +177,7 @@ Ok great but that doesn't really do much. We need a web page to take advantage o
     }
     </script>
     </body>
-    EOT</code>
+    EOT
 
 Starting up figwheel again we can browse the newly created HTML:
 
@@ -183,37 +189,42 @@ Once you see the JS has been successfully compiled fire up <http://localhost:344
 
 Now let's convert hello-world into a presentational component with the following change to core.cljs:
 
-    <code>(defn hello-world [name] ; accept name as a parameter
-      [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
+```clojure
+(defn hello-world [name] ; accept name as a parameter
+  [:h1 "Hello " name]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.
 
-    (defn ^:export run
-      []
-      (reagent/render [hello-world "World 2"] ; hiccup that renders hello-world into page
-                      (js/document.getElementById "app")))</code>
+(defn ^:export run
+  []
+  (reagent/render [hello-world "World 2"] ; hiccup that renders hello-world into page
+                  (js/document.getElementById "app")))
+```
 
 ### Reagent Container Component
 
 Now my kind reader you might be scratching your head..."thought you said there's hot reloads!! I want a refund!!". Well patience my friend let's introduce the container:
 
-    <code>(defn hello-world-container []
-      ;; our container
-      (let [name "World 3"]
-        (fn []
-          [hello-world name])))
+```clojure
+(defn hello-world-container []
+  ;; our container
+  (let [name "World 3"]
+    (fn []
+      [hello-world name])))
 
-    (defn ^:export run
-      []
-      (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
-                      (js/document.getElementById "app")))
-    </code>
+(defn ^:export run
+  []
+  (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
+                  (js/document.getElementById "app")))
+```
 
 "Dude this still isn't auto-loading!!" Ok refresh your browser and stay with me. To reward your patience change the name string in the container as follows:
 
-    <code>(defn hello-world-container []
-      ;; our container
-      (let [name "World 4"]
-        (fn []
-          [hello-world name])))</code>
+```clojure
+(defn hello-world-container []
+  ;; our container
+  (let [name "World 4"]
+    (fn []
+      [hello-world name])))
+```
 
 Huzzah! Live loading! That's the reagent container and presentational container mostly done.
 
@@ -225,27 +236,33 @@ Let's sprinkle in a side of re-frame by initialising the database (re-frame.db/a
 
 Import re-frame:
 
-    <code>(ns crr.core
-      (:require [reagent.core :as reagent]
-                [re-frame.core :as rf]))</code>
+```clojure
+(ns crr.core
+  (:require [reagent.core :as reagent]
+            [re-frame.core :as rf]))
+```
 
 Define the initial state and add the initialisation handler:
 
-    <code>(def initial-state
-      {:name "World 5"}) ; this is the map we want to initialise the app-db to.
+```clojure
+(def initial-state
+  {:name "World 5"}) ; this is the map we want to initialise the app-db to.
 
-    (rf/reg-event-db
-      :initialise
-      (fn [db _]
-        (merge db initial-state)))</code>
+(rf/reg-event-db
+  :initialise
+  (fn [db _]
+    (merge db initial-state)))
+```
 
 Initialise the database:
 
-    <code>(defn ^:export run
+```clojure
+(defn ^:export run
       []
       (rf/dispatch-sync [:initialise])
       (reagent/render [hello-world-container ] ; hiccup that renders hello-world into page
                       (js/document.getElementById "app")))</code>
+```
 
 Hit refresh and you'll still see "Hello World 4". What you've likely noticed is that any behaviour which isn't contained in the render scope requires a refresh of the web page.
 
@@ -253,47 +270,51 @@ Hit refresh and you'll still see "Hello World 4". What you've likely noticed is 
 
 Next let's add a subscription to read from the app-db:
 
-    <code>
-    (rf/reg-sub
-      :name
-      (fn [db arg]
-        (println "pirate sayz " arg) ; you should see the subscription vector in the console
-        (:name db)))
+```clojure
+(rf/reg-sub
+  :name
+  (fn [db arg]
+    (println "pirate sayz " arg) ; you should see the subscription vector in the console
+    (:name db)))
 
-    (defn hello-world-container []
-      ;; our container
-      (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
-        (fn []
-          [hello-world @name]))) ; note we're de-referencing the atom here</code>
+(defn hello-world-container []
+  ;; our container
+  (let [name (rf/subscribe [:name])] ; the subscribe takes a vector allowing subscription to a deeply nested value in app-db.
+    (fn []
+      [hello-world @name]))) ; note we're de-referencing the atom here</code>
+```
 
 ### Adding an Input
 
 Ok so we've got it reading from the app-db. How do we write? Let's add a simple input to the component:
 
-    <code>
-    (defn hello-world [name] ; accept name as a parameter
-      [:div
-        [:input {:type :text}]
-        [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code>
+```clojure
+(defn hello-world [name] ; accept name as a parameter
+  [:div
+    [:input {:type :text}]
+    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code>
+```
 
 ### Re-Frame Dispatching
 
 Add a handler and link it to the input as follows:
 
-    <code>(defn update-name [db [_ new-name]] ; re-frame examples use anonymous functions. Using a named function allows for easier testing.
-      (merge db {:name new-name}))
+```clojure
+(defn update-name [db [_ new-name]] ; re-frame examples use anonymous functions. Using a named function allows for easier testing.
+  (merge db {:name new-name}))
 
-    (rf/reg-event-db
-      :name-changed
-      update-name)
+(rf/reg-event-db
+  :name-changed
+  update-name)
 
-    (defn change-name [evt]
-      (rf/dispatch-sync [:name-changed (-> evt .-target .-value)]))
+(defn change-name [evt]
+  (rf/dispatch-sync [:name-changed (-> evt .-target .-value)]))
 
-    (defn hello-world [name] ; accept name as a parameter
-      [:div
-        [:input {:type :text :on-change change-name :value name}]
-        [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code>
+(defn hello-world [name] ; accept name as a parameter
+  [:div
+    [:input {:type :text :on-change change-name :value name}]
+    [:h1 "Hello " name]]) ; instead of JSX, Reagent uses Hiccup which are simply nested vectors.</code>
+```
 
 You now have the ability to update the title via the input field. The ":value name" pair can be omitted but demonstrates two way binding.
 

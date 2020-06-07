@@ -48,7 +48,7 @@ A docker environment with as much RAM and CPU as you’re willing to allocate th
 1. In a mixing bowl pour in 1 packaged install of Docker for Mac (Edge).
 2. In the Docker Tray icon click “Preferences” > “Advanced” and adjust the vCPU and RAM allocation to whatever you’re comfortable with (I would advise no more than 50% of your available resources).
 3. Sift in a `Dockerfile` you can use for development such as;
-```
+```dockerfile
     FROM amazonlinux:latest
     RUN yum install -y \
         iputils \
@@ -57,7 +57,7 @@ A docker environment with as much RAM and CPU as you’re willing to allocate th
         python27-pip
 ```
 4. Gently mix in your `docker-compose.yaml` configuration such as;
-```
+```yaml
     version: '2'
     services:
       api:
@@ -108,21 +108,21 @@ For keeping things secure it’s a little more nuanced and depends on your threa
 <small>Itty Bitty Livingspace</small>
 
 To demonstrate how quickly you can fill your disk run these commands;
-
+```bash
     df -h # display current disk utilisation
     docker run -it mysql:5.7 bash -c 'echo "Hello"'
     docker run -it amazonlinux:latest bash -c 'echo "Hello"'
     docker run -it ubuntu:trusty bash -c 'echo "Hello"'
     docker run -it ubuntu:latest bash -c 'echo "Hello"'
     df -h # display final disk utilisation
-
+```
 ## Spring Cleaning
 
 Now that you’ve filled your disk see if you can recover the space using these commands to list and clean layers, images, and containers:
-
+```bash
     docker ps --all # list all containers
     docker images --all # list all images
     docker rmi $IMAGE_SHA # remove image,multiple SHAs permitted
     docker rm $CONTAINER_SHA # remove a containers image, multiple SHAs permitted
     docker system prune --all --force # burn it all down with gusto (use with caution)
-
+```

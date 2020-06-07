@@ -27,8 +27,10 @@ I suspect there will be all sorts of new issues that I'll need to address but I'
 
 In excrutiating detail the start up is (see the [sidecar wiki](https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl) for project config):
 
-    <code>lein trampoline repl
-    (use 'project.core)
-    (start-app [])
-    (use 'figwheel-sidecar.repl-api)
-    (start-figwheel!)</code>
+```clojure
+;; lein trampoline repl
+(use 'project.core)
+(start-app [])
+(use 'figwheel-sidecar.repl-api)
+(start-figwheel!)
+```

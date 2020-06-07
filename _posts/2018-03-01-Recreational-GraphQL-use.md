@@ -81,7 +81,7 @@ with a toy and the fact the Star Wars data-set is inherently circular. In any
 case I think the resolvers would be better placed on the entity type rather
 than associated with the field. To clarify take this simplified example;
 
-```
+```python
 class Character(ObjectType):
     films = List(Film)
     def resolve_films(self, info):
@@ -109,7 +109,7 @@ keyword args. In terms of implementation I think something like this might
 result in lower duplication across the codebase and a more concise expression
 of intent.
 
-```
+```python
 class Character(ObjectType):
     films = List(Film, order=(“release_date”,”ASC”))
 

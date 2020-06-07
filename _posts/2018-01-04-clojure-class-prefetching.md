@@ -43,7 +43,7 @@ is frequently executed by hand or machine. The main issue that contributes to
 the additional latency is the interleaving of "work" and class loading as
 illustrated below;
 
-![work and class loading interleaved](https://junctionbox.ca/images/cljperf/prefetch-interleaved.png)
+![work and class loading interleaved](/images/cljperf/prefetch-interleaved.png)
 
 The implication in the above diagram is that the classes are only loaded when
 and where they're needed which means the latency is experienced at that point in
@@ -60,7 +60,7 @@ is executed to minimise the latency at the callsite. The most effective way to
 do this is to execute class loading in parallel to class execution otherwise
 it shuffles the above diagram with little to no impact on start-up latency.
 
-![parallel class loading](https://junctionbox.ca/images/cljperf/prefetch-parallel.png)
+![parallel class loading](/images/cljperf/prefetch-parallel.png)
 
 The trick is to ensure the classes are available when required and compute time
 isn't unnecessarily stolen from "work". As a result the order in which classes
@@ -79,7 +79,7 @@ Naive Solution
 The naive solution is to load all of the classes as early in the main process as
 possible. This is achieved by creating the following thread class;
 
-```
+```java
 package clojure;
 
 public class PrefetchThread extends Thread {
@@ -104,7 +104,7 @@ public class PrefetchThread extends Thread {
 
 Which requires the following addition as the first lines in `clojure.main/main`;
 
-```
+```java
     PrefetchThread pt = new PrefetchThread();
     pt.start();
 ```
@@ -113,7 +113,7 @@ As I mentioned previously class ordering is important so I simply used the JRE's
 `-verbose:class` flag which outputs the classes in order as they're loaded by
 the class loader. Using a similar execution to my previous post looks as follows;
 
-```
+```bash
 $ java -verbose:class -cp clojure.jar:`cat maven-classpath` \
   clojure.main -e '(prn "hello")'
 [Opened /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/rt.jar]

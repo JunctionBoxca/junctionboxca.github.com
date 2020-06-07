@@ -32,7 +32,7 @@ command below on the
 [tracing](https://github.com/nfisher/clojure/tree/tracing) branch in my fork of
 the Clojure repo.
 
-```
+```bash
 java -cp clojure.jar:`cat maven-classpath` \
  clojure.main -e '(prn "hello")'
 ```
@@ -86,7 +86,7 @@ The next bit is loading clojure.main/main which is located in
 This is the clojure.main referenced from our command-line argument. It is a
 simple static Java main method that has the following code associated with it;
 
-```
+```java
 final Var REQUIRE = RT.var("clojure.core", "require");
 final Var MAIN = RT.var("clojure.main", "main");
 final Symbol CLOJURE_MAIN = Symbol.intern("clojure.main");
