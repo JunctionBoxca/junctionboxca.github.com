@@ -112,37 +112,40 @@ To demonstrate the complexity I'm referencing here are a few examples in Golang:
 
 **Equality**
 
-    <code>// int
-    id1 == id2
-    // uuid
-    bytes.Compare(id1, id2) == 0
-    </code>
+```go
+// int
+id1 == id2
+// uuid
+bytes.Compare(id1, id2) == 0
+```
 
 **Formatting**
 
-    <code>// int
-    fmt.Sprintf("%v", id)
-    // uuid
-    fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:3], uuid[4:5], uuid[6:7], uuid[8:9], uuid[10:])
-    </code>
+```go
+// int
+fmt.Sprintf("%v", id)
+// uuid
+fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:3], uuid[4:5], uuid[6:7], uuid[8:9], uuid[10:])
+```
 
 **New**
 
-    <code>// Auto-increment in DB using int32
-    insertId := `INSERT INTO contacts
-    (firstname, lastname, website) VALUES (?, ?, ?)`
-    statement, _ := db.Prepare(insertId)
-    statement.Exec("Nathan", "Fisher", "junctionbox.ca")
-    // UUID generation
-    uuid := make([]byte, 16)
-    rand.Read(uuid)
-    uuid[6] = (uuid[6] & 0x0f) | 0x40
-    uuid[8] = (uuid[8] & 0x3f) | 0x80
-    insertUuid := `INSERT INTO contacts 
-    (uuid, firstname, lastname, website) VALUES (?, ?, ?, ?)`
-    statement, _ := db.Prepare(insertUuid)
-    statement.Exec(uuid, "Nathan", "Fisher", "junctionbox.ca")
-    </code>
+```go
+// Auto-increment in DB using int32
+insertId := `INSERT INTO contacts
+(firstname, lastname, website) VALUES (?, ?, ?)`
+statement, _ := db.Prepare(insertId)
+statement.Exec("Nathan", "Fisher", "junctionbox.ca")
+// UUID generation
+uuid := make([]byte, 16)
+rand.Read(uuid)
+uuid[6] = (uuid[6] & 0x0f) | 0x40
+uuid[8] = (uuid[8] & 0x3f) | 0x80
+insertUuid := `INSERT INTO contacts
+(uuid, firstname, lastname, website) VALUES (?, ?, ?, ?)`
+statement, _ := db.Prepare(insertUuid)
+statement.Exec(uuid, "Nathan", "Fisher", "junctionbox.ca")
+```
 
 Some operational attributes:
 

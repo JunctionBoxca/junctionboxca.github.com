@@ -55,13 +55,13 @@
 {{ content }}
 {% unless page.nocomment %}
 <p>
-  Tags: [
+  tags: [
   {% for tag in page.tags %}
   {% capture tag_name %}{{ tag }}{% endcapture %}
   <a href="/tag/{{ tag_name }}">{{ tag_name }}</a>
-  {% endfor %} ]
+  {% endfor %}
+  ]
 </p>
-
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */

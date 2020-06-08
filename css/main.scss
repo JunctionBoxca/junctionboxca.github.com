@@ -10,8 +10,8 @@
   "syntax-highlighting"
 ;
 
-.highlight table { margin: 0; }
-.highlight .gl { border-right: 1px dashed #999; }
+.highlight table { margin: 0; width: 100%; }
+.highlight .gl { border-right: 1px dashed #8AC02D; }
 
 a {
   color:#8AC02D;
@@ -135,7 +135,6 @@ nav {
   width:6.5rem;
 }
 .date {
-
   color:#999;
 }
 img {
