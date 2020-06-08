@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: R is a great tool for statistical analysis. It particularly comes in handy when you want to load and normalise data as illustrated here.
 keywords: R, statistics
+tags: R
 ---
 
 While composing the results of our performance tests recently, I started investigating R to programmatically generate graphs. Excel was proving to be tedious, error-prone, and unstable. It was particularly frustrating to work with the JMeter response tables which have about 500,000 rows each. What immediately amazed me about R was how well it handled CSV files and modifying data sets. As an example using the following CSV data;

@@ -10,6 +10,7 @@ description:
   credentials in a container”. This post is my naive attempt at cracking that
   nut with the hope of getting some healthy feedback.
 keywords: docker
+tags: docker
 ---
 
 Containers as a concept seem here to stay but there’s a lot of smart cookies exploring “what is the best utility of it for daily development” in particular the reason for this post was “what is the best practise for using security credentials in a container”. This post is my naive attempt at cracking that nut with the hope of getting some healthy feedback. I have to attribute a good deal of the use of docker compose to this [Heroku post](https://devcenter.heroku.com/articles/local-development-with-docker-compose).

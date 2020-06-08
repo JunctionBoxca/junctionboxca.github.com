@@ -44,16 +44,24 @@
     </nav>
     <div class="row" id="content">
       <div class="twelve columns">
-        {% unless page.disable_title %}
-        <h1>{{ page.title }}</h1>
-        {% endunless %}
+{% unless page.disable_title %}
+<h1>{{ page.title }}</h1>
+{% endunless %}
 
-        {% unless page.nocomment %}
-        <p class="date">{{page.date | date: "%b %-d, %Y"}}</p>
-        {% endunless %}
+{% unless page.nocomment %}
+<p class="date">{{page.date | date: "%b %-d, %Y"}}</p>
+{% endunless %}
 
-        {{ content }}
-  {% unless page.nocomment %}
+{{ content }}
+{% unless page.nocomment %}
+<p>
+  Tags: [
+  {% for tag in page.tags %}
+  {% capture tag_name %}{{ tag }}{% endcapture %}
+  <a href="/tag/{{ tag_name }}">{{ tag_name }}</a>
+  {% endfor %} ]
+</p>
+
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */

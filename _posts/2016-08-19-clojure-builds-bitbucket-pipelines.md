@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: Bitbucket Pipelines is out and in Beta. I recently received an account but with so many distractions I didn't have an opportunity to dig into the offering until recently. Bitbucket Pipelines only supports a handful of languages directly but I'll show you how to quickly get Leiningen building your project using the Clojure Docker image.
 keywords: clojure, ci, bitbucket, docker
+tags: ci clojure docker
 ---
 
 CI is more than nice to have. In this day and age I consider it manditory and one of the first things to setup with a new project. Bitbucket recently launched a beta called [Bitbucket Pipelines](https://bitbucket.org/product/features/pipelines) which as you can guess targets CI/CD Pipelines. Atlassian were gracious enough to give me access and I'll show you how to get a Clojure project running in short order.

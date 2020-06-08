@@ -1,0 +1,18 @@
+---
+layout: default
+title: Tag Index
+nocomment: true
+---
+{% capture temptags %}
+  {% for tag in site.tags %}
+    {{ tag[0] }}#{{ tag[1].size }}
+  {% endfor %}
+{% endcapture %}
+{% assign sortedtemptags = temptags | split:' ' | sort %}
+<ul>
+{% for temptag in sortedtemptags %}
+  {% assign tagitems = temptag  | split: '#' %}
+  {% capture tagname %}{{ tagitems[0] }}{% endcapture %}
+  <li><a href="/tag/{{ tagname }}">{{ tagname }}</a></li>
+{% endfor %}
+</ul>

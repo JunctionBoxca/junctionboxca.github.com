@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: Is capistrano the best way to handle your deployments? You may want to consider an alternative approach for modern rails apps.
 keywords: capistrano, deployment, continuous delivery
+tags: ruby cd
 ---
 
 Let's start with a little history. [Capistrano](https://github.com/capistrano/capistrano) was built many moons ago on the sunny, sandy beaches of Hawaii by [Jamis Buck](http://weblog.jamisbuck.org/) (some artistic license regarding location). It's use as described in the README;

@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: Hadoop and MapReduce has made data warehousing all the rage but, don't give up on the trusty old RDBMS. Learn how to populate a calendar table using only PostgreSQL built-in features.
 keywords: postgresql, data-warehousing
+tags: sql
 ---
 
 I've just started a new job with [Maxymiser](http://www.maxymiser.com/) that I'm pretty excited about. With enough active and passive collection of data to accumulate Terabytes in a short period of time we have a treasure trove of data that can be analysed. One of the first tasks I've been assigned is improving our ability to explore the data more readily so I'm evaluating a few tools;

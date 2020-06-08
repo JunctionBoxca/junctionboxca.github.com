@@ -2,6 +2,7 @@
 title:      Approaching bliss; TDD+PHP+MVC
 created_at: 2009-12-12 12:00:00 +00:00
 layout:     default
+tags:       php testing
 ---
 
 Started getting back into CodeIgnitor, but the one thing I was really missing from Rails is a test framework. As much as it doesn't seem to have the same ongoing support and uptake as PHPUnit, I have a certain affinity to the SimpleTest framework. I decided to see what ramblings there were regarding TDD and CodeIgnitor on the interweb. In my search I ran across the article [Setting up the perfect CodeIgniter & TDD Environment](http://jamierumbelow.net/2009/08/11/setting-up-the-perfect-codeigniter-tdd-environment/). I downloaded the code and massaged it a little to suit my needs. I'm not fully content with the implementation of BaseTestPath, but I'm sure a round of TDD (which I should've started with) will probably iron it out. Kudos to Jamie for doing the heavy lifting!

@@ -2,6 +2,7 @@
 title:      Ruby be nimble, Ruby be SWF...
 created_at: 2008-09-04 12:00:00 +00:00
 layout:     default
+tags:       ruby
 ---
 
 This is a quick post with notes on the [SWF format](http://www.adobe.com/devnet/swf/pdf/swf_file_format_spec_v9.pdf). Well so far it's only one really, and it is in reference to compression.

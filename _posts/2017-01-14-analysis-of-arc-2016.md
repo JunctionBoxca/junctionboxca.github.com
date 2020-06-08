@@ -5,6 +5,7 @@ layout:     default
 published:  true
 description: I've been intrigued about the idea of an Atlantic crossing by sailboat since I've lived in London. I used to race on friends boats back in Toronto for a number of years and I rather miss it in London.
 keywords: python, pandas
+tags: python pandas
 ---
 
 I've been intrigued about the idea of an Atlantic crossing by sailboat since I've lived in London. I used to race on friends boats back in Toronto for a number of years and I rather miss it in London. There are a few options to make the journey:

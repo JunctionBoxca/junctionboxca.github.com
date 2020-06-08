@@ -5,6 +5,7 @@ layout:     default
 published: false
 description: 
 keywords: security
+tags: security
 ---
 
 At work I've increasingly been involved in security assessments, and developing mitigation strategies for legacy systems. There's a saying I've often used "The safest computer is an unplugged computer". Obviously the statement is tongue-in-cheek. The risk vs reward has to be assessed and evaluated for every situation. The reward is generally a straight forward "it delivers business value" whether that be customer engagement, sales, or fostering partnerships with other companies. The risks are also easily described but are sometimes difficult to quantify in a meaningful way.

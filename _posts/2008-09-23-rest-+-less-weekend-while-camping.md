@@ -2,6 +2,7 @@
 title:      REST + less weekend while Camping
 created_at: 2008-09-23 12:00:00 +00:00
 layout:     default
+tags:       ruby
 ---
 
 In the wee hours while visiting my family this weekend I decided to take a look at a few technologies;

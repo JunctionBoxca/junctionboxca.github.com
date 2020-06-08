@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: Database migrations are a way to programmatically manage, apply and track changes to a databases schema.
 keywords: dropwizard, Liquibase, sql, migrations, rdbms
+tags: java sql
 ---
 
 NoSQL for the win... wait what!? No!! Sorry but, I'll be talking about that stodgy undervalued workhorse called the SQL RDBMS. Specifically I'll illustrate how to manage a schema using Dropwizard[1] and its abstraction of Liquibase[2] migrations.

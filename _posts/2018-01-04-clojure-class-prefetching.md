@@ -6,6 +6,7 @@ published:   true
 description: This is my second article in a series on Clojure start-up timings.
              The focus for this article is Class Prefetching.
 keywords: clojure, java, jvm
+tags: clojure
 ---
 
 In my previous article on

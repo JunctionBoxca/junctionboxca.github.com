@@ -2,6 +2,7 @@
 title:      Watch for Flying Bitmaps
 created_at: 2008-08-26 12:00:00 +00:00
 layout:     default
+tags:       actionscript
 ---
 
 Zee goal for today is to use ActionScript 3's BitmapData to slice and dice a bitmap like a fine piece of sashimi. A few applications include;

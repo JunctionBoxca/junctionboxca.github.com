@@ -2,6 +2,7 @@
 title:      Sprout an AsWing
 created_at: 2008-09-19 12:00:00 +00:00
 layout:     default
+tags:       actionscript
 ---
 
 Looking to throw together a quick app in Flash to test Sprouts I decided on working with AsWing. Here's some of the process I followed to get the environment up and going.

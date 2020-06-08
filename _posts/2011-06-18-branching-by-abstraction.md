@@ -4,6 +4,7 @@ created_at: 2011-06-18 12:00:00 +00:00
 layout: default
 keywords: release, branch by abstraction, SCM, CI
 description: Branching by Abstraction is like milk and honey for Continuous Delivery. This article discusses some of the issues and motivation for using it.
+tags: cd
 ---
 
 Feature Branches can be highly effective in small teams that commit and remerge often. A small team in my mind is everyone having a seat around a meeting room table. The core benefit of Feature Branches is pretty obvious. It keeps an individual insulated from other developers changes until a merge occurs. SCM tools like GIT have made great strides in helping with those merges.

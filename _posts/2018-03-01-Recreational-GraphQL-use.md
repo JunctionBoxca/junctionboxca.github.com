@@ -9,6 +9,7 @@ description:
   unicorn pixie dust that will “revolutionise” the way I code.  The only way to
   find out was to roll up my sleeves and start coding.
 keywords: python, graphql
+tags: python graphql
 ---
 
 GraphQLs hype seems to have hit a fever pitch in my tech circle. Like any new

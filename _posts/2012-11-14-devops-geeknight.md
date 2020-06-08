@@ -4,6 +4,7 @@ created_at: 2012-11-14 12:00:00 +00:00
 layout:     default
 keywords: devops tools, geek night, build, deploy, monitor
 description: A 45m talk on the tools and practises used in DevOps from build to deployment to monitoring.
+tags: devops
 ---
 
 ### A 3 step technical redux

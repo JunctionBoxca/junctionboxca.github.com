@@ -2,6 +2,7 @@
 title:      Tripping over Rubies while Camping
 created_at: 2009-06-17 12:00:00 +00:00
 layout:     default
+tags:       ruby
 ---
 
 Today was another day like any other, but then I stopped and said hey "GO team!!". Okay not really, but it was a nice thought in retrospect. Anyway I gave birth to a little app called SvnMaster... the labour wasn't in the code, but rather debugging ActiveRecord 2.1.2 sqlite3 adapter and getting centos 5 up to speed. [Camping is a micro framework](http://redhanded.hobix.com/bits/campingAMicroframework.html) that was the perfect fit for the task. Maybe PHP was more appropriate for the problem domain. However, much like the previous sentence it wasn't how I wanted to express myself.

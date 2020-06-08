@@ -2,6 +2,7 @@
 title:      Kick dependence, here's an injection
 created_at: 2009-11-03 12:00:00 +00:00
 layout:     default
+tags:       php
 ---
 
 Recently I have been mulling the benefits of Dependency Injection in relationship to PHP. I still question it's need, but I felt like an experiment for the fun of it.

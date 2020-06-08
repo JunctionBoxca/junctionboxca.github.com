@@ -2,6 +2,7 @@
 title:      Initial Configuration of Puppetd on OS X
 created_at: 2010-10-05 12:00:00 +00:00
 layout:     default
+tags:       puppet
 ---
 
 Configuring puppetd on OS X

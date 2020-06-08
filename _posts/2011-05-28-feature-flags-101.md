@@ -4,6 +4,7 @@ created_at: 2011-05-28 12:00:00 +00:00
 layout:     default
 keywords:   Continuous Delivery, feature flags
 description: Feature Flags aid Continuous Delivery by allowing the release of incomplete or untested features. See the simple example in this post.
+tags:       cd ruby
 ---
 
 Committing to mainline is an important feature of CI and always keeping your mainline deployable is a requisite for Continuous Delivery. So what's an easy way to maintain code quality and get new features in? Feature Flags and Branching by Abstraction!

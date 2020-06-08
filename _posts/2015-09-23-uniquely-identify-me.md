@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: I recently revisited the landscape for autonomous and uncoordinated identity generation. I came across a couple of criticisms on the use of UUID's and I wanted to explore and validate those criticisms.
 keywords: uuids, latency, performance
+tags: sql golang
 ---
 
 {{site.base_url}}

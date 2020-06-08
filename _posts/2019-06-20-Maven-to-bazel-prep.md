@@ -8,6 +8,7 @@ description:
   This post aims to provide some quick guidelines when migrating from
   maven to Bazel.
 keywords: bazel, build, java, maven
+tags: bazel build java maven
 ---
 
 Bazel is a multi-language build tool opensourced by Google. It’s core focus is on

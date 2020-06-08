@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: Lightspeed is too slow. We'll have to go directly to ludicrous speed!! Buck is a ludicrously fast build tool but is not a widely available default on many of the OSS CI services. Here's how I got it up and running for Java.
 keywords: buck, java, ant
+tags: buck java
 ---
 
 Special thanks to [Markus Spiske](https://hackernoon.com/getting-started-with-buck-build-on-travis-ci-d1208d363023) for his article which was my starting point for this config.

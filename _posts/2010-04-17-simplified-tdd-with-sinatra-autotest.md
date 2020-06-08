@@ -2,6 +2,7 @@
 title:      Simplified TDD with Sinatra autotest
 created_at: 2010-04-17 12:00:00 +00:00
 layout:     default
+tags:       ruby testing
 ---
 
 General overview of what we're building;

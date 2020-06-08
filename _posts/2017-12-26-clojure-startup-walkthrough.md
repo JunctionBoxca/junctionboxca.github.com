@@ -8,6 +8,7 @@ description: Clojure start-up is sometimes painful. There's lots of methods to
              stand-by JVM's using nail servers and the like. This article aims
              to illustrate where that time is being spent.
 keywords: clojure, java
+tags: clojure
 ---
 
 In 2014 Nicholas Kariniemi wrote a [series](http://blog.ndk.io/) of articles on

@@ -5,28 +5,26 @@ layout:     default
 published: true
 description: Clojure start-up time can be expensive especially when using ClojureScript. This article is a quick post to aggregate what I use to improve the testing feedback cycle in Clojure.
 keywords: clojure, testing, repl
+tags: clojure testing
 ---
 
 Clojure start-up time can be expensive especially when using ClojureScript. Here's a couple items I've used to cut down start-up test execution time down:
 
 Run all namespaces
 
-    <code>lein test
-    </code>
+    lein test
 
 Run a specific namespace
 
-    <code>lein test :only cc.jbx.blog
-    </code>
+    lein test :only cc.jbx.blog
 
 Run a test case
 
-    <code>lein test :only cc.jbx.blog/test-rendering-post
-    </code>
+    lein test :only cc.jbx.blog/test-rendering-post
 
 Run in the REPL
 
-    <code>lein repl
+    lein repl
     (use 'clojure.test)
     (defn test-blog []
     """
@@ -36,4 +34,3 @@ Run in the REPL
     (run-tests 'cc.jbx.blog))
 
     (test-blog)
-    </code>
