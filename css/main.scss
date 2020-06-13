@@ -127,6 +127,12 @@ nav {
 @media (min-width: 1200px) {
   }
 
+.home {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/2a/Fist.svg);
+  background-size: 70px 49px;
+  background-repeat: no-repeat;
+  background-position: -10px bottom;
+}
 .number {
   text-align: right;
 }
