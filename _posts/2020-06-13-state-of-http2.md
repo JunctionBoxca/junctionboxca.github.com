@@ -6,7 +6,7 @@ published:   true
 description:
   The HTTP2 spec was published as an Internet Draft May 30th, 2015. Five years later and the capabilities seem to vary wildly across libraries. With HTTP3 fast approaching I was curious the current state of play for some of the bigger libraries I encounter regularly.
 keywords: http2 java go
-tags: http2 java go
+tags: http2 java golang
 ---
 
 The [HTTP2 spec](https://http2.github.io/http2-spec/) was published as an Internet Draft May 30th, 2015. Five years later and the capabilities seem to vary wildly across libraries. With HTTP3 fast approaching I was curious the current state of play for some of the bigger libraries I encounter regularly.
