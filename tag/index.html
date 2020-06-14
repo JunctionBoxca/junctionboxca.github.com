@@ -9,10 +9,12 @@ nocomment: true
   {% endfor %}
 {% endcapture %}
 {% assign sortedtemptags = temptags | split:' ' | sort %}
+<p>Group by <a href="/archive/">date</a></p>
 <ul>
 {% for temptag in sortedtemptags %}
   {% assign tagitems = temptag  | split: '#' %}
   {% capture tagname %}{{ tagitems[0] }}{% endcapture %}
-  <li><a href="/tag/{{ tagname }}">{{ tagname }}</a></li>
+  {% capture tagcount %}{{ tagitems[1] }}{% endcapture %}
+  <li><a href="/tag/{{ tagname }}">{{ tagname }}</a> ({{ tagcount }})</li>
 {% endfor %}
 </ul>
