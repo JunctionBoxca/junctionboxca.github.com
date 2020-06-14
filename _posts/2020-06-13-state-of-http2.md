@@ -15,15 +15,20 @@ This document aims to identify what capabilities exist for the libraries.
 
 The implementation details of HTTP2 start at section 3 in the spec. I will aim to document compatibility of the following libraries over the coming weeks. Starting with server compatibility and then client compatibility. Server compatibilty should be relatively easy using [h2spec](https://github.com/summerwind/h2spec).
 
-1. Go stdlib - server.
-1. Go stdlib - client.
-1. Project Reactor - server.
-1. Project Reactor - client.
-1. Java 11 stdlib - server.
-1. Java 11 stdlib - client.
-1. Netty - server.
-1. Netty - client.
+## Server Libraries
+
+1. Go stdlib.
+1. Project Reactor.
+1. Java 11 stdlib.
+1. Netty.
+
+## Client Libraries
+
+1. Go stdlib.
+1. Netty.
 1. OK HTTP.
+1. Project Reactor.
+1. Java 11 stdlib.
 
 | no.   | Title                                |
 | ===== | ==================================== |
