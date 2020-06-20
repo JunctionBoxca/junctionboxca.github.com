@@ -8,29 +8,34 @@ keywords: clojure, testing, repl
 tags: clojure testing
 ---
 
-Clojure start-up time can be expensive especially when using ClojureScript. Here's a couple items I've used to cut down start-up test execution time down:
+Clojure start-up time can be expensive especially when using ClojureScript. Here's a couple items I've used to reduce start-up test execution time.
 
 Run all namespaces
 
-    lein test
+```bash
+lein test                                             
+```
 
 Run a specific namespace
 
-    lein test :only cc.jbx.blog
+```bash
+lein test :only cc.jbx.blog                                       
+```
 
 Run a test case
+```bash
+lein test :only cc.jbx.blog/test-rendering-post
+```
 
-    lein test :only cc.jbx.blog/test-rendering-post
+In a REPL
+```clojure
+(use 'clojure.test)
+(defn test-blog []
+"""
+This is just a little helper function to make reloading and running the tests more efficient.
+"""
+(require 'cc.jbx.blog :reload-all)
+(run-tests 'cc.jbx.blog))
 
-Run in the REPL
-
-    lein repl
-    (use 'clojure.test)
-    (defn test-blog []
-    """
-    This is just a little helper function to make reloading and running the tests more efficient.
-    """
-    (require 'cc.jbx.blog :reload-all)
-    (run-tests 'cc.jbx.blog))
-
-    (test-blog)
+(test-blog)
+```
