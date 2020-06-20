@@ -5,6 +5,7 @@ layout:     default
 published: true
 description: A typical clojure invocation will gobble up close to 500MB. If you're running a ClojureScript project that'll be 1G for figwheel and a Clojure nREPL. I think I've found an improved workflow that reduces that memory pressure.
 keywords: clojure, testing, repl
+tags: clojure testing
 ---
 
 For the last few weeks I've had 3 Clojure related terminals:
