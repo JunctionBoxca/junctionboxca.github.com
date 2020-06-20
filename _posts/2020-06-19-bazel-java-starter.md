@@ -9,7 +9,9 @@ keywords: bazel java
 tags: bazel java
 ---
 
-Happy Juneteenth everyone! Today I'll give a quick walk-through on getting up and running with Bazel on a new Java project from local dev to IDE. First a quick overview of the steps I'll go through:
+Today is [Juneteenth](https://en.wikipedia.org/wiki/Juneteenth) and what better way to celebrate than making a [donation](https://www.naacpldf.org/).
+
+This article is a quick walk-through on getting up and running with Bazel on a new Java project from local dev to IDE. An overview of the steps we'll go through:
 
 1. Install Bazel.
 1. Setup the project tree.
