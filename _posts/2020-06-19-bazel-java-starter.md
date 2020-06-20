@@ -4,7 +4,7 @@ created_at:  2020-06-19 12:00:00 +00:00
 layout:      default
 published:   true
 description:
-  The HTTP2 spec was published as an Internet Draft May 30th, 2015. Five years later and the capabilities seem to vary wildly across libraries. With HTTP3 fast approaching I was curious the current state of play for some of the bigger libraries I encounter regularly.
+  Bazel can be daunting to setup for your first project this series of posts aims to provide an approach to setting up a new Java project with Bazel.
 keywords: bazel java
 tags: bazel java
 ---
