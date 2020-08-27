@@ -1,5 +1,5 @@
 ---
-title:       Bazel Java Starter Pack
+title:       New Java Project With Bazel
 created_at:  2020-06-19 12:00:00 +00:00
 layout:      default
 published:   true
@@ -9,13 +9,13 @@ keywords: bazel java
 tags: bazel java
 ---
 
-Today is [Juneteenth](https://en.wikipedia.org/wiki/Juneteenth) and what better way to celebrate than making a [donation](https://www.naacpldf.org/).
-
-This article is a quick walk-through on getting up and running with Bazel on a new Java project from local dev to IDE. An overview of the steps we'll go through:
+This article is a walk-through on starting a new Java project with [Bazel](https://bazel.build/). An overview of the steps we'll go through:
 
 1. Install Bazel.
 1. Setup the project tree.
 1. Configure IntelliJ.
+
+Today is [Juneteenth](https://en.wikipedia.org/wiki/Juneteenth) and what better way to celebrate than making a [donation](https://www.naacpldf.org/).
 
 ### Install Bazel
 
