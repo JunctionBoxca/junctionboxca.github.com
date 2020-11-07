@@ -5,33 +5,32 @@ layout:      default
 published:   true
 description:
   Docker is understandably changing it's terms of service for pull requests by
-  anonymous accounts. This will have a big impact on a number of companies but
-  there are a few different approaches you can take to minimise impact on your
+  anonymous accounts. This will have a big impact on many companies but
+  there are a few approaches you can take to minimise the impact on your
   Kubernetes clusters.
 keywords: docker kubernetes
 tags: docker kubernetes
 ---
 
 As of [Nov 2nd, 2020](https://www.docker.com/increase-rate-limits?utm_source=docker&utm_medium=web%20referral&utm_campaign=pull%20limits%20hub%20home%20page&utm_budget=) Docker Hub has begun
- rate limiting the number of anonymous image pull requests from their registry.
- This has potentially broad impact particularly for large Kubernetes clusters
-that depend on public images. Over a period of time the limits will gradually be
- reduced to:
+ rate-limiting the number of anonymous image pull requests from their registry.
+ This may have a broad impact particularly for large Kubernetes clusters
+that depend on public images. Docker Hub will gradually reduce the limits to:
 
 * 100 container image requests per six hours for anonymous usage.
 * 200 container image requests per six hours for free Docker accounts.
 * Unlimited container pull requests for Pro and Team accounts.
 
-These limits are applied per IP address. How much impact this will have on your
- cluster will depend on a variety of factors such as:
+These limits are applied per IP address. How much impact this will have on
+a cluster will depend on a variety of factors such as:
 
-* Does each node use public IP's to pull images or are they [NATed](https://en.wikipedia.org/wiki/Network_address_translation)?
+* Does every node use public IP to pull images or are they [NATed](https://en.wikipedia.org/wiki/Network_address_translation)?
 * How often do the public images upstream change?
 * Do you use an auto-scaler with frequent resizing?
 * How often do pods move between hosts in your cluster?
 
 By far the biggest impact will be Private IP clusters making requests via NAT. For
-fixed size clusters the impact is likely to be low. A common configuration is
+a fixed size cluster the impact is expected to be minimal. A common configuration is
  `imagePull: Always` it is a common misconception that this always pulls the Docker
 image. In reality it checks the SHA and only pulls the image when it differs.
 Another consideration is that the most common elements consumed from public
@@ -76,7 +75,7 @@ See the Kubernetes official documentation on [creating](https://kubernetes.io/do
 
 #### Drawbacks
 
-* Lesser know approach to associating pull secrets to a pod.
+* Lesser-known approach to associating pull secrets to a pod.
 * Potentially needs an Admission controller to auto-inject the SA.
 
 #### How To
@@ -95,8 +94,8 @@ to a Service Account.
 * Requires hooking into the docker configuration.
 * If the accounts are unauthenticated still possible to hit rate-limit if consuming
  a high number of images and versions.
-* Non-trival to configure with PaaS solutions such as GKE, AKS, and EKS.
-* Additional infrastructe to manage and monitor.
+* Non-trivial to configure with PaaS solutions such as GKE, AKS, and EKS.
+* Additional infrastructure to manage and monitor.
 
 #### How To
 
@@ -133,5 +132,5 @@ The key components to be aware of are configuring a proxy and docker.json:
 
 ## Conclusions
 
-Of the above it's hard to be persprective of any single solution. You may choose
+Of the above it's hard to be perspective of any single solution. You may choose
 to mix and match the above as appropriate for your IT organisation.
