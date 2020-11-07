@@ -51,18 +51,18 @@ There are a few different options you can consider to minimise your exposure:
 
 ## Image Pull Secrets
 
-### Benefits
+#### Benefits
 
 * Unlimited pull requests with a Pro/Team account.
 * Simple and familiar approach for anyone using private repositories.
 
-### Tradeoffs
+#### Tradeoffs
 
 * Requires pull secrets per namespace.
 * Requires updating workloads.
 * Potentially needs an Admission controller to auto-inject `imagePullSecret`.
 
-### How To
+#### How To
 
 See the Kubernetes official documentation on [creating](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line)
  image pull secrets and [associating](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret)
@@ -70,27 +70,27 @@ See the Kubernetes official documentation on [creating](https://kubernetes.io/do
 
 ## Service Account
 
-### Benefits
+#### Benefits
 
 * Many infrastructure components will have Service Accounts (SA) attached.
 
-### Drawbacks
+#### Drawbacks
 
 * Lesser know approach to associating pull secrets to a pod.
 * Potentially needs an Admission controller to auto-inject the SA.
 
-### How To
+#### How To
 
 See the Kubernetes documentation on [adding secrets](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#add-imagepullsecrets-to-a-service-account)
 to a Service Account.
 
 ## Caching Proxy
 
-### Benefits
+#### Benefits
 
 * Reduces total external bandwidth/latency for commonly used images.
 
-### Tradeoffs
+#### Tradeoffs
 
 * Requires hooking into the docker configuration.
 * If the accounts are unauthenticated still possible to hit rate-limit if consuming
@@ -98,7 +98,7 @@ to a Service Account.
 * Non-trival to configure with PaaS solutions such as GKE, AKS, and EKS.
 * Additional infrastructe to manage and monitor.
 
-### How To
+#### How To
 
 See the Docker documentation on configuring a [pull through cache](https://docs.docker.com/registry/recipes/mirror/).
 The key components to be aware of are configuring a proxy and docker.json:
@@ -114,17 +114,17 @@ The key components to be aware of are configuring a proxy and docker.json:
 
 ## Mirror
 
-### Benefits
+#### Benefits
 
 * Independence from upstream maintainers.
 * Potential to integrate Docker security scanners.
 
-### Tradeoffs
+#### Tradeoffs
 
 * Additional overhead for keeping images up to date.
 * Requires overriding image name for any related workloads.
 
-### How
+#### How
 
 1. Docker pull.
 1. Docker push.
