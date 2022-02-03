@@ -24,7 +24,8 @@ nav {
     width: 100%;
     background: #fff;
     z-index: 99;
-    border-bottom: 1px solid #eee; }
+    /* border-bottom: 1px solid #eee; */
+   }
 nav>ul {
   list-style: none;
   margin:0; }
@@ -101,6 +102,9 @@ nav {
 
 /* Larger than tablet */
 @media (min-width: 750px) {
+  .row {
+    margin-bottom: 3.75rem;
+  }
   nav {
     height: 6.25rem;
   }
@@ -127,12 +131,6 @@ nav {
 @media (min-width: 1200px) {
   }
 
-.home {
-  background-image: url(/images/Fist.svg);
-  background-size: 70px 49px;
-  background-repeat: no-repeat;
-  background-position: -10px bottom;
-}
 .number {
   text-align: right;
 }
