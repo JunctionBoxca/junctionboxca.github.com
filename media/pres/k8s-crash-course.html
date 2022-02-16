@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://127.0.0.1:3999/overview.slide#1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Kubernetes Crash Course</title>
+    
+    <script>
+      var notesEnabled =  true ;
+    </script>
+    <script src="./k8s-crash-course_files/slides.js"></script>
+
+    
+    <script>
+      var sections = [{"Number":[1],"Title":"Contents","ID":"","Elem":[{"Cmd":"","HTML":"\u003col\u003e\n\u003cli\u003e💡 \u003cstrong\u003eThe Idea\u003c/strong\u003e - An overview.\u003c/li\u003e\n\u003cli\u003e🔨 \u003cstrong\u003eBuild It\u003c/strong\u003e - Docker.\u003c/li\u003e\n\u003cli\u003e🏃 \u003cstrong\u003eRun It\u003c/strong\u003e - Pods.\u003c/li\u003e\n\u003cli\u003e🩹 \u003cstrong\u003eKeep It Running\u003c/strong\u003e - Workloads, Scaling, and Storage.\u003c/li\u003e\n\u003cli\u003e🍽️ \u003cstrong\u003eServe It\u003c/strong\u003e - Services and Endpoints.\u003c/li\u003e\n\u003cli\u003e🏰 \u003cstrong\u003eSecure It\u003c/strong\u003e - Network Policy.\u003c/li\u003e\n\u003cli\u003e💎 \u003cstrong\u003eRarely Needed Gems\u003c/strong\u003e - Controllers and Operators.\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[2],"Title":"💡 The Idea","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e\u003cstrong\u003eFizz Buzz as a Service\u003c/strong\u003e\u003c/p\u003e\n\u003cp\u003eBring fizz buzz to the masses!\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[3],"Title":"Objective","ID":"","Elem":null,"Notes":null,"Classes":["background"],"Styles":["background-image: url('pods/pods.001.png')"]},{"Number":[4],"Title":"🔨 Build It","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[5],"Title":"Docker Build \u0026 Publish","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🔨 Build It\u003c/p\u003e\n"},{"Cmd":".code Dockerfile","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003e# Build image.\u003c/span\u003e\n\u003cspan num=\"2\"\u003eFROM golang:1.17-bullseye as build\u003c/span\u003e\n\u003cspan num=\"3\"\u003e\u003c/span\u003e\n\u003cspan num=\"4\"\u003eWORKDIR /go/src/app\u003c/span\u003e\n\u003cspan num=\"5\"\u003e\u003c/span\u003e\n\u003cspan num=\"6\"\u003eCOPY go.* ./\u003c/span\u003e\n\u003cspan num=\"7\"\u003eRUN go mod download\u003c/span\u003e\n\u003cspan num=\"8\"\u003e\u003c/span\u003e\n\u003cspan num=\"9\"\u003eCOPY . ./\u003c/span\u003e\n\u003cspan num=\"10\"\u003eRUN --mount=type=cache,target=/root/.cache/go-build make linux\u003c/span\u003e\n\u003cspan num=\"11\"\u003e\u003c/span\u003e\n\u003cspan num=\"12\"\u003e# Distroless is a lightweight base image.\u003c/span\u003e\n\u003cspan num=\"13\"\u003eFROM gcr.io/distroless/base-debian11\u003c/span\u003e\n\u003cspan num=\"14\"\u003eCOPY --from=build /go/src/app/fizzbuzz /\u003c/span\u003e\n\u003cspan num=\"15\"\u003eCMD [\u0026#34;/fizzbuzz\u0026#34;]\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"Dockerfile","Ext":"","Raw":"IyBCdWlsZCBpbWFnZS4KRlJPTSBnb2xhbmc6MS4xNy1idWxsc2V5ZSBhcyBidWlsZAoKV09SS0RJUiAvZ28vc3JjL2FwcAoKQ09QWSBnby4qIC4vClJVTiBnbyBtb2QgZG93bmxvYWQKCkNPUFkgLiAuLwpSVU4gLS1tb3VudD10eXBlPWNhY2hlLHRhcmdldD0vcm9vdC8uY2FjaGUvZ28tYnVpbGQgbWFrZSBsaW51eAoKIyBEaXN0cm9sZXNzIGlzIGEgbGlnaHR3ZWlnaHQgYmFzZSBpbWFnZS4KRlJPTSBnY3IuaW8vZGlzdHJvbGVzcy9iYXNlLWRlYmlhbjExCkNPUFkgLS1mcm9tPWJ1aWxkIC9nby9zcmMvYXBwL2ZpenpidXp6IC8KQ01EIFsiL2ZpenpidXp6Il0K"},{"Cmd":".code build.sh","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003edocker build . -t nfinstana/fizzbuzz:1.0.0-85d759de \u0026amp;\u0026amp; \\\u003c/span\u003e\n\u003cspan num=\"2\"\u003edocker push nfinstana/fizzbuzz:1.0.0-85d759de\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"build.sh","Ext":".sh","Raw":"ZG9ja2VyIGJ1aWxkIC4gLXQgbmZpbnN0YW5hL2ZpenpidXp6OjEuMC4wLTg1ZDc1OWRlICYmIFwKZG9ja2VyIHB1c2ggbmZpbnN0YW5hL2ZpenpidXp6OjEuMC4wLTg1ZDc1OWRlCg=="}],"Notes":["multi-stage Dockerfile build.","last image entry is the output image.","distroless allows reduction in image size.","minimises attack surface within the image.","improves deployment, MTTR, and scale out through faster download."],"Classes":null,"Styles":null},{"Number":[6],"Title":"🏃 Run It","ID":"","Elem":null,"Notes":null,"Classes":["background"],"Styles":["background-image: url('pods/pods.002.png')"]},{"Number":[7],"Title":"Overview","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eWhat is a Resource\u003c/li\u003e\n\u003cli\u003eMinimal Pod Spec\u003c/li\u003e\n\u003cli\u003eRequests \u0026amp; Limits\u003c/li\u003e\n\u003cli\u003eTaints \u0026amp; Tolerations\u003c/li\u003e\n\u003cli\u003eAffinity\u003c/li\u003e\n\u003cli\u003eAnti-affinity\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[8],"Title":"What is a Resource","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"},{"Cmd":".code resource.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: $(API_VERSION)      # e.g. batch/v1, apps/v1, v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: $(RESOURCE_KIND)          # e.g. Pod, CronJob, Deployment\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: $(UNIQUE_NAME)          # unique name for the resource kind\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: $(NAMESPACE)       # namespace, some kinds are global, otherwise defaulted\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  labels:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    $(LABEL_MAP)                # key-value pairs\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  annotations:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    $(ANNOTATION_MAP)           # key-value pairs\u003c/span\u003e\n\u003cspan num=\"10\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e  # ... resource definition\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"resource.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogJChBUElfVkVSU0lPTikgICAgICAjIGUuZy4gYmF0Y2gvdjEsIGFwcHMvdjEsIHYxCmtpbmQ6ICQoUkVTT1VSQ0VfS0lORCkgICAgICAgICAgIyBlLmcuIFBvZCwgQ3JvbkpvYiwgRGVwbG95bWVudAptZXRhZGF0YToKICBuYW1lOiAkKFVOSVFVRV9OQU1FKSAgICAgICAgICAjIHVuaXF1ZSBuYW1lIGZvciB0aGUgcmVzb3VyY2Uga2luZAogIG5hbWVzcGFjZTogJChOQU1FU1BBQ0UpICAgICAgICMgbmFtZXNwYWNlLCBzb21lIGtpbmRzIGFyZSBnbG9iYWwsIG90aGVyd2lzZSBkZWZhdWx0ZWQKICBsYWJlbHM6CiAgICAkKExBQkVMX01BUCkgICAgICAgICAgICAgICAgIyBrZXktdmFsdWUgcGFpcnMKICBhbm5vdGF0aW9uczoKICAgICQoQU5OT1RBVElPTl9NQVApICAgICAgICAgICAjIGtleS12YWx1ZSBwYWlycwpzcGVjOgogICMgLi4uIHJlc291cmNlIGRlZmluaXRpb24K"}],"Notes":["labels - identifying data","annotations - arbitrary non-identifying data"],"Classes":null,"Styles":null},{"Number":[9],"Title":"Minimal Pod Spec","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[10],"Title":"Minimal Pod Spec","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"},{"Cmd":".code pod-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Pod\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: fizzbuzz\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: instana-dev\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  labels:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    # Standard labels - https://helm.sh/docs/chart_best_practices/labels/#standard-labels\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    app.kubernetes.io/name: \u0026#34;fizzbuzz\u0026#34;\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    app.kubernetes.io/version: \u0026#34;1.0.0-85d759de\u0026#34;\u003c/span\u003e\n\u003cspan num=\"10\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e  - name: fizbuzz\u003c/span\u003e\n\u003cspan num=\"13\"\u003e    image: nfinstana/fizzbuzz:1.0.0-85d759de\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pod-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCm1ldGFkYXRhOgogIG5hbWU6IGZpenpidXp6CiAgbmFtZXNwYWNlOiBpbnN0YW5hLWRldgogIGxhYmVsczoKICAgICMgU3RhbmRhcmQgbGFiZWxzIC0gaHR0cHM6Ly9oZWxtLnNoL2RvY3MvY2hhcnRfYmVzdF9wcmFjdGljZXMvbGFiZWxzLyNzdGFuZGFyZC1sYWJlbHMKICAgIGFwcC5rdWJlcm5ldGVzLmlvL25hbWU6ICJmaXp6YnV6eiIKICAgIGFwcC5rdWJlcm5ldGVzLmlvL3ZlcnNpb246ICIxLjAuMC04NWQ3NTlkZSIKc3BlYzoKICBjb250YWluZXJzOgogIC0gbmFtZTogZml6YnV6egogICAgaW1hZ2U6IG5maW5zdGFuYS9maXp6YnV6ejoxLjAuMC04NWQ3NTlkZQo="}],"Notes":["pods are the most basic building block when deploying into a kubernetes cluster.","standardised labelling make it easier for workload discovery, filtered log output, monitoring, etc."],"Classes":null,"Styles":null},{"Number":[11],"Title":"Requests \u0026 Limits","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[12],"Title":"Requests \u0026 Limits","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"},{"Cmd":".code pod-002.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Pod\u003c/span\u003e\n\u003cspan num=\"3\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"4\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  - name: fizbuzz\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    resources:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e      requests:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e        cpu: \u0026#34;10m\u0026#34;\u003c/span\u003e\n\u003cspan num=\"10\"\u003e        memory: \u0026#34;64Mi\u0026#34;\u003c/span\u003e\n\u003cspan num=\"11\"\u003e      limits:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e        cpu: \u0026#34;100m\u0026#34;\u003c/span\u003e\n\u003cspan num=\"13\"\u003e        memory: \u0026#34;128Mi\u0026#34;\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    # ...\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pod-002.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCiMgLi4uCnNwZWM6CiAgY29udGFpbmVyczoKICAtIG5hbWU6IGZpemJ1enoKICAgIHJlc291cmNlczoKICAgICAgcmVxdWVzdHM6CiAgICAgICAgY3B1OiAiMTBtIgogICAgICAgIG1lbW9yeTogIjY0TWkiCiAgICAgIGxpbWl0czoKICAgICAgICBjcHU6ICIxMDBtIgogICAgICAgIG1lbW9yeTogIjEyOE1pIgogICAgIyAuLi4K"}],"Notes":["scheduler has to look at a number of dimensions to decide where to schedule a pod.","specifying requests aides the scheduler in ensuring appropriate placement of your workload.","specifying limits ensure your workload is a good neighbour by constraining the resources it consumes.","requests inform what node a workload will \"fit on\", limits are used."],"Classes":null,"Styles":null},{"Number":[13],"Title":"Taints \u0026 Tolerations","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[14],"Title":"Taints \u0026 Tolerations","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n\u003cp\u003eNode Taint\u003c/p\u003e\n"},{"Cmd":".code taint.sh","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003ekubectl taint nodes node01 role=ingress:NoSchedule\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"taint.sh","Ext":".sh","Raw":"a3ViZWN0bCB0YWludCBub2RlcyBub2RlMDEgcm9sZT1pbmdyZXNzOk5vU2NoZWR1bGUK"},{"Cmd":"","HTML":"\u003cp\u003ePod Toleration\u003c/p\u003e\n"},{"Cmd":".code pod-003.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Pod\u003c/span\u003e\n\u003cspan num=\"3\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"4\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  # ...\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  tolerations:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  - key: \u0026#34;role\u0026#34;\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    operator: \u0026#34;Equal\u0026#34;\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    value: \u0026#34;ingress\u0026#34;\u003c/span\u003e\n\u003cspan num=\"11\"\u003e    effect: \u0026#34;NoSchedule\u0026#34;\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pod-003.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCiMgLi4uCnNwZWM6CiAgY29udGFpbmVyczoKICAjIC4uLgogIHRvbGVyYXRpb25zOgogIC0ga2V5OiAicm9sZSIKICAgIG9wZXJhdG9yOiAiRXF1YWwiCiAgICB2YWx1ZTogImluZ3Jlc3MiCiAgICBlZmZlY3Q6ICJOb1NjaGVkdWxlIgo="}],"Notes":["taints are used to deflect workloads from a node.","tolerations are used to "],"Classes":null,"Styles":null},{"Number":[15],"Title":"Affinity","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[16],"Title":"Affinity","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"},{"Cmd":".code pod-004.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Pod\u003c/span\u003e\n\u003cspan num=\"3\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"4\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  # ...\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  affinity:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    nodeAffinity:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e      requiredDuringSchedulingRequiredDuringExecution:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e        nodeSelectorTerms:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e        - matchExpressions:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e          - key: \u0026#34;role\u0026#34;\u003c/span\u003e\n\u003cspan num=\"13\"\u003e            operator: \u0026#34;Equal\u0026#34;\u003c/span\u003e\n\u003cspan num=\"14\"\u003e            value: \u0026#34;ingress\u0026#34;\u003c/span\u003e\n\u003cspan num=\"15\"\u003e            effect: \u0026#34;NoSchedule\u0026#34;\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pod-004.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCiMgLi4uCnNwZWM6CiAgY29udGFpbmVyczoKICAjIC4uLgogIGFmZmluaXR5OgogICAgbm9kZUFmZmluaXR5OgogICAgICByZXF1aXJlZER1cmluZ1NjaGVkdWxpbmdSZXF1aXJlZER1cmluZ0V4ZWN1dGlvbjoKICAgICAgICBub2RlU2VsZWN0b3JUZXJtczoKICAgICAgICAtIG1hdGNoRXhwcmVzc2lvbnM6CiAgICAgICAgICAtIGtleTogInJvbGUiCiAgICAgICAgICAgIG9wZXJhdG9yOiAiRXF1YWwiCiAgICAgICAgICAgIHZhbHVlOiAiaW5ncmVzcyIKICAgICAgICAgICAgZWZmZWN0OiAiTm9TY2hlZHVsZSIK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[17],"Title":"Anti-affinity","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[18],"Title":"Anti-affinity","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏃 Run It\u003c/p\u003e\n"},{"Cmd":".code pod-005.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Pod\u003c/span\u003e\n\u003cspan num=\"3\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"4\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  # ...\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  affinity:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    # ...\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    podAntiAffinity:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e      requiredDuringSchedulingIgnoredDuringExecution:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e      - labelSelector:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e          matchExpressions:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e          - key: \u0026#34;app.kubernetes.io/name\u0026#34;\u003c/span\u003e\n\u003cspan num=\"14\"\u003e            operator: In\u003c/span\u003e\n\u003cspan num=\"15\"\u003e            values:\u003c/span\u003e\n\u003cspan num=\"16\"\u003e            - fizzbuzz\u003c/span\u003e\n\u003cspan num=\"17\"\u003e        topologyKey: \u0026#34;kubernetes.io/hostname\u0026#34;\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pod-005.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUG9kCiMgLi4uCnNwZWM6CiAgY29udGFpbmVyczoKICAjIC4uLgogIGFmZmluaXR5OgogICAgIyAuLi4KICAgIHBvZEFudGlBZmZpbml0eToKICAgICAgcmVxdWlyZWREdXJpbmdTY2hlZHVsaW5nSWdub3JlZER1cmluZ0V4ZWN1dGlvbjoKICAgICAgLSBsYWJlbFNlbGVjdG9yOgogICAgICAgICAgbWF0Y2hFeHByZXNzaW9uczoKICAgICAgICAgIC0ga2V5OiAiYXBwLmt1YmVybmV0ZXMuaW8vbmFtZSIKICAgICAgICAgICAgb3BlcmF0b3I6IEluCiAgICAgICAgICAgIHZhbHVlczoKICAgICAgICAgICAgLSBmaXp6YnV6egogICAgICAgIHRvcG9sb2d5S2V5OiAia3ViZXJuZXRlcy5pby9ob3N0bmFtZSIK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[19],"Title":"🩹 Keep It Running","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[20],"Title":"Workload Types","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n\u003cp\u003e@\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e===============================================\nType          | Description\n===============================================\nCronJobs      | repetitive time based execution\nDaemonSets    | clusterwide resources\nDeployments   | scalable stateless resources\nStatefulSets  | persistent storage resources\u003c/code\u003e\u003c/pre\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[21],"Title":"Deployments","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003ePod\u003c/li\u003e\n\u003cli\u003eReplicaSet\u003c/li\u003e\n\u003cli\u003eDeployment\u003c/li\u003e\n\u003cli\u003eHorizontal Pod Autoscaler (HPA)\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[22],"Title":"Deployments","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code deployment-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: apps/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Deployment\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: fizzbuzz\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: instana-dev\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  labels:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    app.kubernetes.io/name: \u0026#34;fizzbuzz\u0026#34;\u003c/span\u003e\n\u003cspan num=\"8\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  replicas: 1\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  selector:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e    matchLabels:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e      app.kubernetes.io/name: \u0026#34;fizzbuzz\u0026#34;\u003c/span\u003e\n\u003cspan num=\"13\"\u003e  template:\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    metadata:\u003c/span\u003e\n\u003cspan num=\"15\"\u003e      labels:\u003c/span\u003e\n\u003cspan num=\"16\"\u003e        app.kubernetes.io/name: \u0026#34;fizzbuzz\u0026#34;\u003c/span\u003e\n\u003cspan num=\"17\"\u003e        app.kubernetes.io/version: \u0026#34;1.0.0-85d759de\u0026#34;\u003c/span\u003e\n\u003cspan num=\"18\"\u003e    spec:\u003c/span\u003e\n\u003cspan num=\"19\"\u003e      containers:\u003c/span\u003e\n\u003cspan num=\"20\"\u003e      - name: fizbuzz\u003c/span\u003e\n\u003cspan num=\"21\"\u003e        image: gcr.io/google_containers/pause-amd64:3.0\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"deployment-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYXBwcy92MQpraW5kOiBEZXBsb3ltZW50Cm1ldGFkYXRhOgogIG5hbWU6IGZpenpidXp6CiAgbmFtZXNwYWNlOiBpbnN0YW5hLWRldgogIGxhYmVsczoKICAgIGFwcC5rdWJlcm5ldGVzLmlvL25hbWU6ICJmaXp6YnV6eiIKc3BlYzoKICByZXBsaWNhczogMQogIHNlbGVjdG9yOgogICAgbWF0Y2hMYWJlbHM6CiAgICAgIGFwcC5rdWJlcm5ldGVzLmlvL25hbWU6ICJmaXp6YnV6eiIKICB0ZW1wbGF0ZToKICAgIG1ldGFkYXRhOgogICAgICBsYWJlbHM6CiAgICAgICAgYXBwLmt1YmVybmV0ZXMuaW8vbmFtZTogImZpenpidXp6IgogICAgICAgIGFwcC5rdWJlcm5ldGVzLmlvL3ZlcnNpb246ICIxLjAuMC04NWQ3NTlkZSIKICAgIHNwZWM6CiAgICAgIGNvbnRhaW5lcnM6CiAgICAgIC0gbmFtZTogZml6YnV6egogICAgICAgIGltYWdlOiBnY3IuaW8vZ29vZ2xlX2NvbnRhaW5lcnMvcGF1c2UtYW1kNjQ6My4wCg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[23],"Title":"Deployments - Manual Scaling","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code deployment-scale.sh","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003ekubectl scale --replicas=2 -n instana-dev deployment/fizzbuzz \u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"deployment-scale.sh","Ext":".sh","Raw":"a3ViZWN0bCBzY2FsZSAtLXJlcGxpY2FzPTIgLW4gaW5zdGFuYS1kZXYgZGVwbG95bWVudC9maXp6YnV6eiAK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[24],"Title":"Deployments - HPA","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code hpa-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: autoscaling/v2\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: HorizontalPodAutoscaler\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: fizzbuzz\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: instana-dev\u003c/span\u003e\n\u003cspan num=\"6\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  minReplicas: 3\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  maxReplicas: 10\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  metrics:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  - resource:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e      name: cpu\u003c/span\u003e\n\u003cspan num=\"12\"\u003e      target:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e        averageUtilization: 50\u003c/span\u003e\n\u003cspan num=\"14\"\u003e        type: Utilization\u003c/span\u003e\n\u003cspan num=\"15\"\u003e    type: Resource\u003c/span\u003e\n\u003cspan num=\"16\"\u003e  scaleTargetRef:\u003c/span\u003e\n\u003cspan num=\"17\"\u003e    apiVersion: apps/v1\u003c/span\u003e\n\u003cspan num=\"18\"\u003e    kind: Deployment\u003c/span\u003e\n\u003cspan num=\"19\"\u003e    name: fizzbuzz\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"hpa-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYXV0b3NjYWxpbmcvdjIKa2luZDogSG9yaXpvbnRhbFBvZEF1dG9zY2FsZXIKbWV0YWRhdGE6CiAgbmFtZTogZml6emJ1enoKICBuYW1lc3BhY2U6IGluc3RhbmEtZGV2CnNwZWM6CiAgbWluUmVwbGljYXM6IDMKICBtYXhSZXBsaWNhczogMTAKICBtZXRyaWNzOgogIC0gcmVzb3VyY2U6CiAgICAgIG5hbWU6IGNwdQogICAgICB0YXJnZXQ6CiAgICAgICAgYXZlcmFnZVV0aWxpemF0aW9uOiA1MAogICAgICAgIHR5cGU6IFV0aWxpemF0aW9uCiAgICB0eXBlOiBSZXNvdXJjZQogIHNjYWxlVGFyZ2V0UmVmOgogICAgYXBpVmVyc2lvbjogYXBwcy92MQogICAga2luZDogRGVwbG95bWVudAogICAgbmFtZTogZml6emJ1enoK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[25],"Title":"StatefulSets","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[26],"Title":"StatefulSets","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eStorage Class\u003c/li\u003e\n\u003cli\u003ePersistent Volume (PV)\u003c/li\u003e\n\u003cli\u003ePersistent Volume Claim (PVC)\u003c/li\u003e\n\u003cli\u003eStatefulSet\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[27],"Title":"StatefulSets - Storage Class","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code storageclass-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: storage.k8s.io/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: StorageClass\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: local-storage\u003c/span\u003e\n\u003cspan num=\"5\"\u003eprovisioner: kubernetes.io/no-provisioner\u003c/span\u003e\n\u003cspan num=\"6\"\u003evolumeBindingMode: WaitForFirstConsumer\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"storageclass-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogc3RvcmFnZS5rOHMuaW8vdjEKa2luZDogU3RvcmFnZUNsYXNzCm1ldGFkYXRhOgogIG5hbWU6IGxvY2FsLXN0b3JhZ2UKcHJvdmlzaW9uZXI6IGt1YmVybmV0ZXMuaW8vbm8tcHJvdmlzaW9uZXIKdm9sdW1lQmluZGluZ01vZGU6IFdhaXRGb3JGaXJzdENvbnN1bWVyCg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[28],"Title":"StatefulSets - Persistent Volume","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code pv-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: PersistentVolume\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: local-pv\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  labels:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e    type: local\u003c/span\u003e\n\u003cspan num=\"7\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  storageClassName: local-storage\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  capacity:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    storage: 10Gi\u003c/span\u003e\n\u003cspan num=\"11\"\u003e  accessModes:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e    - ReadWriteOnce\u003c/span\u003e\n\u003cspan num=\"13\"\u003e  hostPath:\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    path: \u0026#34;/mnt\u0026#34;\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"pv-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogUGVyc2lzdGVudFZvbHVtZQptZXRhZGF0YToKICBuYW1lOiBsb2NhbC1wdgogIGxhYmVsczoKICAgIHR5cGU6IGxvY2FsCnNwZWM6CiAgc3RvcmFnZUNsYXNzTmFtZTogbG9jYWwtc3RvcmFnZQogIGNhcGFjaXR5OgogICAgc3RvcmFnZTogMTBHaQogIGFjY2Vzc01vZGVzOgogICAgLSBSZWFkV3JpdGVPbmNlCiAgaG9zdFBhdGg6CiAgICBwYXRoOiAiL21udCIK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[29],"Title":"StatefulSets - Stateful Set","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code statefulset-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: apps/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: StatefulSet\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: web\u003c/span\u003e\n\u003cspan num=\"5\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  selector:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    matchLabels:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e      app: nginx\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  serviceName: \u0026#34;nginx\u0026#34;\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  template:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e    metadata:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e      labels:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e        app: nginx\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    spec:\u003c/span\u003e\n\u003cspan num=\"15\"\u003e      terminationGracePeriodSeconds: 10\u003c/span\u003e\n\u003cspan num=\"16\"\u003e      containers:\u003c/span\u003e\n\u003cspan num=\"17\"\u003e      - name: nginx\u003c/span\u003e\n\u003cspan num=\"18\"\u003e        image: nginx\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"statefulset-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYXBwcy92MQpraW5kOiBTdGF0ZWZ1bFNldAptZXRhZGF0YToKICBuYW1lOiB3ZWIKc3BlYzoKICBzZWxlY3RvcjoKICAgIG1hdGNoTGFiZWxzOgogICAgICBhcHA6IG5naW54CiAgc2VydmljZU5hbWU6ICJuZ2lueCIKICB0ZW1wbGF0ZToKICAgIG1ldGFkYXRhOgogICAgICBsYWJlbHM6CiAgICAgICAgYXBwOiBuZ2lueAogICAgc3BlYzoKICAgICAgdGVybWluYXRpb25HcmFjZVBlcmlvZFNlY29uZHM6IDEwCiAgICAgIGNvbnRhaW5lcnM6CiAgICAgIC0gbmFtZTogbmdpbngKICAgICAgICBpbWFnZTogbmdpbngK"}],"Notes":["PersistentVolumes associated with the PVC's are not deleted when the Pods, or StatefulSet are deleted."],"Classes":null,"Styles":null},{"Number":[30],"Title":"StatefulSets - Stateful Set w/ Volume","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code statefulset-002.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"2\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"3\"\u003e  containers:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  - name: nginx\u003c/span\u003e\n\u003cspan num=\"5\"\u003e    image: nginx\u003c/span\u003e\n\u003cspan num=\"6\"\u003e    volumeMounts:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    - name: www\u003c/span\u003e\n\u003cspan num=\"8\"\u003e      mountPath: /usr/share/nginx/html\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"statefulset-002.yaml","Ext":".yaml","Raw":"IyAuLi4Kc3BlYzoKICBjb250YWluZXJzOgogIC0gbmFtZTogbmdpbngKICAgIGltYWdlOiBuZ2lueAogICAgdm9sdW1lTW91bnRzOgogICAgLSBuYW1lOiB3d3cKICAgICAgbW91bnRQYXRoOiAvdXNyL3NoYXJlL25naW54L2h0bWwK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[31],"Title":"StatefulSets - Stateful Set w/ PVC Template","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code statefulset-003.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003e# ...\u003c/span\u003e\n\u003cspan num=\"2\"\u003e      volumeMounts:\u003c/span\u003e\n\u003cspan num=\"3\"\u003e      - name: www\u003c/span\u003e\n\u003cspan num=\"4\"\u003e        mountPath: /usr/share/nginx/html\u003c/span\u003e\n\u003cspan num=\"5\"\u003evolumeClaimTemplates:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e- metadata:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    name: www\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  spec:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    accessModes: [ \u0026#34;ReadWriteOnce\u0026#34; ]\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    storageClassName: \u0026#34;local-storage\u0026#34;\u003c/span\u003e\n\u003cspan num=\"11\"\u003e    resources:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e      requests:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e        storage: 1Gi\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"statefulset-003.yaml","Ext":".yaml","Raw":"IyAuLi4KICAgICAgdm9sdW1lTW91bnRzOgogICAgICAtIG5hbWU6IHd3dwogICAgICAgIG1vdW50UGF0aDogL3Vzci9zaGFyZS9uZ2lueC9odG1sCnZvbHVtZUNsYWltVGVtcGxhdGVzOgotIG1ldGFkYXRhOgogICAgbmFtZTogd3d3CiAgc3BlYzoKICAgIGFjY2Vzc01vZGVzOiBbICJSZWFkV3JpdGVPbmNlIiBdCiAgICBzdG9yYWdlQ2xhc3NOYW1lOiAibG9jYWwtc3RvcmFnZSIKICAgIHJlc291cmNlczoKICAgICAgcmVxdWVzdHM6CiAgICAgICAgc3RvcmFnZTogMUdpCg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[32],"Title":"DaemonSets","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[33],"Title":"DaemonSets","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003ePod\u003c/li\u003e\n\u003cli\u003eDaemonSet\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[34],"Title":"DaemonSets","ID":"","Elem":[{"Cmd":".code ds-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: apps/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: DaemonSet\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: fluentd-elasticsearch\u003c/span\u003e\n\u003cspan num=\"5\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  selector:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    matchLabels:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e      name: fluentd-elasticsearch\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  template:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    metadata:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e      labels:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e        name: fluentd-elasticsearch\u003c/span\u003e\n\u003cspan num=\"13\"\u003e    spec:\u003c/span\u003e\n\u003cspan num=\"14\"\u003e      containers:\u003c/span\u003e\n\u003cspan num=\"15\"\u003e      - name: fluentd-elasticsearch\u003c/span\u003e\n\u003cspan num=\"16\"\u003e        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2\u003c/span\u003e\n\u003cspan num=\"17\"\u003e        volumeMounts:\u003c/span\u003e\n\u003cspan num=\"18\"\u003e        - name: varlog\u003c/span\u003e\n\u003cspan num=\"19\"\u003e          mountPath: /var/log\u003c/span\u003e\n\u003cspan num=\"20\"\u003e      volumes:\u003c/span\u003e\n\u003cspan num=\"21\"\u003e      - name: varlog\u003c/span\u003e\n\u003cspan num=\"22\"\u003e        hostPath:\u003c/span\u003e\n\u003cspan num=\"23\"\u003e          path: /var/log\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"ds-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYXBwcy92MQpraW5kOiBEYWVtb25TZXQKbWV0YWRhdGE6CiAgbmFtZTogZmx1ZW50ZC1lbGFzdGljc2VhcmNoCnNwZWM6CiAgc2VsZWN0b3I6CiAgICBtYXRjaExhYmVsczoKICAgICAgbmFtZTogZmx1ZW50ZC1lbGFzdGljc2VhcmNoCiAgdGVtcGxhdGU6CiAgICBtZXRhZGF0YToKICAgICAgbGFiZWxzOgogICAgICAgIG5hbWU6IGZsdWVudGQtZWxhc3RpY3NlYXJjaAogICAgc3BlYzoKICAgICAgY29udGFpbmVyczoKICAgICAgLSBuYW1lOiBmbHVlbnRkLWVsYXN0aWNzZWFyY2gKICAgICAgICBpbWFnZTogcXVheS5pby9mbHVlbnRkX2VsYXN0aWNzZWFyY2gvZmx1ZW50ZDp2Mi41LjIKICAgICAgICB2b2x1bWVNb3VudHM6CiAgICAgICAgLSBuYW1lOiB2YXJsb2cKICAgICAgICAgIG1vdW50UGF0aDogL3Zhci9sb2cKICAgICAgdm9sdW1lczoKICAgICAgLSBuYW1lOiB2YXJsb2cKICAgICAgICBob3N0UGF0aDoKICAgICAgICAgIHBhdGg6IC92YXIvbG9nCg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[35],"Title":"CronJobs","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003ePod\u003c/li\u003e\n\u003cli\u003eJob\u003c/li\u003e\n\u003cli\u003eCronJob\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[36],"Title":"CronJobs","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🩹 Keep It Running\u003c/p\u003e\n"},{"Cmd":".code cj-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: batch/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: CronJob\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: hello2\u003c/span\u003e\n\u003cspan num=\"5\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  schedule: \u0026#34;* * * * *\u0026#34;\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  jobTemplate:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    spec:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e      template:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e        spec:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e          containers:\u003c/span\u003e\n\u003cspan num=\"12\"\u003e          - name: hello2\u003c/span\u003e\n\u003cspan num=\"13\"\u003e            image: busybox\u003c/span\u003e\n\u003cspan num=\"14\"\u003e            command: [\u0026#34;/bin/sh\u0026#34;, \u0026#34;-c\u0026#34;, \u0026#34;sleep 10\u0026#34;]\u003c/span\u003e\n\u003cspan num=\"15\"\u003e          restartPolicy: OnFailure\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"cj-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYmF0Y2gvdjEKa2luZDogQ3JvbkpvYgptZXRhZGF0YToKICBuYW1lOiBoZWxsbzIKc3BlYzoKICBzY2hlZHVsZTogIiogKiAqICogKiIKICBqb2JUZW1wbGF0ZToKICAgIHNwZWM6CiAgICAgIHRlbXBsYXRlOgogICAgICAgIHNwZWM6CiAgICAgICAgICBjb250YWluZXJzOgogICAgICAgICAgLSBuYW1lOiBoZWxsbzIKICAgICAgICAgICAgaW1hZ2U6IGJ1c3lib3gKICAgICAgICAgICAgY29tbWFuZDogWyIvYmluL3NoIiwgIi1jIiwgInNsZWVwIDEwIl0KICAgICAgICAgIHJlc3RhcnRQb2xpY3k6IE9uRmFpbHVyZQo="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[37],"Title":"🍽️  Serve It","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[38],"Title":"🍽️  Serve It","ID":"","Elem":[{"Cmd":"","HTML":"\u003col\u003e\n\u003cli\u003eService\u003c/li\u003e\n\u003cli\u003eEndpoint Slice\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[39],"Title":"Service","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🍽️  Serve It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[40],"Title":"Service","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🍽️  Serve It\u003c/p\u003e\n"},{"Cmd":".code svc-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: Service\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  labels:\u003c/span\u003e\n\u003cspan num=\"5\"\u003e    k8s-app: kube-dns\u003c/span\u003e\n\u003cspan num=\"6\"\u003e  name: kube-dns\u003c/span\u003e\n\u003cspan num=\"7\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  internalTrafficPolicy: Cluster\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  ipFamilies:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  - IPv4\u003c/span\u003e\n\u003cspan num=\"11\"\u003e  ipFamilyPolicy: SingleStack\u003c/span\u003e\n\u003cspan num=\"12\"\u003e  ports:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e  - name: dns\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    port: 53\u003c/span\u003e\n\u003cspan num=\"15\"\u003e    protocol: UDP\u003c/span\u003e\n\u003cspan num=\"16\"\u003e    targetPort: 53\u003c/span\u003e\n\u003cspan num=\"17\"\u003e  selector:\u003c/span\u003e\n\u003cspan num=\"18\"\u003e    k8s-app: kube-dns\u003c/span\u003e\n\u003cspan num=\"19\"\u003e  sessionAffinity: None\u003c/span\u003e\n\u003cspan num=\"20\"\u003e  type: ClusterIP\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"svc-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogdjEKa2luZDogU2VydmljZQptZXRhZGF0YToKICBsYWJlbHM6CiAgICBrOHMtYXBwOiBrdWJlLWRucwogIG5hbWU6IGt1YmUtZG5zCnNwZWM6CiAgaW50ZXJuYWxUcmFmZmljUG9saWN5OiBDbHVzdGVyCiAgaXBGYW1pbGllczoKICAtIElQdjQKICBpcEZhbWlseVBvbGljeTogU2luZ2xlU3RhY2sKICBwb3J0czoKICAtIG5hbWU6IGRucwogICAgcG9ydDogNTMKICAgIHByb3RvY29sOiBVRFAKICAgIHRhcmdldFBvcnQ6IDUzCiAgc2VsZWN0b3I6CiAgICBrOHMtYXBwOiBrdWJlLWRucwogIHNlc3Npb25BZmZpbml0eTogTm9uZQogIHR5cGU6IENsdXN0ZXJJUAo="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[41],"Title":"Endpoint Slice","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🍽️  Serve It\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e$ kubectl get -n kube-system   endpointslices/kube-dns-vmpct\nNAME             ADDRESSTYPE   PORTS        ENDPOINTS               AGE\nkube-dns-vmpct   IPv4          9153,53,53   10.244.0.2,10.244.0.3   14d\n\n$ kubectl get pods -n kube-system -l k8s-app=kube-dns\nNAME                       READY   STATUS    RESTARTS   AGE\ncoredns-84f998787d-dp445   1/1     Running   0          14d\ncoredns-84f998787d-g7sh2   1/1     Running   0          14d\u003c/code\u003e\u003c/pre\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[42],"Title":"🏰 Secure It","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[43],"Title":"Network Policy","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🏰 Secure It\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[44],"Title":"Network Policy","ID":"","Elem":[{"Cmd":".code np-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: networking.k8s.io/v1\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: NetworkPolicy\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: test-network-policy\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: default\u003c/span\u003e\n\u003cspan num=\"6\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  podSelector:\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    matchLabels:\u003c/span\u003e\n\u003cspan num=\"9\"\u003e      role: db\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  policyTypes:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e  - Ingress\u003c/span\u003e\n\u003cspan num=\"12\"\u003e  ingress:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e  - from:\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    - ipBlock:\u003c/span\u003e\n\u003cspan num=\"15\"\u003e        cidr: 172.17.0.0/16\u003c/span\u003e\n\u003cspan num=\"16\"\u003e    - namespaceSelector:\u003c/span\u003e\n\u003cspan num=\"17\"\u003e        matchLabels:\u003c/span\u003e\n\u003cspan num=\"18\"\u003e          project: instana-dev\u003c/span\u003e\n\u003cspan num=\"19\"\u003e    - podSelector:\u003c/span\u003e\n\u003cspan num=\"20\"\u003e        matchLabels:\u003c/span\u003e\n\u003cspan num=\"21\"\u003e          role: frontend\u003c/span\u003e\n\u003cspan num=\"22\"\u003e    ports:\u003c/span\u003e\n\u003cspan num=\"23\"\u003e    - protocol: TCP\u003c/span\u003e\n\u003cspan num=\"24\"\u003e      port: 8080\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"np-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogbmV0d29ya2luZy5rOHMuaW8vdjEKa2luZDogTmV0d29ya1BvbGljeQptZXRhZGF0YToKICBuYW1lOiB0ZXN0LW5ldHdvcmstcG9saWN5CiAgbmFtZXNwYWNlOiBkZWZhdWx0CnNwZWM6CiAgcG9kU2VsZWN0b3I6CiAgICBtYXRjaExhYmVsczoKICAgICAgcm9sZTogZGIKICBwb2xpY3lUeXBlczoKICAtIEluZ3Jlc3MKICBpbmdyZXNzOgogIC0gZnJvbToKICAgIC0gaXBCbG9jazoKICAgICAgICBjaWRyOiAxNzIuMTcuMC4wLzE2CiAgICAtIG5hbWVzcGFjZVNlbGVjdG9yOgogICAgICAgIG1hdGNoTGFiZWxzOgogICAgICAgICAgcHJvamVjdDogaW5zdGFuYS1kZXYKICAgIC0gcG9kU2VsZWN0b3I6CiAgICAgICAgbWF0Y2hMYWJlbHM6CiAgICAgICAgICByb2xlOiBmcm9udGVuZAogICAgcG9ydHM6CiAgICAtIHByb3RvY29sOiBUQ1AKICAgICAgcG9ydDogODA4MAo="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[45],"Title":"💎 Rarely Needed Gems","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[46],"Title":"Controllers","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e💎 Rarely Needed Gems\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[47],"Title":"Controllers","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e💎 Rarely Needed Gems\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eMutating.\u003c/li\u003e\n\u003cli\u003eValidating.\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[48],"Title":"Operators","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e💎 Rarely Needed Gems\u003c/p\u003e\n"}],"Notes":null,"Classes":null,"Styles":null}];
+      var titleNotes =  null 
+    </script>
+    <script src="./k8s-crash-course_files/notes.js"></script>
+    
+
+    <script>
+      
+      if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-11222381-6"]);
+        _gaq.push(["b._setAccount", "UA-49880327-6"]);
+        window.trackPageview = function() {
+          _gaq.push(["_trackPageview", location.pathname+location.hash]);
+          _gaq.push(["b._trackPageview", location.pathname+location.hash]);
+        };
+        window.trackPageview();
+        window.trackEvent = function(category, action, opt_label, opt_value, opt_noninteraction) {
+          _gaq.push(["_trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+          _gaq.push(["b._trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+        };
+      }
+    </script>
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"><meta name="apple-mobile-web-app-capable" content="yes"></head>
+
+  <body style="display: none" class="loaded">
+
+    <section class="slides layout-widescreen">
+
+      <article class="current">
+        <h1>Kubernetes Crash Course</h1>
+        
+        
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Launching Your Next Big Idea
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+  
+  
+      <article class="next">
+      
+        <h3>Contents</h3>
+        <ol>
+<li>💡 <strong>The Idea</strong> - An overview.</li>
+<li>🔨 <strong>Build It</strong> - Docker.</li>
+<li>🏃 <strong>Run It</strong> - Pods.</li>
+<li>🩹 <strong>Keep It Running</strong> - Workloads, Scaling, and Storage.</li>
+<li>🍽️ <strong>Serve It</strong> - Services and Endpoints.</li>
+<li>🏰 <strong>Secure It</strong> - Network Policy.</li>
+<li>💎 <strong>Rarely Needed Gems</strong> - Controllers and Operators.</li>
+</ol>
+
+      
+      <span class="pagenumber">2</span>
+      </article>
+  
+  
+  
+      <article class="far-next">
+      
+        <h3>💡 The Idea</h3>
+        <p><strong>Fizz Buzz as a Service</strong></p>
+<p>Bring fizz buzz to the masses!</p>
+
+      
+      <span class="pagenumber">3</span>
+      </article>
+  
+  
+  
+      <article class="background" style="background-image: url(&#39;pods/pods.001.png&#39;)">
+      
+        <h2>Objective</h2>
+      
+      <span class="pagenumber">4</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>🔨 Build It</h2>
+      
+      <span class="pagenumber">5</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Docker Build &amp; Publish</h3>
+        <p>🔨 Build It</p>
+
+  <div class="code">
+<pre><span num="1"># Build image.</span>
+<span num="2">FROM golang:1.17-bullseye as build</span>
+<span num="3"></span>
+<span num="4">WORKDIR /go/src/app</span>
+<span num="5"></span>
+<span num="6">COPY go.* ./</span>
+<span num="7">RUN go mod download</span>
+<span num="8"></span>
+<span num="9">COPY . ./</span>
+<span num="10">RUN --mount=type=cache,target=/root/.cache/go-build make linux</span>
+<span num="11"></span>
+<span num="12"># Distroless is a lightweight base image.</span>
+<span num="13">FROM gcr.io/distroless/base-debian11</span>
+<span num="14">COPY --from=build /go/src/app/fizzbuzz /</span>
+<span num="15">CMD ["/fizzbuzz"]</span>
+</pre>
+</div>
+
+  <div class="code">
+<pre><span num="1">docker build . -t nfinstana/fizzbuzz:1.0.0-85d759de &amp;&amp; \</span>
+<span num="2">docker push nfinstana/fizzbuzz:1.0.0-85d759de</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">6</span>
+      </article>
+  
+  
+  
+      <article class="background" style="background-image: url(&#39;pods/pods.002.png&#39;)">
+      
+        <h2>🏃 Run It</h2>
+      
+      <span class="pagenumber">7</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Overview</h3>
+        <p>🏃 Run It</p>
+<ol>
+<li>What is a Resource</li>
+<li>Minimal Pod Spec</li>
+<li>Requests &amp; Limits</li>
+<li>Taints &amp; Tolerations</li>
+<li>Affinity</li>
+<li>Anti-affinity</li>
+</ol>
+
+      
+      <span class="pagenumber">8</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>What is a Resource</h3>
+        <p>🏃 Run It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: $(API_VERSION)      # e.g. batch/v1, apps/v1, v1</span>
+<span num="2">kind: $(RESOURCE_KIND)          # e.g. Pod, CronJob, Deployment</span>
+<span num="3">metadata:</span>
+<span num="4">  name: $(UNIQUE_NAME)          # unique name for the resource kind</span>
+<span num="5">  namespace: $(NAMESPACE)       # namespace, some kinds are global, otherwise defaulted</span>
+<span num="6">  labels:</span>
+<span num="7">    $(LABEL_MAP)                # key-value pairs</span>
+<span num="8">  annotations:</span>
+<span num="9">    $(ANNOTATION_MAP)           # key-value pairs</span>
+<span num="10">spec:</span>
+<span num="11">  # ... resource definition</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">9</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Minimal Pod Spec</h3>
+        <p>🏃 Run It</p>
+
+      
+      <span class="pagenumber">10</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Minimal Pod Spec</h3>
+        <p>🏃 Run It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Pod</span>
+<span num="3">metadata:</span>
+<span num="4">  name: fizzbuzz</span>
+<span num="5">  namespace: instana-dev</span>
+<span num="6">  labels:</span>
+<span num="7">    # Standard labels - https://helm.sh/docs/chart_best_practices/labels/#standard-labels</span>
+<span num="8">    app.kubernetes.io/name: "fizzbuzz"</span>
+<span num="9">    app.kubernetes.io/version: "1.0.0-85d759de"</span>
+<span num="10">spec:</span>
+<span num="11">  containers:</span>
+<span num="12">  - name: fizbuzz</span>
+<span num="13">    image: nfinstana/fizzbuzz:1.0.0-85d759de</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">11</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Requests &amp; Limits</h3>
+        <p>🏃 Run It</p>
+
+      
+      <span class="pagenumber">12</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Requests &amp; Limits</h3>
+        <p>🏃 Run It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Pod</span>
+<span num="3"># ...</span>
+<span num="4">spec:</span>
+<span num="5">  containers:</span>
+<span num="6">  - name: fizbuzz</span>
+<span num="7">    resources:</span>
+<span num="8">      requests:</span>
+<span num="9">        cpu: "10m"</span>
+<span num="10">        memory: "64Mi"</span>
+<span num="11">      limits:</span>
+<span num="12">        cpu: "100m"</span>
+<span num="13">        memory: "128Mi"</span>
+<span num="14">    # ...</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">13</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Taints &amp; Tolerations</h3>
+        <p>🏃 Run It</p>
+
+      
+      <span class="pagenumber">14</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Taints &amp; Tolerations</h3>
+        <p>🏃 Run It</p>
+<p>Node Taint</p>
+
+  <div class="code">
+<pre><span num="1">kubectl taint nodes node01 role=ingress:NoSchedule</span>
+</pre>
+</div>
+<p>Pod Toleration</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Pod</span>
+<span num="3"># ...</span>
+<span num="4">spec:</span>
+<span num="5">  containers:</span>
+<span num="6">  # ...</span>
+<span num="7">  tolerations:</span>
+<span num="8">  - key: "role"</span>
+<span num="9">    operator: "Equal"</span>
+<span num="10">    value: "ingress"</span>
+<span num="11">    effect: "NoSchedule"</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">15</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Affinity</h3>
+        <p>🏃 Run It</p>
+
+      
+      <span class="pagenumber">16</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Affinity</h3>
+        <p>🏃 Run It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Pod</span>
+<span num="3"># ...</span>
+<span num="4">spec:</span>
+<span num="5">  containers:</span>
+<span num="6">  # ...</span>
+<span num="7">  affinity:</span>
+<span num="8">    nodeAffinity:</span>
+<span num="9">      requiredDuringSchedulingRequiredDuringExecution:</span>
+<span num="10">        nodeSelectorTerms:</span>
+<span num="11">        - matchExpressions:</span>
+<span num="12">          - key: "role"</span>
+<span num="13">            operator: "Equal"</span>
+<span num="14">            value: "ingress"</span>
+<span num="15">            effect: "NoSchedule"</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">17</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Anti-affinity</h3>
+        <p>🏃 Run It</p>
+
+      
+      <span class="pagenumber">18</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Anti-affinity</h3>
+        <p>🏃 Run It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Pod</span>
+<span num="3"># ...</span>
+<span num="4">spec:</span>
+<span num="5">  containers:</span>
+<span num="6">  # ...</span>
+<span num="7">  affinity:</span>
+<span num="8">    # ...</span>
+<span num="9">    podAntiAffinity:</span>
+<span num="10">      requiredDuringSchedulingIgnoredDuringExecution:</span>
+<span num="11">      - labelSelector:</span>
+<span num="12">          matchExpressions:</span>
+<span num="13">          - key: "app.kubernetes.io/name"</span>
+<span num="14">            operator: In</span>
+<span num="15">            values:</span>
+<span num="16">            - fizzbuzz</span>
+<span num="17">        topologyKey: "kubernetes.io/hostname"</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">19</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>🩹 Keep It Running</h2>
+      
+      <span class="pagenumber">20</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Workload Types</h3>
+        <p>🩹 Keep It Running</p>
+<p>@</p>
+<pre><code>===============================================
+Type          | Description
+===============================================
+CronJobs      | repetitive time based execution
+DaemonSets    | clusterwide resources
+Deployments   | scalable stateless resources
+StatefulSets  | persistent storage resources</code></pre>
+
+      
+      <span class="pagenumber">21</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Deployments</h3>
+        <p>🩹 Keep It Running</p>
+<ol>
+<li>Pod</li>
+<li>ReplicaSet</li>
+<li>Deployment</li>
+<li>Horizontal Pod Autoscaler (HPA)</li>
+</ol>
+
+      
+      <span class="pagenumber">22</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Deployments</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: apps/v1</span>
+<span num="2">kind: Deployment</span>
+<span num="3">metadata:</span>
+<span num="4">  name: fizzbuzz</span>
+<span num="5">  namespace: instana-dev</span>
+<span num="6">  labels:</span>
+<span num="7">    app.kubernetes.io/name: "fizzbuzz"</span>
+<span num="8">spec:</span>
+<span num="9">  replicas: 1</span>
+<span num="10">  selector:</span>
+<span num="11">    matchLabels:</span>
+<span num="12">      app.kubernetes.io/name: "fizzbuzz"</span>
+<span num="13">  template:</span>
+<span num="14">    metadata:</span>
+<span num="15">      labels:</span>
+<span num="16">        app.kubernetes.io/name: "fizzbuzz"</span>
+<span num="17">        app.kubernetes.io/version: "1.0.0-85d759de"</span>
+<span num="18">    spec:</span>
+<span num="19">      containers:</span>
+<span num="20">      - name: fizbuzz</span>
+<span num="21">        image: gcr.io/google_containers/pause-amd64:3.0</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">23</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Deployments - Manual Scaling</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">kubectl scale --replicas=2 -n instana-dev deployment/fizzbuzz </span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">24</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Deployments - HPA</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: autoscaling/v2</span>
+<span num="2">kind: HorizontalPodAutoscaler</span>
+<span num="3">metadata:</span>
+<span num="4">  name: fizzbuzz</span>
+<span num="5">  namespace: instana-dev</span>
+<span num="6">spec:</span>
+<span num="7">  minReplicas: 3</span>
+<span num="8">  maxReplicas: 10</span>
+<span num="9">  metrics:</span>
+<span num="10">  - resource:</span>
+<span num="11">      name: cpu</span>
+<span num="12">      target:</span>
+<span num="13">        averageUtilization: 50</span>
+<span num="14">        type: Utilization</span>
+<span num="15">    type: Resource</span>
+<span num="16">  scaleTargetRef:</span>
+<span num="17">    apiVersion: apps/v1</span>
+<span num="18">    kind: Deployment</span>
+<span num="19">    name: fizzbuzz</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">25</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets</h3>
+        <p>🩹 Keep It Running</p>
+
+      
+      <span class="pagenumber">26</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets</h3>
+        <p>🩹 Keep It Running</p>
+<ol>
+<li>Storage Class</li>
+<li>Persistent Volume (PV)</li>
+<li>Persistent Volume Claim (PVC)</li>
+<li>StatefulSet</li>
+</ol>
+
+      
+      <span class="pagenumber">27</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets - Storage Class</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: storage.k8s.io/v1</span>
+<span num="2">kind: StorageClass</span>
+<span num="3">metadata:</span>
+<span num="4">  name: local-storage</span>
+<span num="5">provisioner: kubernetes.io/no-provisioner</span>
+<span num="6">volumeBindingMode: WaitForFirstConsumer</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">28</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets - Persistent Volume</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: PersistentVolume</span>
+<span num="3">metadata:</span>
+<span num="4">  name: local-pv</span>
+<span num="5">  labels:</span>
+<span num="6">    type: local</span>
+<span num="7">spec:</span>
+<span num="8">  storageClassName: local-storage</span>
+<span num="9">  capacity:</span>
+<span num="10">    storage: 10Gi</span>
+<span num="11">  accessModes:</span>
+<span num="12">    - ReadWriteOnce</span>
+<span num="13">  hostPath:</span>
+<span num="14">    path: "/mnt"</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">29</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets - Stateful Set</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: apps/v1</span>
+<span num="2">kind: StatefulSet</span>
+<span num="3">metadata:</span>
+<span num="4">  name: web</span>
+<span num="5">spec:</span>
+<span num="6">  selector:</span>
+<span num="7">    matchLabels:</span>
+<span num="8">      app: nginx</span>
+<span num="9">  serviceName: "nginx"</span>
+<span num="10">  template:</span>
+<span num="11">    metadata:</span>
+<span num="12">      labels:</span>
+<span num="13">        app: nginx</span>
+<span num="14">    spec:</span>
+<span num="15">      terminationGracePeriodSeconds: 10</span>
+<span num="16">      containers:</span>
+<span num="17">      - name: nginx</span>
+<span num="18">        image: nginx</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">30</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets - Stateful Set w/ Volume</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1"># ...</span>
+<span num="2">spec:</span>
+<span num="3">  containers:</span>
+<span num="4">  - name: nginx</span>
+<span num="5">    image: nginx</span>
+<span num="6">    volumeMounts:</span>
+<span num="7">    - name: www</span>
+<span num="8">      mountPath: /usr/share/nginx/html</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">31</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>StatefulSets - Stateful Set w/ PVC Template</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1"># ...</span>
+<span num="2">      volumeMounts:</span>
+<span num="3">      - name: www</span>
+<span num="4">        mountPath: /usr/share/nginx/html</span>
+<span num="5">volumeClaimTemplates:</span>
+<span num="6">- metadata:</span>
+<span num="7">    name: www</span>
+<span num="8">  spec:</span>
+<span num="9">    accessModes: [ "ReadWriteOnce" ]</span>
+<span num="10">    storageClassName: "local-storage"</span>
+<span num="11">    resources:</span>
+<span num="12">      requests:</span>
+<span num="13">        storage: 1Gi</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">32</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>DaemonSets</h3>
+        <p>🩹 Keep It Running</p>
+
+      
+      <span class="pagenumber">33</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>DaemonSets</h3>
+        <p>🩹 Keep It Running</p>
+<ol>
+<li>Pod</li>
+<li>DaemonSet</li>
+</ol>
+
+      
+      <span class="pagenumber">34</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>DaemonSets</h3>
+        
+  <div class="code">
+<pre><span num="1">apiVersion: apps/v1</span>
+<span num="2">kind: DaemonSet</span>
+<span num="3">metadata:</span>
+<span num="4">  name: fluentd-elasticsearch</span>
+<span num="5">spec:</span>
+<span num="6">  selector:</span>
+<span num="7">    matchLabels:</span>
+<span num="8">      name: fluentd-elasticsearch</span>
+<span num="9">  template:</span>
+<span num="10">    metadata:</span>
+<span num="11">      labels:</span>
+<span num="12">        name: fluentd-elasticsearch</span>
+<span num="13">    spec:</span>
+<span num="14">      containers:</span>
+<span num="15">      - name: fluentd-elasticsearch</span>
+<span num="16">        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2</span>
+<span num="17">        volumeMounts:</span>
+<span num="18">        - name: varlog</span>
+<span num="19">          mountPath: /var/log</span>
+<span num="20">      volumes:</span>
+<span num="21">      - name: varlog</span>
+<span num="22">        hostPath:</span>
+<span num="23">          path: /var/log</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">35</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>CronJobs</h3>
+        <p>🩹 Keep It Running</p>
+<ol>
+<li>Pod</li>
+<li>Job</li>
+<li>CronJob</li>
+</ol>
+
+      
+      <span class="pagenumber">36</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>CronJobs</h3>
+        <p>🩹 Keep It Running</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: batch/v1</span>
+<span num="2">kind: CronJob</span>
+<span num="3">metadata:</span>
+<span num="4">  name: hello2</span>
+<span num="5">spec:</span>
+<span num="6">  schedule: "* * * * *"</span>
+<span num="7">  jobTemplate:</span>
+<span num="8">    spec:</span>
+<span num="9">      template:</span>
+<span num="10">        spec:</span>
+<span num="11">          containers:</span>
+<span num="12">          - name: hello2</span>
+<span num="13">            image: busybox</span>
+<span num="14">            command: ["/bin/sh", "-c", "sleep 10"]</span>
+<span num="15">          restartPolicy: OnFailure</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">37</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>🍽️  Serve It</h2>
+      
+      <span class="pagenumber">38</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>🍽️  Serve It</h3>
+        <ol>
+<li>Service</li>
+<li>Endpoint Slice</li>
+</ol>
+
+      
+      <span class="pagenumber">39</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Service</h3>
+        <p>🍽️  Serve It</p>
+
+      
+      <span class="pagenumber">40</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Service</h3>
+        <p>🍽️  Serve It</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: v1</span>
+<span num="2">kind: Service</span>
+<span num="3">metadata:</span>
+<span num="4">  labels:</span>
+<span num="5">    k8s-app: kube-dns</span>
+<span num="6">  name: kube-dns</span>
+<span num="7">spec:</span>
+<span num="8">  internalTrafficPolicy: Cluster</span>
+<span num="9">  ipFamilies:</span>
+<span num="10">  - IPv4</span>
+<span num="11">  ipFamilyPolicy: SingleStack</span>
+<span num="12">  ports:</span>
+<span num="13">  - name: dns</span>
+<span num="14">    port: 53</span>
+<span num="15">    protocol: UDP</span>
+<span num="16">    targetPort: 53</span>
+<span num="17">  selector:</span>
+<span num="18">    k8s-app: kube-dns</span>
+<span num="19">  sessionAffinity: None</span>
+<span num="20">  type: ClusterIP</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">41</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Endpoint Slice</h3>
+        <p>🍽️  Serve It</p>
+<pre><code>$ kubectl get -n kube-system   endpointslices/kube-dns-vmpct
+NAME             ADDRESSTYPE   PORTS        ENDPOINTS               AGE
+kube-dns-vmpct   IPv4          9153,53,53   10.244.0.2,10.244.0.3   14d
+
+$ kubectl get pods -n kube-system -l k8s-app=kube-dns
+NAME                       READY   STATUS    RESTARTS   AGE
+coredns-84f998787d-dp445   1/1     Running   0          14d
+coredns-84f998787d-g7sh2   1/1     Running   0          14d</code></pre>
+
+      
+      <span class="pagenumber">42</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>🏰 Secure It</h2>
+      
+      <span class="pagenumber">43</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Network Policy</h3>
+        <p>🏰 Secure It</p>
+
+      
+      <span class="pagenumber">44</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Network Policy</h3>
+        
+  <div class="code">
+<pre><span num="1">apiVersion: networking.k8s.io/v1</span>
+<span num="2">kind: NetworkPolicy</span>
+<span num="3">metadata:</span>
+<span num="4">  name: test-network-policy</span>
+<span num="5">  namespace: default</span>
+<span num="6">spec:</span>
+<span num="7">  podSelector:</span>
+<span num="8">    matchLabels:</span>
+<span num="9">      role: db</span>
+<span num="10">  policyTypes:</span>
+<span num="11">  - Ingress</span>
+<span num="12">  ingress:</span>
+<span num="13">  - from:</span>
+<span num="14">    - ipBlock:</span>
+<span num="15">        cidr: 172.17.0.0/16</span>
+<span num="16">    - namespaceSelector:</span>
+<span num="17">        matchLabels:</span>
+<span num="18">          project: instana-dev</span>
+<span num="19">    - podSelector:</span>
+<span num="20">        matchLabels:</span>
+<span num="21">          role: frontend</span>
+<span num="22">    ports:</span>
+<span num="23">    - protocol: TCP</span>
+<span num="24">      port: 8080</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">45</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h2>💎 Rarely Needed Gems</h2>
+      
+      <span class="pagenumber">46</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Controllers</h3>
+        <p>💎 Rarely Needed Gems</p>
+
+      
+      <span class="pagenumber">47</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Controllers</h3>
+        <p>💎 Rarely Needed Gems</p>
+<ol>
+<li>Mutating.</li>
+<li>Validating.</li>
+</ol>
+
+      
+      <span class="pagenumber">48</span>
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Operators</h3>
+        <p>💎 Rarely Needed Gems</p>
+
+      
+      <span class="pagenumber">49</span>
+      </article>
+  
+  
+
+      <article>
+        <h3>Thank you</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Launching Your Next Big Idea
+  </p>
+  
+<p class="link"><a href="http://127.0.0.1:3999/overview.slide#ZgotmplZ" target="_blank">Summary: Kubernetes Crash Course</a></p>
+  
+  <p>
+    09 Jan 2022
+  </p>
+  
+<p class="link"><a href="mailto:nathan.fisher@ibm.com" target="_blank">nathan.fisher@ibm.com</a></p>
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+    <div class="slide-area" id="prev-slide-area"></div><div class="slide-area" id="next-slide-area"></div></section>
+
+    <div id="help" style="display: none;">
+      Use the left and right arrow keys or click the left and right
+      edges of the page to navigate between slides.<br>
+      (Press 'H' or navigate to hide this message.)
+    </div>
+
+    
+    <script src="./k8s-crash-course_files/play.js"></script>
+    
+
+    <script>
+      (function() {
+        
+        if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        }
+      })();
+    </script>
+  
+
+<link rel="stylesheet" type="text/css" href="./k8s-crash-course_files/css"><link rel="stylesheet" type="text/css" href="./k8s-crash-course_files/styles.css"></body></html>
