@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Kubernetes Autoscaling</title>
+    <meta charset="utf-8">
+    <script>
+      var notesEnabled =  true ;
+    </script>
+    <script src="k8s-hpa_files/slides.js"></script>
+
+    
+    <script>
+      var sections = [{"Number":[1],"Title":"Contents","ID":"","Elem":[{"Cmd":"","HTML":"\u003col\u003e\n\u003cli\u003e⌛ \u003cstrong\u003eHistory of Scaling\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e🤷 \u003cstrong\u003eReasons for Scaling\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e👨‍👧‍👦 \u003cstrong\u003eMaturity Model\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e📈 \u003cstrong\u003eScaling in Kubernetes\u003c/strong\u003e\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[2],"Title":"Timelines","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e⌛ History of Scaling\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e\n| Class               | Lead Time               | Level of Automation |\n| ------------------- | ----------------------- | ------------------- |\n| Self-hosted Servers | Weeks to Months         | Low                 |\n| Virtualisation      | Days to Weeks           | Low                 |\n| VPS                 | Hours to Days           | Moderate            |\n| Instances           | Minutes to Hours        | Moderate to High    |\n| Pods                | Seconds to Minutes      | High                |\n| Functions           | Milliseconds to Seconds | High                |\n| #nocode             | Speed of thought **     | Infinite ∞          |\n\u003c/code\u003e\u003c/pre\u003e\n\u003cp\u003e** ( ͡° ͜ʖ ͡°)\u003c/p\u003e\n"}],"Notes":["faster and more automated as you traverse down the table."],"Classes":null,"Styles":null},{"Number":[3],"Title":"Drivers","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e🤷 Reasons for Scaling\u003c/p\u003e\n\u003cp\u003e\u003cstrong\u003eScale Up\u003c/strong\u003e\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eLatency.\u003c/li\u003e\n\u003cli\u003eAvailability.\u003c/li\u003e\n\u003cli\u003eThroughput.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e\u003cstrong\u003eScale Down\u003c/strong\u003e\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eCosts.\u003c/li\u003e\n\u003cli\u003eDensity.\u003c/li\u003e\n\u003cli\u003eSharing.\u003c/li\u003e\n\u003c/ol\u003e\n"}],"Notes":["Golden Signals","","1. Latency: the time it takes to serve a request.","2. Traffic: the total number of requests across the network.","3. Errors: the number of requests that fail.","4. Saturation: the load on your network and servers.","","Resource Sharing - batch workloads during off-peak hours."],"Classes":null,"Styles":null},{"Number":[4],"Title":"👨‍👧‍👦 Autoscaling Maturity Model","ID":"","Elem":[{"Cmd":"","HTML":"\u003cpre\u003e\u003ccode\u003e\n| Level            | Monitoring       | Scaling                   | Benchmarking                |\n| ---------------- | ---------------- | ------------------------- | --------------------------- |\n|  0 - Static      | No observability | Best guess provisioning   | No performance/load testing |\n|  1 - Coarse      | CPU/Memory       | Based on CPU/Memory       | Manual load tests           |\n|  2 - Qualitative | Calls/Latency    | Based on calls/latency    | Automatic but periodic      |\n|  3 - Optimising  | Tracing          | Adaptive                  | Automatic per commit        |\n\u003c/code\u003e\u003c/pre\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[5],"Title":"Level 0 - Static","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e👨‍👧‍👦 Autoscaling Maturity Model\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eNo observability.\n\u003cul\u003e\n\u003cli\u003epod restarts only indicator of workload behaviour.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eBest guess provisioning.\n\u003cul\u003e\n\u003cli\u003eexample 3 replicas for HA.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eNo performance/load testing.\n\u003cul\u003e\n\u003cli\u003ehigh value, low volume usage might not be high priority (e.g. 10s of RPS).\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"}],"Notes":["deployment, replicaset, pods, service, and optionally ingress (optional)"],"Classes":null,"Styles":null},{"Number":[6],"Title":"Level 1 - Coarse","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e👨‍👧‍👦 Autoscaling Maturity Model\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eCPU/Memory monitoring.\n\u003cul\u003e\n\u003cli\u003emetrics-server process and host CPU/Memory utilisation.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eScaling based on course metrics.\n\u003cul\u003e\n\u003cli\u003escale with what you've got.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eManual load tests.\n\u003cul\u003e\n\u003cli\u003eone off or per release go/no-go.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"}],"Notes":["level 0 - deployment, replicaset, pods, service, and optionally ingress (optional)","additionally: resource requests/limits, metrics-server, and HPA"],"Classes":null,"Styles":null},{"Number":[7],"Title":"Level 2 - Qualitative","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e👨‍👧‍👦 Autoscaling Maturity Model\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eCall/Latency Monitoring.\n\u003cul\u003e\n\u003cli\u003eRPS, Latency by Call, etc.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eScaling based on user experience.\n\u003cul\u003e\n\u003cli\u003eRPS is a good basis to scale on.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eAutomated periodic load tests.\n\u003cul\u003e\n\u003cli\u003enightly runs, release tagging, etc.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"}],"Notes":["level 0 - deployment, replicaset, pods, service, and optionally ingress (optional)","level 1 - metrics-server, and HPA","additionally: custom metrics"],"Classes":null,"Styles":null},{"Number":[8],"Title":"Level 3 - Optimising","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e👨‍👧‍👦 Autoscaling Maturity Model\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eAdaptive load management.\n\u003cul\u003e\n\u003cli\u003ecircuit breakers, load-shedding, retry limits, exponential backoff, partial degradation.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003cli\u003eAutomated load tests per commit.\u003c/li\u003e\n\u003cli\u003eDistributed Tracing\n\u003cul\u003e\n\u003cli\u003euseful for identifying scaling relationships between components in microservices.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n"}],"Notes":["level 0 - deployment, replicaset, pods, service, and optionally ingress (optional)","level 1 - metrics-server, and HPA","level 2: custom metrics","additionally: circuit breakers, load-shedding, retry limits, exponential backoff, partial degradation"],"Classes":null,"Styles":null},{"Number":[9],"Title":"📈 Scaling in Kubernetes","ID":"","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[10],"Title":"Scaling Maths 101","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e📈 Scaling in Kubernetes\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003e\ndesiredReplicas = ceil(currentReplicas * (currentMetric/desiredMetric))\n\n    Given a target utilization of 60%\n    And a replica count of 4 pods\n    And an average utilization of 80%\n    When the HPA evaluates the metrics\n    Then it should scale to 6 pods.\n\n ceil(4 * (100/60)).\n\n\u003c/code\u003e\u003c/pre\u003e\n"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[11],"Title":"Level 0 - Static","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e📈 Scaling in Kubernetes\u003c/p\u003e\n"},{"Cmd":".code deployment-scale.sh","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003ekubectl scale --replicas=2 -n instana-dev deployment/fizzbuzz \u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"deployment-scale.sh","Ext":".sh","Raw":"a3ViZWN0bCBzY2FsZSAtLXJlcGxpY2FzPTIgLW4gaW5zdGFuYS1kZXYgZGVwbG95bWVudC9maXp6YnV6eiAK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[12],"Title":"Level 1 - Coarse","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e📈 Scaling in Kubernetes\u003c/p\u003e\n"},{"Cmd":".code hpa-001.yaml","Text":"\n\u003cpre\u003e\u003cspan num=\"1\"\u003eapiVersion: autoscaling/v2\u003c/span\u003e\n\u003cspan num=\"2\"\u003ekind: HorizontalPodAutoscaler\u003c/span\u003e\n\u003cspan num=\"3\"\u003emetadata:\u003c/span\u003e\n\u003cspan num=\"4\"\u003e  name: fizzbuzz\u003c/span\u003e\n\u003cspan num=\"5\"\u003e  namespace: instana-dev\u003c/span\u003e\n\u003cspan num=\"6\"\u003espec:\u003c/span\u003e\n\u003cspan num=\"7\"\u003e  minReplicas: 3\u003c/span\u003e\n\u003cspan num=\"8\"\u003e  maxReplicas: 10\u003c/span\u003e\n\u003cspan num=\"9\"\u003e  metrics:\u003c/span\u003e\n\u003cspan num=\"10\"\u003e  - resource:\u003c/span\u003e\n\u003cspan num=\"11\"\u003e      name: cpu\u003c/span\u003e\n\u003cspan num=\"12\"\u003e      target:\u003c/span\u003e\n\u003cspan num=\"13\"\u003e        averageUtilization: 60\u003c/span\u003e\n\u003cspan num=\"14\"\u003e        type: Utilization\u003c/span\u003e\n\u003cspan num=\"15\"\u003e    type: Resource\u003c/span\u003e\n\u003cspan num=\"16\"\u003e  scaleTargetRef:\u003c/span\u003e\n\u003cspan num=\"17\"\u003e    apiVersion: apps/v1\u003c/span\u003e\n\u003cspan num=\"18\"\u003e    kind: Deployment\u003c/span\u003e\n\u003cspan num=\"19\"\u003e    name: fizzbuzz\u003c/span\u003e\n\u003c/pre\u003e\n","Play":false,"Edit":false,"FileName":"hpa-001.yaml","Ext":".yaml","Raw":"YXBpVmVyc2lvbjogYXV0b3NjYWxpbmcvdjIKa2luZDogSG9yaXpvbnRhbFBvZEF1dG9zY2FsZXIKbWV0YWRhdGE6CiAgbmFtZTogZml6emJ1enoKICBuYW1lc3BhY2U6IGluc3RhbmEtZGV2CnNwZWM6CiAgbWluUmVwbGljYXM6IDMKICBtYXhSZXBsaWNhczogMTAKICBtZXRyaWNzOgogIC0gcmVzb3VyY2U6CiAgICAgIG5hbWU6IGNwdQogICAgICB0YXJnZXQ6CiAgICAgICAgYXZlcmFnZVV0aWxpemF0aW9uOiA2MAogICAgICAgIHR5cGU6IFV0aWxpemF0aW9uCiAgICB0eXBlOiBSZXNvdXJjZQogIHNjYWxlVGFyZ2V0UmVmOgogICAgYXBpVmVyc2lvbjogYXBwcy92MQogICAga2luZDogRGVwbG95bWVudAogICAgbmFtZTogZml6emJ1enoK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[13],"Title":"Level 2 - Qualitative - Landscape","ID":"","Elem":[{"Cmd":"","HTML":"\u003cp\u003e📈 Scaling in Kubernetes\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003eAzure Adapter.\u003c/li\u003e\n\u003cli\u003eKEDA (K8s event driven autoscaling component)\u003c/li\u003e\n\u003cli\u003eKube metrics adapter.\u003c/li\u003e\n\u003cli\u003ePrometheus adapter.\u003c/li\u003e\n\u003cli\u003eInstana adapter - coming soon!\u003c/li\u003e\n\u003c/ul\u003e\n"}],"Notes":null,"Classes":null,"Styles":null}];
+      var titleNotes =  null 
+    </script>
+    <script src="k8s-hpa_files/notes.js"></script>
+    
+
+    <script>
+      
+      if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-11222381-6"]);
+        _gaq.push(["b._setAccount", "UA-49880327-6"]);
+        window.trackPageview = function() {
+          _gaq.push(["_trackPageview", location.pathname+location.hash]);
+          _gaq.push(["b._trackPageview", location.pathname+location.hash]);
+        };
+        window.trackPageview();
+        window.trackEvent = function(category, action, opt_label, opt_value, opt_noninteraction) {
+          _gaq.push(["_trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+          _gaq.push(["b._trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+        };
+      }
+    </script>
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"><meta name="apple-mobile-web-app-capable" content="yes"></head>
+
+  <body style="display: none" class="loaded">
+
+    <section class="slides layout-widescreen">
+
+      <article class="current">
+        <h1>Kubernetes Autoscaling</h1>
+        
+        
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Horizontal Pod Autoscaler
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+  
+  
+      <article class="next">
+      
+        <h3>Contents</h3>
+        <ol>
+<li>⌛ <strong>History of Scaling</strong></li>
+<li>🤷 <strong>Reasons for Scaling</strong></li>
+<li>👨‍👧‍👦 <strong>Maturity Model</strong></li>
+<li>📈 <strong>Scaling in Kubernetes</strong></li>
+</ol>
+
+      
+      <span class="pagenumber">2</span>
+      </article>
+  
+  
+  
+      <article class="far-next">
+      
+        <h3>Timelines</h3>
+        <p>⌛ History of Scaling</p>
+<pre><code>
+| Class               | Lead Time               | Level of Automation |
+| ------------------- | ----------------------- | ------------------- |
+| Self-hosted Servers | Weeks to Months         | Low                 |
+| Virtualisation      | Days to Weeks           | Low                 |
+| VPS                 | Hours to Days           | Moderate            |
+| Instances           | Minutes to Hours        | Moderate to High    |
+| Pods                | Seconds to Minutes      | High                |
+| Functions           | Milliseconds to Seconds | High                |
+| #nocode             | Speed of thought **     | Infinite ∞          |
+</code></pre>
+<p>** ( ͡° ͜ʖ ͡°)</p>
+
+      
+      <span class="pagenumber">3</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Drivers</h3>
+        <p>🤷 Reasons for Scaling</p>
+<p><strong>Scale Up</strong></p>
+<ol>
+<li>Latency.</li>
+<li>Availability.</li>
+<li>Throughput.</li>
+</ol>
+<p><strong>Scale Down</strong></p>
+<ol>
+<li>Costs.</li>
+<li>Density.</li>
+<li>Sharing.</li>
+</ol>
+
+      
+      <span class="pagenumber">4</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>👨‍👧‍👦 Autoscaling Maturity Model</h3>
+        <pre><code>
+| Level            | Monitoring       | Scaling                   | Benchmarking                |
+| ---------------- | ---------------- | ------------------------- | --------------------------- |
+|  0 - Static      | No observability | Best guess provisioning   | No performance/load testing |
+|  1 - Coarse      | CPU/Memory       | Based on CPU/Memory       | Manual load tests           |
+|  2 - Qualitative | Calls/Latency    | Based on calls/latency    | Automatic but periodic      |
+|  3 - Optimising  | Tracing          | Adaptive                  | Automatic per commit        |
+</code></pre>
+
+      
+      <span class="pagenumber">5</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 0 - Static</h3>
+        <p>👨‍👧‍👦 Autoscaling Maturity Model</p>
+<ul>
+<li>No observability.
+<ul>
+<li>pod restarts only indicator of workload behaviour.</li>
+</ul>
+</li>
+<li>Best guess provisioning.
+<ul>
+<li>example 3 replicas for HA.</li>
+</ul>
+</li>
+<li>No performance/load testing.
+<ul>
+<li>high value, low volume usage might not be high priority (e.g. 10s of RPS).</li>
+</ul>
+</li>
+</ul>
+
+      
+      <span class="pagenumber">6</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 1 - Coarse</h3>
+        <p>👨‍👧‍👦 Autoscaling Maturity Model</p>
+<ul>
+<li>CPU/Memory monitoring.
+<ul>
+<li>metrics-server process and host CPU/Memory utilisation.</li>
+</ul>
+</li>
+<li>Scaling based on course metrics.
+<ul>
+<li>scale with what you've got.</li>
+</ul>
+</li>
+<li>Manual load tests.
+<ul>
+<li>one off or per release go/no-go.</li>
+</ul>
+</li>
+</ul>
+
+      
+      <span class="pagenumber">7</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 2 - Qualitative</h3>
+        <p>👨‍👧‍👦 Autoscaling Maturity Model</p>
+<ul>
+<li>Call/Latency Monitoring.
+<ul>
+<li>RPS, Latency by Call, etc.</li>
+</ul>
+</li>
+<li>Scaling based on user experience.
+<ul>
+<li>RPS is a good basis to scale on.</li>
+</ul>
+</li>
+<li>Automated periodic load tests.
+<ul>
+<li>nightly runs, release tagging, etc.</li>
+</ul>
+</li>
+</ul>
+
+      
+      <span class="pagenumber">8</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 3 - Optimising</h3>
+        <p>👨‍👧‍👦 Autoscaling Maturity Model</p>
+<ul>
+<li>Adaptive load management.
+<ul>
+<li>circuit breakers, load-shedding, retry limits, exponential backoff, partial degradation.</li>
+</ul>
+</li>
+<li>Automated load tests per commit.</li>
+<li>Distributed Tracing
+<ul>
+<li>useful for identifying scaling relationships between components in microservices.</li>
+</ul>
+</li>
+</ul>
+
+      
+      <span class="pagenumber">9</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h2>📈 Scaling in Kubernetes</h2>
+      
+      <span class="pagenumber">10</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Scaling Maths 101</h3>
+        <p>📈 Scaling in Kubernetes</p>
+<pre><code>
+desiredReplicas = ceil(currentReplicas * (currentMetric/desiredMetric))
+
+    Given a target utilization of 60%
+    And a replica count of 4 pods
+    And an average utilization of 80%
+    When the HPA evaluates the metrics
+    Then it should scale to 6 pods.
+
+ ceil(4 * (100/60)).
+
+</code></pre>
+
+      
+      <span class="pagenumber">11</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 0 - Static</h3>
+        <p>📈 Scaling in Kubernetes</p>
+
+  <div class="code">
+<pre><span num="1">kubectl scale --replicas=2 -n instana-dev deployment/fizzbuzz </span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">12</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 1 - Coarse</h3>
+        <p>📈 Scaling in Kubernetes</p>
+
+  <div class="code">
+<pre><span num="1">apiVersion: autoscaling/v2</span>
+<span num="2">kind: HorizontalPodAutoscaler</span>
+<span num="3">metadata:</span>
+<span num="4">  name: fizzbuzz</span>
+<span num="5">  namespace: instana-dev</span>
+<span num="6">spec:</span>
+<span num="7">  minReplicas: 3</span>
+<span num="8">  maxReplicas: 10</span>
+<span num="9">  metrics:</span>
+<span num="10">  - resource:</span>
+<span num="11">      name: cpu</span>
+<span num="12">      target:</span>
+<span num="13">        averageUtilization: 60</span>
+<span num="14">        type: Utilization</span>
+<span num="15">    type: Resource</span>
+<span num="16">  scaleTargetRef:</span>
+<span num="17">    apiVersion: apps/v1</span>
+<span num="18">    kind: Deployment</span>
+<span num="19">    name: fizzbuzz</span>
+</pre>
+</div>
+
+      
+      <span class="pagenumber">13</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Level 2 - Qualitative - Landscape</h3>
+        <p>📈 Scaling in Kubernetes</p>
+<ul>
+<li>Azure Adapter.</li>
+<li>KEDA (K8s event driven autoscaling component)</li>
+<li>Kube metrics adapter.</li>
+<li>Prometheus adapter.</li>
+<li>Instana adapter - coming soon!</li>
+</ul>
+
+      
+      <span class="pagenumber">14</span>
+      </article>
+  
+  
+
+      <article class="">
+        <h3>Thank you</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Horizontal Pod Autoscaler
+  </p>
+  
+<p class="link"><a href="#ZgotmplZ" target="_blank">Summary: Autoscaling Maturity</a></p>
+  
+  <p>
+    09 Jan 2022
+  </p>
+  
+<p class="link"><a href="mailto:nathan.fisher@ibm.com" target="_blank">nathan.fisher@ibm.com</a></p>
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+    <div class="slide-area" id="prev-slide-area"></div><div class="slide-area" id="next-slide-area"></div></section>
+
+    <div id="help" style="display: none;">
+      Use the left and right arrow keys or click the left and right
+      edges of the page to navigate between slides.<br>
+      (Press 'H' or navigate to hide this message.)
+    </div>
+
+    
+    <script src="k8s-hpa_files/play.js"></script>
+    
+
+    <script>
+      (function() {
+        
+        if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        }
+      })();
+    </script>
+  
+
+<link rel="stylesheet" type="text/css" href="k8s-hpa_files/css.css"><link rel="stylesheet" type="text/css" href="k8s-hpa_files/styles.css"></body></html>
