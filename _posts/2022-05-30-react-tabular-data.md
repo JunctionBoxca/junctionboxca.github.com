@@ -12,7 +12,7 @@ tags: javascript react
 
 When I first came to JSX in React I expected to find components that template repeating rows in a JSX table similar in format to what is finally rendered. I envisioned something like this:
 
-```typescript
+```jsx
 <DataGrid rows={rows}>
   <Header>
     <Th width={'30%'} sortable>Column 0</Th>
@@ -42,7 +42,7 @@ const columns: GridColDef[] = [
 
 These columns are then provided as a prop to the library component.
 
-```typescript
+```jsx
 // use DataGrid
 <DataGrid
         rows={rows} // user data
@@ -65,7 +65,7 @@ Drawbacks:
 
 To figure out if the idea is even possible I decided to start small with a unordered list:
 
-```typescript
+```jsx
 <List rows={rows}>
   <Items/>
 </List>
