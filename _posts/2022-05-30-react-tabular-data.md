@@ -73,7 +73,7 @@ To figure out if the idea is even possible I decided to start small with a unord
 
 The component receives a the row data and clones the children as a template for row of data:
 
-```typescript
+```jsx
 function List({rows, children}) {
   return (
    <Ul>
@@ -87,7 +87,7 @@ function List({rows, children}) {
 
 This component requires the user specify the item list and input props as a component:
 
-```typescript
+```jsx
 function Items({id, firstName, lastName, age}) {
   return (
     <>
