@@ -10,7 +10,7 @@ keywords: git workflow
 tags: git workflow
 ---
 
-In the ideal we'd be adopting XP practises and [Trunk Based Development](https://trunkbaseddevelopment.com/) however most orgs are doubling down on PR's and Git branch based workflows as standard practise. Unfortunately this often means accumulating ever larger, long lived PR's. The longer a PR hangs around the more painful merge conflicts can be. Cisco apparently did an internal review on PR's and found 250 LoC to be the optimal upper limit for a PR. This creates an interesting issue. PR's if done well take time to review. For 250 LoC it was cited you should expect an engineer to dedicate around 1 hour on average. Even with a team ruthlessly prioritising PR's that's a bit of an obstacle to a dev getting into a flow state.
+In the ideal we'd be adopting XP practises and [Trunk Based Development](https://trunkbaseddevelopment.com/) however most orgs are doubling down on PR's and Git branch based workflows as standard practise. Unfortunately this often means accumulating ever larger, long lived PR's. The longer a PR hangs around the more painful merge conflicts can be. Cisco conducted an [internal study](https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/) on PR's and found 200-400 LoC to be the optimal upper limit for a PR. This creates an interesting issue. PR's if done well take time to review. For the LoC cited you should expect an engineer to dedicate around 60-90 minutes on average. Even with a team ruthlessly prioritising PR's can create an obstacle for devs getting into a flow state or on the other extreme providing poor quality reviews.
 
 ## Trunk Based Development
 
@@ -24,7 +24,7 @@ Not all teams are keen to use this process and in the absence of pairing it can 
 
 ## Stacked Commits
 
-Another alternative that seems common in MANGA is stacked commits. Stacked commits are a process of making many small branches+PR's that maintain a hierarchical dependency. In essence you try to capture one logical piece of functionality per branch/PR (e.g. migration, DTO, API, UI). Stacking requires that branches are merged from the bottom up and upstream branches are rebased to main as downstream branches are merged.
+Another alternative that seems common in MANGA (Meta, Apple, Netflix, Google, Amazon) is stacked commits. Stacked commits are a process of making many small branches+PR's that maintain a hierarchical dependency. In essence you try to capture one logical piece of functionality per branch/PR (e.g. migration, DTO, API, UI). Stacking requires that branches are merged from the bottom up and upstream branches are rebased to main as downstream branches are merged.
 
 ## Prior Art
 
@@ -34,7 +34,7 @@ There's a number of tools that support Stacked Commits to varying degrees but a 
 * [Graphite](https://graphite.dev/) - SaaS so might not work for everyone.
 * [gh-stack](https://github.com/timothyandrew/gh-stack/) - limited in capabilities.
 
-I recently listened to some of the Graphite founders on ChangeLog. One of the core tenants for their product is a parachute should always be available to use standard git workflows. This allows a dev to fallback to git should they encounter a state the Graphite engineers didn't consider.
+I recently listened to some of the Graphite founders on [ChangeLog](https://changelog.com/podcast/491). One of the core tenants for their product is a parachute should always be available to use standard git workflows. This allows a dev to fallback to git should they encounter a state the Graphite engineers didn't consider.
 
 Graphite looks great but is a SaaS product. In a large org that could require substantial effort to receive authorisation of use than I feel like addressing.
 
