@@ -64,14 +64,35 @@ What would a MVP workflow look like? What attributes would I want to improve on 
 
 Some systems use [git notes](https://git-scm.com/docs/git-notes) as a means of tracking relationships. This might be useful but what if stacks branches were organised similar to database migrations where each layer in the stack used a numbered prefix and the stack itself was a slash prefix? This provides the benefit of grouping and ordering the stacks with CLI tools and Github UI alike. One potential restriction is that it wouldn't allow divergent branches in a stack like some other tools do but I suspect that's a good way to create a ball of mud. What would a potential workflow look like?
 
+Standard Stacking
+
 ```
 git stack init issue123/create_migration # creates branch issue123/001_create_migration.
 git add .
-git stack commit # commits the staged changes and squashes branch.
-git stack branch create_api # creates branch issue123/002_create_api
+git commit # commits the staged changes.
+git stack branch create_api # squashes previous branch and creates branch issue123/002_create_api
 git add .
 git commit # standard git commit.
-git stack push # squash branches force push with lease.
+git stack squash # squash and rebase branches.
+git stack push # push with lease.
+```
+
+Fix a branch based off of PR feedback
+
+```
+git stack status # list all stacks branches
+git stack checkout 001 # checkout stack branch issue123/001_create_migration.
+git add .
+git commit
+git stack squash
+git stack push # push with lease.
+```
+
+Rebase merged branches
+
+```
+git stack rebase # rebase dependent branches to merged main branches.
+git stack push # push with lease.
 ```
 
 This seems like an adequate start for a naive implementation. I suspect I'll need to address a number of edge cases in the process as I've not used the workflow previously.
