@@ -9,6 +9,7 @@ ci
 clojure
 devops
 docker
+git
 golang
 graphql
 http2
@@ -17,10 +18,12 @@ javascript
 kubernetes
 maven
 pandas
+parsing
 php
 powershell
 puppet
 python
+react
 regex
 rsync
 ruby
@@ -28,3 +31,4 @@ security
 sql
 svn
 testing
+workflow
