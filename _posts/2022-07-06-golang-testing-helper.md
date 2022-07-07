@@ -49,7 +49,7 @@ When I first implemented these functions I found test failures weren't as helpfu
 
 ```
 func (i *integer) Equals(b int) {
-  i.t.Helper()
+	i.t.Helper()
 	if i.a != b {
 		i.t.Errorf("want %v, got %v\n", b, i.a)
 	}
