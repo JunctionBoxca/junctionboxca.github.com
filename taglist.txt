@@ -1,5 +1,6 @@
 R
 actionscript
+algebra
 aws
 bazel
 buck
@@ -16,6 +17,7 @@ http2
 java
 javascript
 kubernetes
+machinelearning
 maven
 pandas
 parsing
