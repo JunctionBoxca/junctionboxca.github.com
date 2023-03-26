@@ -1,10 +1,10 @@
 ---
 title:       Dot Product
-created_at:  2022-07-06 12:00:00 +00:00
+created_at:  2023-03-25 12:00:00 +00:00
 layout:      default
 published:   true
 description:
-  Dot product is part of a series of calculations that lead into the fundamentals of machine learning. This article gives an overview of the properties of a dot product calculation and provides an example function in Go.
+  A dot product is part of a series of calculations that lead into the fundamentals of machine learning. This article gives an overview of the properties of a dot product calculation and provides an example function in Go.
 
 keywords: machinelearning algebra golang
 tags: machinelearning algebra golang
