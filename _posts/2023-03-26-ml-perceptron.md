@@ -38,8 +38,8 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	input := &Data[float64]{}
-	err := LoadIris(input, true)
+	input := &Data[float32]{}
+	err := LoadIris(input, true, 32)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -47,15 +47,13 @@ func main() {
 	fmt.Println(input.TargetName)
 
 	_, features := input.Shape()
-	p := New[float64](features)
-	err = Fit(p, 10000, 0.0001, input, step)
+	p := New(features, step[float32])
+	err = Fit(p, 1000, 0.001, input)
 	if err != nil {
 		log.Fatalln("fit", err)
 	}
 
-	result, err := input.Test(func(X []float64) (float64, error) {
-		return Predict(p, X, false, step)
-	})
+	result, err := input.Test(p, predict[float32])
 	if err != nil {
 		log.Println(err)
 	}
@@ -65,13 +63,17 @@ func main() {
 
 type stepFn[T Numeric] func(T, error) (T, error)
 
+func predict[T Numeric](p *Perceptron[T], X []T) (T, error) {
+	return Predict(p, X, false)
+}
+
 // Fit trains a perceptron (p) on the data set (d) over a number of iterations (iters). It uses the step function (step)
 // to align the data to the labels. The learning rate (r) influences how much change there is to the weights for each
 // correction.
-func Fit[T Numeric](p *Perceptron[T], iters int, r T, d *Data[T], fn stepFn[T]) error {
+func Fit[T Numeric](p *Perceptron[T], iters int, r T, d *Data[T]) error {
 	for n := 0; n < iters; n++ {
 		err := d.Train(func(X []T, target T) error {
-			Yjt, err := fn(Dot(p.Weights, X))
+			Yjt, err := p.Step(Dot(p.Weights, X))
 			if err != nil {
 				return err
 			}
@@ -93,33 +95,35 @@ func Fit[T Numeric](p *Perceptron[T], iters int, r T, d *Data[T], fn stepFn[T]) 
 	return nil
 }
 
-func step[T Numeric](x T, err error) (float64, error) {
+func step[T Numeric](x T, err error) (T, error) {
 	if err != nil {
 		return 0, err
 	}
 	s := math.Round(float64(x))
 	if s > 0 {
-		return s, nil
+		return T(s), nil
 	}
 	return 0, nil
 }
 
-func Predict[T Numeric](p *Perceptron[T], x []T, addBiasCol bool, fn stepFn[T]) (T, error) {
+func Predict[T Numeric](p *Perceptron[T], x []T, addBiasCol bool) (T, error) {
 	if addBiasCol {
 		x = append(x, 1)
 	}
-	return fn(Dot(p.Weights, x))
+	return p.Step(Dot(p.Weights, x))
 }
 
-func New[T Numeric](features int) *Perceptron[T] {
+func New[T Numeric](features int, fn stepFn[T]) *Perceptron[T] {
 	weights := make([]T, features)
 	return &Perceptron[T]{
 		Weights: weights,
+		Step:    fn,
 	}
 }
 
 type Perceptron[T Numeric] struct {
 	Weights []T
+	Step    stepFn[T]
 }
 
 type Data[T Numeric] struct {
@@ -159,10 +163,10 @@ func (d *Data[T]) Train(fn func(X []T, target T) error) error {
 	return nil
 }
 
-func (d *Data[T]) Test(fn func(X []T) (T, error)) (float64, error) {
+func (d *Data[T]) Test(p *Perceptron[T], fn func(p *Perceptron[T], X []T) (T, error)) (float64, error) {
 	var correct int
 	for _, i := range d.test {
-		p, err := fn(d.Values[i])
+		p, err := fn(p, d.Values[i])
 		if err != nil {
 			return 0, err
 		}
@@ -173,7 +177,7 @@ func (d *Data[T]) Test(fn func(X []T) (T, error)) (float64, error) {
 	return float64(correct) / float64(len(d.test)) * 100.0, nil
 }
 
-func LoadIris[T Numeric](d *Data[T], addBiasColumn bool) error {
+func LoadIris[T Numeric](d *Data[T], addBiasColumn bool, bitSize int) error {
 	r, err := os.Open("iris.csv")
 	if err != nil {
 		return err
@@ -200,7 +204,7 @@ func LoadIris[T Numeric](d *Data[T], addBiasColumn bool) error {
 		d.Target = append(d.Target, v)
 		a = []T{}
 		for _, s := range row[:len(row)-1] {
-			f, err := strconv.ParseFloat(s, 64)
+			f, err := strconv.ParseFloat(s, bitSize)
 			if err != nil {
 				return err
 			}
@@ -236,5 +240,4 @@ func Dot[T Numeric](a, b []T) (T, error) {
 type Numeric interface {
 	~int | ~float32 | ~float64
 }
-
 ```
