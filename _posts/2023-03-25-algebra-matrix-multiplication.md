@@ -13,13 +13,9 @@ tags: machinelearning algebra golang
 The formula for a matrix multiplication can be summarised as follows:
 
 ```
-AB = n, k=1 Σ Aᵢₖ Bₖⱼ
-    = (Aᵢ₁B₁ⱼ) + (Aᵢ₂B₂ⱼ) +  # algorithmic 
+AB = [n, k=1] Σ Aᵢₖ Bₖⱼ
+    = (Aᵢ₁B₁ⱼ) + (Aᵢ₂B₂ⱼ) + ... + (AᵢₖBₖⱼ)
 ```
-
-Matrix multiplication serves a number of immediate use cases:
-
-1. 
 
 #### Example
 
@@ -45,29 +41,44 @@ AB = [[1x7 + 2x10, 1x8 + 2x11, 1x9 + 2x12],
 The following is a code sample using Go generics.
 
 ```golang
-func Product[T Numeric](a, b [][]T) (*Dense[T], error) {
-	if len(a[0]) != len(b) {
-		return nil, errors.New("unaligned matrices")
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	a := New([]int{1, 2,
+		3, 4,
+		5, 6}, 3, 2)
+
+	b := New([]int{7, 8, 9,
+		10, 11, 12}, 2, 3)
+	prod := make([]int, a.Rows()*b.Cols())
+	Product(a, b, prod)
+	fmt.Printf("%v\n", prod)
+}
+
+func Product[T Numeric](a, b *Dense[T], sum []T) error {
+	if a.Cols() != b.Rows() {
+		return errors.New("unaligned matrices")
 	}
 
-	if len(a) == 0 || len(a[0]) == 0 || len(b) == 0 || len(b[0]) == 0 {
-		return nil, errors.New("empty matrices")
-	}
+	p := b.Cols()
 
-	m := len(a)
-	p := len(b[0])
-
-	var sum = make([]T, m*p)
-	for i, row := range a {
-		for k, c := range row {
-			for j, r := range b[k] {
-				index := i*p + j
-				sum[index] += c * r
+	for i := 0; i < a.Rows(); i++ {
+		for k, c := range a.Row(i) {
+			for j, r := range b.Row(k) {
+				sum[i*p+j] += c * r
 			}
 		}
 	}
+	return nil
+}
 
-	return &Dense[T]{m: m, p: p, cells: sum}, nil
+func New[T Numeric](cells []T, rows, cols int) *Dense[T] {
+	return &Dense[T]{rows: rows, cols: cols, cells: cells}
 }
 
 type Numeric interface {
@@ -75,9 +86,21 @@ type Numeric interface {
 }
 
 type Dense[T Numeric] struct {
-	m     int
-	p     int
+	rows  int
+	cols  int
 	cells []T
 }
-```
 
+func (d *Dense[T]) Rows() int {
+	return d.rows
+}
+
+func (d *Dense[T]) Cols() int {
+	return d.cols
+}
+
+func (d *Dense[T]) Row(i int) []T {
+	start := i * d.Cols()
+	return d.cells[start : start+d.Cols()]
+}
+```
