@@ -2,7 +2,7 @@
 title:       Perceptron
 created_at:  2023-03-26 12:00:00 +00:00
 layout:      default
-published:   true
+published:   false
 description:
   Matrix multiplication is part of a series of calculations that lead into the fundamentals of machine learning. This article gives an overview of the properties of a matrix multiplication and provides an example function in Go.
 
