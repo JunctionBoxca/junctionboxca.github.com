@@ -10,12 +10,20 @@ keywords: machinelearning algebra golang
 tags: machinelearning algebra golang
 ---
 
+Matrix multiplication is a foundational element in machine learning. It is the basis for propagating an input through a network of weights.
+
+This article gives an overview of the properties of a matrix multiplication and provides an example function in Go.
+
+## The Formula
+
 The formula for a matrix multiplication can be summarised as follows:
 
 ```
 AB = [n, k=1] Σ Aᵢₖ Bₖⱼ
     = (Aᵢ₁B₁ⱼ) + (Aᵢ₂B₂ⱼ) + ... + (AᵢₖBₖⱼ)
 ```
+
+A 2d matrix multiplication receives 2 matrices as an input and outputs a new matrix equal to the row height of the first matrix and the column width of the second. The columns of the first matrices and must be equal to the rows of the second.
 
 #### Example
 
