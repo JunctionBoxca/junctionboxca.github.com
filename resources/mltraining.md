@@ -1,6 +1,8 @@
 ---
-title: ML Training
-description:
+title: ML Training Storage Calculator
+description: ML Training Storage Calculator
+layout: default
+permalink: /resources/mltraining/
 ---
 {% raw %}
 <style>
@@ -35,6 +37,9 @@ description:
   }
   #ml-storage-calculator-app th {
     background: #f5f5f5;
+  }
+  .right {
+    text-align: right;
   }
 </style>
 
@@ -124,9 +129,9 @@ description:
           m("table", [
             m("thead", m("tr", [ m("th", "Metric"), m("th", "Value") ])),
             m("tbody", [
-              m("tr", [ m("td", "Total shared storage"), m("td", sharedTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Total required storage"), m("td", requiredTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Free capacity"), m("td", (freeCap * 100).toFixed(2) + "%") ])
+              m("tr", [ m("td", "Total shared storage"), m("td.right", sharedTB.toFixed(3) + " TB") ]),
+              m("tr", [ m("td", "Total required storage"), m("td.right", requiredTB.toFixed(3) + " TB") ]),
+              m("tr", [ m("td", "Free capacity"), m("td.right", (freeCap * 100).toFixed(2) + "%") ])
             ])
           ])
         ]);
