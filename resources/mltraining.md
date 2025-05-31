@@ -17,11 +17,17 @@ nocomment:  true
     padding: 1.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
+  #ml-storage-calculator-app .fieldsets-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
   #ml-storage-calculator-app fieldset {
+    flex: 1;
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
     background: #fafafa;
   }
   #ml-storage-calculator-app legend {
@@ -107,37 +113,39 @@ nocomment:  true
         const freeCap = sharedTB > 0 ? (sharedTB - requiredTB) / sharedTB : 0;
 
         return m("div#ml-storage-calculator-app", [
-          m("fieldset", [
-            m("legend", "Model"),
-            m("div.field", [
-              m("label", "Number of parameters:"),
-              m("input[type=number][min=0][step=1]", { value: params, oninput: e => Calculator.params = e.target.value })
-            ]),
-            m("div.field", [
-              m("label", "Parameter scaling:"),
-              m("select", { value: scale, onchange: e => Calculator.scale = e.target.value }, [
-                m("option[value=M]", "Millions (M)"),
-                m("option[value=B]", "Billions (B)")
+          m("div.fieldsets-container", [
+            m("fieldset", [
+              m("legend", "Infrastructure"),
+              m("div.field", [
+                m("label", "Number of GPUs:"),
+                m("input[type=number][min=0][step=1]", { value: gpus, oninput: e => Calculator.gpus = e.target.value })
+              ]),
+              m("div.field", [
+                m("label", "Storage per GPU (GB):"),
+                m("input[type=number][min=0][step=1]", { value: storagePerGpu, oninput: e => Calculator.storagePerGpu = e.target.value })
               ])
             ]),
-            m("div.field", [
-              m("label", "Retained checkpoints:"),
-              m("input[type=number][min=0][step=1]", { value: checkpoints, oninput: e => Calculator.checkpoints = e.target.value })
-            ]),
-            m("div.field", [
-              m("label", "Training corpus size (GB):"),
-              m("input[type=number][min=0][step=0.01]", { value: corpus, oninput: e => Calculator.corpus = e.target.value })
-            ])
-          ]),
-          m("fieldset", [
-            m("legend", "Infrastructure"),
-            m("div.field", [
-              m("label", "Number of GPUs:"),
-              m("input[type=number][min=0][step=1]", { value: gpus, oninput: e => Calculator.gpus = e.target.value })
-            ]),
-            m("div.field", [
-              m("label", "Storage per GPU (GB):"),
-              m("input[type=number][min=0][step=1]", { value: storagePerGpu, oninput: e => Calculator.storagePerGpu = e.target.value })
+            m("fieldset", [
+              m("legend", "Model"),
+              m("div.field", [
+                m("label", "Number of parameters:"),
+                m("input[type=number][min=0][step=1]", { value: params, oninput: e => Calculator.params = e.target.value })
+              ]),
+              m("div.field", [
+                m("label", "Parameter scaling:"),
+                m("select", { value: scale, onchange: e => Calculator.scale = e.target.value }, [
+                  m("option[value=M]", "Millions (M)"),
+                  m("option[value=B]", "Billions (B)")
+                ])
+              ]),
+              m("div.field", [
+                m("label", "Retained checkpoints:"),
+                m("input[type=number][min=0][step=1]", { value: checkpoints, oninput: e => Calculator.checkpoints = e.target.value })
+              ]),
+              m("div.field", [
+                m("label", "Training corpus size (GB):"),
+                m("input[type=number][min=0][step=0.01]", { value: corpus, oninput: e => Calculator.corpus = e.target.value })
+              ])
             ])
           ]),
           m("table", [
