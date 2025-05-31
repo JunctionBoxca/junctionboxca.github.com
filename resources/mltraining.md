@@ -11,6 +11,26 @@ nocomment:  true
   #ml-storage-calculator-app {
     font-family: Arial, sans-serif;
     margin: 2rem 0;
+    max-width: 600px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  #ml-storage-calculator-app fieldset {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    background: #fafafa;
+  }
+  #ml-storage-calculator-app legend {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0 0.5rem;
+    background: #f5f5f5;
+    border-radius: 4px;
   }
   #ml-storage-calculator-app .field {
     display: flex;
@@ -20,27 +40,43 @@ nocomment:  true
   }
   #ml-storage-calculator-app label {
     margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
   }
   #ml-storage-calculator-app input,
   #ml-storage-calculator-app select {
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
+    padding: 0.5rem;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+  }
+  #ml-storage-calculator-app input:focus,
+  #ml-storage-calculator-app select:focus {
+    border-color: #007acc;
+    outline: none;
+    box-shadow: 0 0 3px rgba(0,122,204,0.3);
   }
   #ml-storage-calculator-app table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
   }
   #ml-storage-calculator-app th,
   #ml-storage-calculator-app td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
     text-align: left;
   }
   #ml-storage-calculator-app th {
-    background: #f5f5f5;
+    background: #f0f0f0;
+    font-weight: bold;
   }
-  .right {
-    text-align: right;
+  #ml-storage-calculator-app tr:nth-child(even) {
+    background: #fafafa;
   }
 </style>
 
@@ -80,59 +116,41 @@ nocomment:  true
             m("legend", "Model"),
             m("div.field", [
               m("label", "Number of parameters:"),
-              m("input[type=number][min=0][step=1]", {
-                value: params,
-                oninput: e => Calculator.params = e.target.value
-              })
+              m("input[type=number][min=0][step=1]", { value: params, oninput: e => Calculator.params = e.target.value })
             ]),
             m("div.field", [
               m("label", "Parameter scaling:"),
-              m("select", {
-                value: scale,
-                onchange: e => Calculator.scale = e.target.value
-              }, [
+              m("select", { value: scale, onchange: e => Calculator.scale = e.target.value }, [
                 m("option[value=M]", "Millions (M)"),
                 m("option[value=B]", "Billions (B)")
               ])
             ]),
             m("div.field", [
               m("label", "Retained checkpoints:"),
-              m("input[type=number][min=0][step=1]", {
-                value: checkpoints,
-                oninput: e => Calculator.checkpoints = e.target.value
-              })
+              m("input[type=number][min=0][step=1]", { value: checkpoints, oninput: e => Calculator.checkpoints = e.target.value })
             ]),
             m("div.field", [
               m("label", "Training corpus size (GB):"),
-              m("input[type=number][min=0][step=0.01]", {
-                value: corpus,
-                oninput: e => Calculator.corpus = e.target.value
-              })
+              m("input[type=number][min=0][step=0.01]", { value: corpus, oninput: e => Calculator.corpus = e.target.value })
             ])
           ]),
           m("fieldset", [
             m("legend", "Infrastructure"),
             m("div.field", [
               m("label", "Number of GPUs:"),
-              m("input[type=number][min=0][step=1]", {
-                value: gpus,
-                oninput: e => Calculator.gpus = e.target.value
-              })
+              m("input[type=number][min=0][step=1]", { value: gpus, oninput: e => Calculator.gpus = e.target.value })
             ]),
             m("div.field", [
               m("label", "Storage per GPU (GB):"),
-              m("input[type=number][min=0][step=1]", {
-                value: storagePerGpu,
-                oninput: e => Calculator.storagePerGpu = e.target.value
-              })
+              m("input[type=number][min=0][step=1]", { value: storagePerGpu, oninput: e => Calculator.storagePerGpu = e.target.value })
             ])
           ]),
           m("table", [
             m("thead", m("tr", [ m("th", "Metric"), m("th", "Value") ])),
             m("tbody", [
-              m("tr", [ m("td", "Total shared storage"), m("td.right", sharedTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Total required storage"), m("td.right", requiredTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Free capacity"), m("td.right", (freeCap * 100).toFixed(2) + "%") ])
+              m("tr", [ m("td", "Total shared storage"), m("td", sharedTB.toFixed(3) + " TB") ]),
+              m("tr", [ m("td", "Total required storage"), m("td", requiredTB.toFixed(3) + " TB") ]),
+              m("tr", [ m("td", "Free capacity"), m("td", (freeCap * 100).toFixed(2) + "%") ])
             ])
           ])
         ]);
@@ -143,4 +161,3 @@ nocomment:  true
   })();
 </script>
 {% endraw %}
-
