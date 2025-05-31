@@ -7,9 +7,8 @@ nocomment:  true
 ---
 {% raw %}
 <style>
-  /* ML Storage Calculator styles */
+  /* ML Storage Calculator styles (inheriting page defaults) */
   #ml-storage-calculator-app {
-    font-family: Arial, sans-serif;
     margin: 2rem 0;
     max-width: 600px;
     background: #fff;
@@ -27,7 +26,6 @@ nocomment:  true
   }
   #ml-storage-calculator-app legend {
     font-weight: bold;
-    font-size: 1.1rem;
     padding: 0 0.5rem;
     background: #f5f5f5;
     border-radius: 4px;
@@ -40,7 +38,6 @@ nocomment:  true
   }
   #ml-storage-calculator-app label {
     margin-bottom: 0.5rem;
-    font-size: 0.95rem;
     color: #333;
   }
   #ml-storage-calculator-app input,
@@ -50,7 +47,6 @@ nocomment:  true
     padding: 0.5rem;
     border: 1px solid #bbb;
     border-radius: 4px;
-    font-size: 0.95rem;
     transition: border-color 0.2s;
   }
   #ml-storage-calculator-app input:focus,
@@ -63,7 +59,6 @@ nocomment:  true
     width: 100%;
     border-collapse: collapse;
     margin-top: 1.5rem;
-    font-size: 0.95rem;
   }
   #ml-storage-calculator-app th,
   #ml-storage-calculator-app td {
