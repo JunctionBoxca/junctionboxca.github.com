@@ -90,8 +90,8 @@ nocomment:  true
     const Calculator = {
       params: 8,
       scale: 'B',
-      checkpoints: 1,
-      corpus: 0,
+      checkpoints: 10,
+      corpus: 20,
       gpus: 16,
       storagePerGpu: 300,
 
