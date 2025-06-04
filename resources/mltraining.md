@@ -152,8 +152,8 @@ nocomment:  true
             m("thead", m("tr", [ m("th", "Metric"), m("th", "Value") ])),
             m("tbody", [
               m("tr", [ m("td", "Total shared storage"), m("td", sharedTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Total required storage"), m("td", requiredTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Free capacity"), m("td", (freeCap * 100).toFixed(2) + "%") ])
+              m("tr", [ m("td", "Utilized capacity"), m("td", requiredTB.toFixed(3) + " TB") ]),
+              m("tr", [ m("td", "Available capacity"), m("td", (freeCap * 100).toFixed(2) + "%") ])
             ])
           ])
         ]);
