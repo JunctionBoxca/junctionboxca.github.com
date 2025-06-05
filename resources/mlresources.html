@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Storage Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/2.2.2/mithril.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        input:invalid {
+            border-color: #dc3545;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .results-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .results-section h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+        
+        .results-table th,
+        .results-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .results-table th {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9em;
+        }
+        
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .results-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        .positive { color: #28a745; }
+        .negative { color: #dc3545; }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        const StorageCalculator = {
+            oninit: function() {
+                this.params = {
+                    numParameters: 8,
+                    scalingFactor: 'B',
+                    retainedCheckpoints: 1,
+                    corpusSize: 100,
+                    numGPUs: 16,
+                    storagePerGPU: 300
+                };
+                this.errors = {};
+            },
+            
+            validateInput: function(field, value) {
+                if (value === '' || value === null || value === undefined) {
+                    this.errors[field] = 'This field is required';
+                    return false;
+                }
+                
+                const num = parseFloat(value);
+                if (isNaN(num) || num < 0) {
+                    this.errors[field] = 'Must be a positive number';
+                    return false;
+                }
+                
+                delete this.errors[field];
+                return true;
+            },
+            
+            updateParam: function(field, value) {
+                this.params[field] = value;
+                if (field !== 'scalingFactor') {
+                    this.validateInput(field, value);
+                }
+            },
+            
+            calculateResults: function() {
+                const p = this.params;
+                
+                // Validate all inputs
+                const isValid = ['numParameters', 'retainedCheckpoints', 'corpusSize', 'numGPUs', 'storagePerGPU']
+                    .every(field => this.validateInput(field, p[field]));
+                
+                if (!isValid) {
+                    return null;
+                }
+                
+                const scalingMultiplier = p.scalingFactor === 'M' ? 1e6 : 1e9;
+                const modelSize = p.numParameters * scalingMultiplier * 12; // bytes
+                const totalModelStorage = modelSize * p.retainedCheckpoints; // bytes
+                const corpusSizeBytes = p.corpusSize * 1e9; // GB to bytes
+                const requiredStorage = totalModelStorage + corpusSizeBytes; // bytes
+                const totalSharedStorage = p.numGPUs * p.storagePerGPU * 1e9; // GB to bytes
+                const freeCapacity = (totalSharedStorage - requiredStorage) / totalSharedStorage;
+                
+                return {
+                    totalSharedStorageTB: (totalSharedStorage / 1e12).toFixed(2),
+                    requiredStorageTB: (requiredStorage / 1e12).toFixed(2),
+                    freeCapacityPercent: (freeCapacity * 100).toFixed(1),
+                    isOverCapacity: freeCapacity < 0
+                };
+            },
+            
+            view: function() {
+                const results = this.calculateResults();
+                
+                return m('div.container', [
+                    m('h1', 'ML Storage Calculator'),
+                    
+                    m('div.form-section', [
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Number of Parameters'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.numParameters,
+                                    oninput: e => this.updateParam('numParameters', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 8'
+                                }),
+                                this.errors.numParameters && m('div.error-message', this.errors.numParameters)
+                            ]),
+                            
+                            m('div.form-group', [
+                                m('label', 'Parameter Scale'),
+                                m('select', {
+                                    value: this.params.scalingFactor,
+                                    onchange: e => this.updateParam('scalingFactor', e.target.value)
+                                }, [
+                                    m('option[value=M]', 'Millions (M)'),
+                                    m('option[value=B]', 'Billions (B)')
+                                ])
+                            ])
+                        ]),
+                        
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Retained Checkpoints'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.retainedCheckpoints,
+                                    oninput: e => this.updateParam('retainedCheckpoints', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 3'
+                                }),
+                                this.errors.retainedCheckpoints && m('div.error-message', this.errors.retainedCheckpoints)
+                            ]),
+                            
+                            m('div.form-group', [
+                                m('label', 'Training Corpus Size (GB)'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.corpusSize,
+                                    oninput: e => this.updateParam('corpusSize', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 500'
+                                }),
+                                this.errors.corpusSize && m('div.error-message', this.errors.corpusSize)
+                            ])
+                        ]),
+                        
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Number of GPUs'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.numGPUs,
+                                    oninput: e => this.updateParam('numGPUs', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 16'
+                                }),
+                                this.errors.numGPUs && m('div.error-message', this.errors.numGPUs)
+                            ]),
+                            
+                            m('div.form-group', [
+                                m('label', 'Storage per GPU (GB)'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.storagePerGPU,
+                                    oninput: e => this.updateParam('storagePerGPU', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 300'
+                                }),
+                                this.errors.storagePerGPU && m('div.error-message', this.errors.storagePerGPU)
+                            ])
+                        ])
+                    ]),
+                    
+                    m('div.results-section', [
+                        m('h2', 'Storage Analysis'),
+                        results ? m('table.results-table', [
+                            m('thead', [
+                                m('tr', [
+                                    m('th', 'Metric'),
+                                    m('th', 'Value')
+                                ])
+                            ]),
+                            m('tbody', [
+                                m('tr', [
+                                    m('td', 'Total Shared Storage'),
+                                    m('td', results.totalSharedStorageTB + ' TB')
+                                ]),
+                                m('tr', [
+                                    m('td', 'Total Required Storage'),
+                                    m('td', results.requiredStorageTB + ' TB')
+                                ]),
+                                m('tr', [
+                                    m('td', 'Free Capacity'),
+                                    m('td', {
+                                        class: results.isOverCapacity ? 'negative' : 'positive'
+                                    }, results.freeCapacityPercent + '%')
+                                ])
+                            ])
+                        ]) : m('div', {style: 'text-align: center; padding: 20px;'}, 'Please correct the input errors above to see results.')
+                    ])
+                ]);
+            }
+        };
+        
+        m.mount(document.getElementById('app'), StorageCalculator);
+    </script>
+</body>
+</html>
