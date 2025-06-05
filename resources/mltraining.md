@@ -322,7 +322,7 @@ nocomment:  true
                                     m('td', results.requiredStorageTB + ' TB')
                                 ]),
                                 m('tr', [
-                                    m('td', 'Free Utilization'),
+                                    m('td', 'Percentage Free'),
                                     m('td', {
                                         class: results.isOverCapacity ? 'negative' : 'positive'
                                     }, results.freeCapacityPercent + '%')
