@@ -6,161 +6,335 @@ permalink: /resources/mltraining/
 nocomment:  true
 ---
 {% raw %}
+<div id="app"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/2.2.2/mithril.min.js"></script>
+
 <style>
-  /* ML Storage Calculator styles (inheriting page defaults) */
-  #ml-storage-calculator-app {
-    margin: 2rem 0;
-    max-width: 600px;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  #ml-storage-calculator-app .fieldsets-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  #ml-storage-calculator-app fieldset {
-    flex: 1;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 1rem 1.5rem;
-    background: #fafafa;
-  }
-  #ml-storage-calculator-app legend {
-    font-weight: bold;
-    padding: 0 0.5rem;
-    background: #f5f5f5;
-    border-radius: 4px;
-  }
-  #ml-storage-calculator-app .field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-top: 1rem;
-  }
-  #ml-storage-calculator-app label {
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  #ml-storage-calculator-app input,
-  #ml-storage-calculator-app select {
-    width: 100%;
-    max-width: 200px;
-    padding: 0.5rem;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    transition: border-color 0.2s;
-  }
-  #ml-storage-calculator-app input:focus,
-  #ml-storage-calculator-app select:focus {
-    border-color: #007acc;
-    outline: none;
-    box-shadow: 0 0 3px rgba(0,122,204,0.3);
-  }
-  #ml-storage-calculator-app table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1.5rem;
-  }
-  #ml-storage-calculator-app th,
-  #ml-storage-calculator-app td {
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    text-align: left;
-  }
-  #ml-storage-calculator-app th {
-    background: #f0f0f0;
-    font-weight: bold;
-  }
-  #ml-storage-calculator-app tr:nth-child(even) {
-    background: #fafafa;
-  }
+    .ml-calculator {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .ml-calculator .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .ml-calculator h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .ml-calculator .form-section {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border: 1px solid #e9ecef;
+    }
+
+    .ml-calculator .form-group {
+        margin-bottom: 20px;
+    }
+
+    .ml-calculator label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .ml-calculator input,
+    .ml-calculator select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        background: white;
+    }
+
+    .ml-calculator input:focus,
+    .ml-calculator select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .ml-calculator input:invalid {
+        border-color: #dc3545;
+    }
+
+    .ml-calculator .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .ml-calculator .results-section {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .ml-calculator .results-section h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 1.8em;
+    }
+
+    .ml-calculator .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+    }
+
+    .ml-calculator .results-table th,
+    .ml-calculator .results-table td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .ml-calculator .results-table th {
+        background: rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9em;
+    }
+
+    .ml-calculator .results-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .ml-calculator .results-table td:last-child {
+        text-align: right;
+        font-weight: 600;
+        font-size: 1.1em;
+    }
+
+    .ml-calculator .error-message {
+        color: #dc3545;
+        font-size: 0.9em;
+        margin-top: 5px;
+        font-weight: 500;
+    }
+
+    .ml-calculator .positive { color: #28a745; }
+    .ml-calculator .negative { color: #dc3545; }
+
+    @media (max-width: 600px) {
+        .ml-calculator .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .ml-calculator .container {
+            padding: 20px;
+        }
+
+        .ml-calculator h1 {
+            font-size: 2em;
+        }
+    }
 </style>
 
-<div id="ml-storage-calculator-app"></div>
-
-<script src="https://unpkg.com/mithril/mithril.js"></script>
 <script>
-  // ML Storage Calculator injected into Jekyll markdown page
-  (function() {
-    const Calculator = {
-      params: 8,
-      scale: 'B',
-      checkpoints: 10,
-      corpus: 20,
-      gpus: 16,
-      storagePerGpu: 300,
+    const StorageCalculator = {
+        oninit: function() {
+            this.params = {
+                numParameters: 8,
+                scalingFactor: 'B',
+                retainedCheckpoints: 10,
+                corpusSize: 100,
+                numGPUs: 16,
+                storagePerGPU: 300
+            };
+            this.errors = {};
+        },
 
-      view() {
-        const { params, scale, checkpoints, corpus, gpus, storagePerGpu } = Calculator;
-        const p = Math.max(0, parseFloat(params) || 0);
-        const cp = Math.max(0, parseFloat(checkpoints) || 0);
-        const corp = Math.max(0, parseFloat(corpus) || 0);
-        const ng = Math.max(0, parseFloat(gpus) || 0);
-        const spg = Math.max(0, parseFloat(storagePerGpu) || 0);
+        validateInput: function(field, value) {
+            if (value === '' || value === null || value === undefined) {
+                this.errors[field] = 'This field is required';
+                return false;
+            }
 
-        const scaleFactor = scale === 'M' ? 1e6 : 1e9;
-        const modelSizeBytes = p * scaleFactor * 12;
-        const totalModelBytes = modelSizeBytes * cp;
-        const toTB = x => x / Math.pow(1024, 4);
-        const corpusTB = corp / 1024;
-        const sharedTB = (ng * spg) / 1024;
-        const requiredTB = toTB(totalModelBytes) + corpusTB;
-        const freeCap = sharedTB > 0 ? (sharedTB - requiredTB) / sharedTB : 0;
+            const num = parseFloat(value);
+            if (isNaN(num) || num < 0) {
+                this.errors[field] = 'Must be a positive number';
+                return false;
+            }
 
-        return m("div#ml-storage-calculator-app", [
-          m("div.fieldsets-container", [
-            m("fieldset", [
-              m("legend", "Infrastructure"),
-              m("div.field", [
-                m("label", "Number of GPUs:"),
-                m("input[type=number][min=0][step=1]", { value: gpus, oninput: e => Calculator.gpus = e.target.value })
-              ]),
-              m("div.field", [
-                m("label", "Storage per GPU (GB):"),
-                m("input[type=number][min=0][step=1]", { value: storagePerGpu, oninput: e => Calculator.storagePerGpu = e.target.value })
-              ])
-            ]),
-            m("fieldset", [
-              m("legend", "Model"),
-              m("div.field", [
-                m("label", "Number of parameters:"),
-                m("input[type=number][min=0][step=1]", { value: params, oninput: e => Calculator.params = e.target.value })
-              ]),
-              m("div.field", [
-                m("label", "Parameter scaling:"),
-                m("select", { value: scale, onchange: e => Calculator.scale = e.target.value }, [
-                  m("option[value=M]", "Millions (M)"),
-                  m("option[value=B]", "Billions (B)")
+            delete this.errors[field];
+            return true;
+        },
+
+        updateParam: function(field, value) {
+            this.params[field] = value;
+            if (field !== 'scalingFactor') {
+                this.validateInput(field, value);
+            }
+        },
+
+        calculateResults: function() {
+            const p = this.params;
+
+            // Validate all inputs
+            const isValid = ['numParameters', 'retainedCheckpoints', 'corpusSize', 'numGPUs', 'storagePerGPU']
+                .every(field => this.validateInput(field, p[field]));
+
+            if (!isValid) {
+                return null;
+            }
+
+            const scalingMultiplier = p.scalingFactor === 'M' ? 1e6 : 1e9;
+            const modelSize = p.numParameters * scalingMultiplier * 12; // bytes
+            const totalModelStorage = modelSize * p.retainedCheckpoints; // bytes
+            const corpusSizeBytes = p.corpusSize * 1e9; // GB to bytes
+            const requiredStorage = totalModelStorage + corpusSizeBytes; // bytes
+            const totalSharedStorage = p.numGPUs * p.storagePerGPU * 1e9; // GB to bytes
+            const freeCapacity = (totalSharedStorage - requiredStorage) / totalSharedStorage;
+
+            return {
+                totalSharedStorageTB: (totalSharedStorage / 1e12).toFixed(2),
+                requiredStorageTB: (requiredStorage / 1e12).toFixed(2),
+                freeCapacityPercent: (freeCapacity * 100).toFixed(1),
+                isOverCapacity: freeCapacity < 0
+            };
+        },
+
+        view: function() {
+            const results = this.calculateResults();
+
+            return m('div.ml-calculator', [
+                m('div.container', [
+                    m('h1', 'ML Storage Calculator'),
+
+                    m('div.form-section', [
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Number of Parameters'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.numParameters,
+                                    oninput: e => this.updateParam('numParameters', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 8'
+                                }),
+                                this.errors.numParameters && m('div.error-message', this.errors.numParameters)
+                            ]),
+
+                            m('div.form-group', [
+                                m('label', 'Parameter Scale'),
+                                m('select', {
+                                    value: this.params.scalingFactor,
+                                    onchange: e => this.updateParam('scalingFactor', e.target.value)
+                                }, [
+                                    m('option[value=M]', 'Millions (M)'),
+                                    m('option[value=B]', 'Billions (B)')
+                                ])
+                            ])
+                        ]),
+
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Retained Checkpoints'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.retainedCheckpoints,
+                                    oninput: e => this.updateParam('retainedCheckpoints', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 3'
+                                }),
+                                this.errors.retainedCheckpoints && m('div.error-message', this.errors.retainedCheckpoints)
+                            ]),
+
+                            m('div.form-group', [
+                                m('label', 'Training Corpus Size (GB)'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.corpusSize,
+                                    oninput: e => this.updateParam('corpusSize', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 500'
+                                }),
+                                this.errors.corpusSize && m('div.error-message', this.errors.corpusSize)
+                            ])
+                        ]),
+
+                        m('div.form-row', [
+                            m('div.form-group', [
+                                m('label', 'Number of GPUs'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.numGPUs,
+                                    oninput: e => this.updateParam('numGPUs', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 16'
+                                }),
+                                this.errors.numGPUs && m('div.error-message', this.errors.numGPUs)
+                            ]),
+
+                            m('div.form-group', [
+                                m('label', 'Storage per GPU (GB)'),
+                                m('input[type=number][min=0]', {
+                                    value: this.params.storagePerGPU,
+                                    oninput: e => this.updateParam('storagePerGPU', parseFloat(e.target.value)),
+                                    placeholder: 'e.g., 300'
+                                }),
+                                this.errors.storagePerGPU && m('div.error-message', this.errors.storagePerGPU)
+                            ])
+                        ])
+                    ]),
+
+                    m('div.results-section', [
+                        m('h2', 'Storage Analysis'),
+                        results ? m('table.results-table', [
+                            m('thead', [
+                                m('tr', [
+                                    m('th', 'Metric'),
+                                    m('th', 'Value')
+                                ])
+                            ]),
+                            m('tbody', [
+                                m('tr', [
+                                    m('td', 'Total Shared Storage'),
+                                    m('td', results.totalSharedStorageTB + ' TB')
+                                ]),
+                                m('tr', [
+                                    m('td', 'Used Capacity'),
+                                    m('td', results.requiredStorageTB + ' TB')
+                                ]),
+                                m('tr', [
+                                    m('td', 'Free Utilization'),
+                                    m('td', {
+                                        class: results.isOverCapacity ? 'negative' : 'positive'
+                                    }, results.freeCapacityPercent + '%')
+                                ])
+                            ])
+                        ]) : m('div', {style: 'text-align: center; padding: 20px;'}, 'Please correct the input errors above to see results.')
+                    ])
                 ])
-              ]),
-              m("div.field", [
-                m("label", "Retained checkpoints:"),
-                m("input[type=number][min=0][step=1]", { value: checkpoints, oninput: e => Calculator.checkpoints = e.target.value })
-              ]),
-              m("div.field", [
-                m("label", "Training corpus size (GB):"),
-                m("input[type=number][min=0][step=0.01]", { value: corpus, oninput: e => Calculator.corpus = e.target.value })
-              ])
-            ])
-          ]),
-          m("table", [
-            m("thead", m("tr", [ m("th", "Metric"), m("th", "Value") ])),
-            m("tbody", [
-              m("tr", [ m("td", "Total shared storage"), m("td", sharedTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Utilized capacity"), m("td", requiredTB.toFixed(3) + " TB") ]),
-              m("tr", [ m("td", "Available capacity"), m("td", (freeCap * 100).toFixed(2) + "%") ])
-            ])
-          ])
-        ]);
-      }
+            ]);
+        }
     };
 
-    m.mount(document.getElementById('ml-storage-calculator-app'), Calculator);
-  })();
+    m.mount(document.getElementById('app'), StorageCalculator);
 </script>
 {% endraw %}
